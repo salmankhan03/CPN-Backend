@@ -39,9 +39,9 @@ Route::group([
     Route::post('me', 'AuthController@me');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Route::post('/send-mail', function () {
 Route::post('/forget-password', [UserController::class, 'forgetPassword']);

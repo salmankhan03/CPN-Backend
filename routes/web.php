@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('password/reset', [ResetPasswordController::class, 'editPassword']);
 Route::put('password/reset/{email}', [ResetPasswordController::class, 'update'])->name('password.update');
