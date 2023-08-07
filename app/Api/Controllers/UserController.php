@@ -22,7 +22,11 @@ class UserController extends Controller
     public function index()
     {
 
-        dd('hello');
+
+        return response()->json([
+            'status_code' => 200,
+            'message'     => 'hello from index',
+        ], 400);
     }
 
     public function login(Request $request)
