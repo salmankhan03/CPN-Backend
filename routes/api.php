@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/profile', function () {
 //     // ...
 // })->middleware(Authenticate::class);
+Route::get('/', [UserController::class, 'index']);
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/signup', [UserController::class, 'signUp']);

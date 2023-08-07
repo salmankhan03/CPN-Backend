@@ -19,6 +19,12 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class UserController extends Controller
 {
 
+    public function index()
+    {
+
+        dd('hello');
+    }
+
     public function login(Request $request)
     {
 
