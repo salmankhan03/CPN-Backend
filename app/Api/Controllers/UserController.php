@@ -29,6 +29,16 @@ class UserController extends Controller
         ], 400);
     }
 
+    public function index2()
+    {
+
+
+        return response()->json([
+            'status_code' => 200,
+            'message'     => 'hello from index 2',
+        ], 400);
+    }
+
     public function login(Request $request)
     {
 
