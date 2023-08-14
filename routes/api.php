@@ -15,39 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// user with specific middleware
-// Route::get('/profile', function () {
-//     // ...
-// })->middleware(Authenticate::class);
 Route::get('/', [UserController::class, 'index']);
 Route::get('/index2', [UserController::class, 'index2']);
 
+
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/signup', [UserController::class, 'signUp']);
-
-
-
-Route::group([
-
-    'middleware' => 'api',
-    'prefix' => 'auth'
-
-], function ($router) {
-
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-});
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::post('/send-mail', function () {
 Route::post('/forget-password', [UserController::class, 'forgetPassword']);
-// });
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/get-user', [UserController::class, 'getUser']);

@@ -138,4 +138,30 @@ class UserController extends Controller
             return response()->json(['message' => $e->getMessage()]);
         }
     }
+
+    public function getUser()
+    {
+        try {
+
+            $user = \Auth::user();
+
+            if ($user) {
+
+                
+
+                $user->menutItems = 
+                return response()->json([
+                    'status_code' => 200,
+                    'user'        => $user
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 400,
+                    'user'        => 'User Not Found'
+                ], 400);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['message' => $e->getMessage()]);
+        }
+    }
 }
