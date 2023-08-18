@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UserController::class, 'index']);
 Route::get('/index2', [UserController::class, 'index2']);
+Route::get('/unauthorized', [UserController::class, 'unauthorized'])->name('unauthorized');
 
 
 Route::post('/login', [UserController::class, 'login']);

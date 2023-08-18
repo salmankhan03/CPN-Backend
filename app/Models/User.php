@@ -79,4 +79,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function menuList()
+    {
+        return $this->hasMany(RoleMenuItemMap::class, 'role_id', 'role_id');
+    }
 }

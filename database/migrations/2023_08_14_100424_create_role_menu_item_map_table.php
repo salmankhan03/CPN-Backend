@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('role_id');
             $table->integer('menu_item_id');
+            $table->bigInteger('updated_by_user_id');
             $table->softDeletes();
             $table->timestamps();
         });

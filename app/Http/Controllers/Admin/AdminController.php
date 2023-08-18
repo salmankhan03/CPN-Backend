@@ -25,6 +25,8 @@ class AdminController extends Controller
     {
         try {
 
+            $user = \Auth::user();
+
             $roleId           = $request->role_id;
             $menuItems    = explode(',', $request->menu_items);
 
@@ -36,7 +38,8 @@ class AdminController extends Controller
 
                     RoleMenuItemMap::create([
                         'role_id'            => $roleId,
-                        'menu_item_id'           => $menuItem
+                        'menu_item_id'           => $menuItem,
+                        'updated_by_user_id' => $user->id
                     ]);
                 }
 

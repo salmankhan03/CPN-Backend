@@ -4,6 +4,7 @@ namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\PasswordResetTokens;
+use App\Models\RoleMenuItemMap;
 use App\Models\User;
 use App\Notifications\ForgetPasswordNotification;
 use Illuminate\Http\Request;
@@ -31,12 +32,19 @@ class UserController extends Controller
 
     public function index2()
     {
-
-
         return response()->json([
             'status_code' => 200,
             'message'     => 'hello from index 2',
         ], 400);
+    }
+
+    public function unauthorized()
+    {
+
+        return response()->json([
+            'status_code' => 401,
+            'message'     => 'unauthorized',
+        ], 401);
     }
 
     public function login(Request $request)
@@ -147,9 +155,17 @@ class UserController extends Controller
 
             if ($user) {
 
-                
+                $user = User::find($user->id);
+                $menuList = RoleMenuItemMap::with('menuItem')->where('role_id', $user->role_id)->get()->toArray();
 
-                $user->menutItems = 
+                $menus = [];
+
+                foreach ($menuList as $item) {
+                    $menus[] = $item['menu_item'];
+                }
+
+                $user->menuList = $menus;
+
                 return response()->json([
                     'status_code' => 200,
                     'user'        => $user
