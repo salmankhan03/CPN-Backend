@@ -27,7 +27,7 @@ class UserController extends Controller
         return response()->json([
             'status_code' => 200,
             'message'     => 'hello from index',
-        ], 400);
+        ], 200);
     }
 
     public function index2()
@@ -35,7 +35,7 @@ class UserController extends Controller
         return response()->json([
             'status_code' => 200,
             'message'     => 'hello from index 2',
-        ], 400);
+        ], 200);
     }
 
     public function unauthorized()
