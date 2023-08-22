@@ -22,8 +22,6 @@ class UserController extends Controller
 
     public function index()
     {
-
-
         return response()->json([
             'status_code' => 200,
             'message'     => 'hello from index',

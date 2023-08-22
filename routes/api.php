@@ -23,4 +23,8 @@ Route::get('/unauthorized', [UserController::class, 'unauthorized'])->name('unau
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/signup', [UserController::class, 'signUp']);
 Route::post('/forget-password', [UserController::class, 'forgetPassword']);
-Route::get('/get-user', [UserController::class, 'getUser']);
+
+
+Route::group(['middleware' => 'auth.jwt'], function () {
+    Route::get('/get-user', [UserController::class, 'getUser']);
+});

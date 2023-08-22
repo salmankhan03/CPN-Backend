@@ -27,4 +27,17 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request,  $exception)
+    {
+        if ($request->is('api/*') || $request->wantsJson()) {
+            $json = ([
+                'status_code' => 401,
+                'message'     => trans('Valid JWT Token Exptected In Header'),
+            ]);
+
+            return response()->json($json, 401);
+        }
+        return parent::render($request, $exception);
+    }
 }
