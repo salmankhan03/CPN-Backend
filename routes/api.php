@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Controllers\ProductController;
 use App\Api\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,7 @@ Route::post('/forget-password', [UserController::class, 'forgetPassword']);
 
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('/get-user', [UserController::class, 'getUser']);
+
+    //product routes
+    Route::post('/product/save', [ProductController::class, 'createProduct']);
 });

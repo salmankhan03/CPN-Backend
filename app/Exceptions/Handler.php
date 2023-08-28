@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -30,14 +32,10 @@ class Handler extends ExceptionHandler
 
     public function render($request,  $exception)
     {
-        if ($request->is('api/*') || $request->wantsJson()) {
-            $json = ([
-                'status_code' => 401,
-                'message'     => trans('Valid JWT Token Exptected In Header'),
-            ]);
-
-            return response()->json($json, 401);
+        if ($exception instanceof UnauthorizedHttpException) {
+            return response()->json(['status' => 'JWT Token Is Not Valid'], Response::HTTP_UNAUTHORIZED);
         }
+
         return parent::render($request, $exception);
     }
 }
