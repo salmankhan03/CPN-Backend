@@ -20,3 +20,4 @@ npm-debug.log
 .psysh.php
 /bootstrap/cache/*
 .phpunit.result.cache
+/public/uploads
