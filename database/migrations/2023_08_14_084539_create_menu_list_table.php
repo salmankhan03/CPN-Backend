@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('menu_list', function (Blueprint $table) {
             $table->id();
+            $table->string('icon')->nullable();
             $table->string('name');
             $table->string('url');
-            $table->integer('order');
+            $table->json('sub_menus')->nullable();
+            $table->integer('order')->nullable();
             $table->softDeletes();
         });
     }

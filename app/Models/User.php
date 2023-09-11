@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\FileUploadTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,7 +17,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, FileUploadTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +28,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'role_id'
+        'role_id',
+        'profile_pic'
     ];
 
     /**
@@ -82,5 +85,19 @@ class User extends Authenticatable implements JWTSubject
     public function menuList()
     {
         return $this->hasMany(RoleMenuItemMap::class, 'role_id', 'role_id');
+    }
+
+    public function setProfilePicAttribute($value)
+    {
+        $this->saveFile($value, 'profile_pic', "user/" . date('Y/m'));
+    }
+
+    public function getProfilePicAttribute()
+    {
+        if (empty($this->attributes['profile_pic'])) {
+            return config('app.url') . "/images/user.webp";
+        } else {
+            return $this->getFileUrl($this->attributes['profile_pic']);
+        }
     }
 }

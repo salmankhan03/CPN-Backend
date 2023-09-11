@@ -23,4 +23,8 @@ class MenuList extends Model
         'updated_at',
         'created_at',
     ];
+
+    protected $casts = [
+        'sub_menus' => 'array'
+    ];
 }

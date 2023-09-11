@@ -169,6 +169,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
+
 
 
     ])->toArray(),
@@ -188,6 +190,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'JWTAuth' => PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider::class,
         'JWTFactory' => PHPOpenSourceSaver\JWTAuth\Facades\JWTFactory::class,
+        'Image' => Intervention\Image\Facades\Image::class
 
     ])->toArray(),
 

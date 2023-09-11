@@ -76,7 +76,7 @@ class UserController extends Controller
     {
         try {
 
-            $data             = $request->only(['name', 'email', 'password', 'role_id']);
+            $data             = $request->only(['email', 'password', 'role', 'profile_pic']);
 
             $emailExist = User::where('email', $data['email'])->first();
             if ($emailExist) {
@@ -87,6 +87,7 @@ class UserController extends Controller
             }
             $orignal_password = $data['password'];
             $data['password'] = Hash::make($data['password']);
+            $data['role'] = $data['role_id'];
 
 
             $user = User::create($data);
@@ -95,9 +96,8 @@ class UserController extends Controller
 
             $token            = \JWTAuth::fromUser($user);
             if ($user) {
-                $user->roles()->sync($data['role_id']);
+
                 $user       = User::find($user->id);
-                $user->role = $user->roles()->first()->id;
             }
             return response()->json([
                 'status_code' => 200,

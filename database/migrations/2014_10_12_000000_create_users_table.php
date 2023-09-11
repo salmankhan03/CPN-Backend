@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->nullable();
             $table->integer('role_id');
-            $table->string('name');
+            $table->string('profile_pic')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
