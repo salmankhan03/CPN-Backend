@@ -4,6 +4,7 @@ namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\PasswordResetTokens;
+use App\Models\Role;
 use App\Models\RoleMenuItemMap;
 use App\Models\User;
 use App\Notifications\ForgetPasswordNotification;
@@ -78,6 +79,15 @@ class UserController extends Controller
 
             $data             = $request->only(['email', 'password', 'role', 'profile_pic']);
 
+            $role = Role::where('name', $data['role'])->first();
+
+            if (!$role) {
+                return response()->json([
+                    'status_code' => 400,
+                    'message'     => $data['role'] . ' - Role Not Exist',
+                ], 400);
+            }
+
             $emailExist = User::where('email', $data['email'])->first();
             if ($emailExist) {
                 return response()->json([
@@ -87,7 +97,7 @@ class UserController extends Controller
             }
             $orignal_password = $data['password'];
             $data['password'] = Hash::make($data['password']);
-            $data['role_id'] = $data['role'];
+            $data['role_id'] = $role->id;
 
 
             $user = User::create($data);
@@ -98,6 +108,7 @@ class UserController extends Controller
             if ($user) {
 
                 $user       = User::find($user->id);
+                $user->role = $data['role'];
             }
             return response()->json([
                 'status_code' => 200,

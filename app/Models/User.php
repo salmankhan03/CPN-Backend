@@ -17,7 +17,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, FileUploadTrait;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, FileUploadTrait, HasRoles;
 
     /**
      * The attributes that are mass assignable.
