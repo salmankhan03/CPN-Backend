@@ -21,3 +21,4 @@ npm-debug.log
 /bootstrap/cache/*
 .phpunit.result.cache
 /public/uploads
+composer.lock
