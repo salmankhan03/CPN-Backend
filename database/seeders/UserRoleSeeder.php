@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +16,9 @@ class UserRoleSeeder extends Seeder
 
         $roles = [
             ['name' => 'Admin', 'guard_name' => ''],
-            ['name' => 'Manager', 'guard_name' => '']
+            ['name' => 'Manager', 'guard_name' => ''],
+            ['name' => 'Customer', 'guard_name' => '']
+
         ];
 
         DB::table('roles')->insert($roles);

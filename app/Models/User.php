@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Traits\FileUploadTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,9 +17,11 @@ use Spatie\Permission\Traits\HasRoles;
 
 
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, FileUploadTrait, HasRoles;
+
+    const CUSOTMER_ROLE_ID = 6;
 
     /**
      * The attributes that are mass assignable.

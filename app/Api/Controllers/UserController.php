@@ -16,7 +16,7 @@ use DateTime;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Exceptions\JWTException;
-
+use Illuminate\Auth\Events\Registered;
 
 class UserController extends Controller
 {
@@ -53,8 +53,21 @@ class UserController extends Controller
 
         try {
             $credentials = $request->only('email', 'password');
+
+            $user = User::where('email', $data['email'])->first();
+
+
+
             $token = JWTAuth::attempt($credentials);
             if ($token) {
+
+                if (!$user->email_verified_at) {
+                    return response()->json([
+                        'status_code' => 400,
+                        'message'     => 'Please Verify Your Email First!',
+                    ], 400);
+                }
+
                 $user = \Auth::user();
 
                 return response()->json([
@@ -77,16 +90,18 @@ class UserController extends Controller
     {
         try {
 
-            $data             = $request->only(['email', 'password', 'role', 'profile_pic']);
+            $data             = $request->only(['email', 'password', 'phone', 'profile_pic']);
 
-            $role = Role::where('name', $data['role'])->first();
+            // role is defaulted to customer now
 
-            if (!$role) {
-                return response()->json([
-                    'status_code' => 400,
-                    'message'     => $data['role'] . ' - Role Not Exist',
-                ], 400);
-            }
+            // $role = Role::where('name', $data['role'])->first();
+
+            // if (!$role) {
+            //     return response()->json([
+            //         'status_code' => 400,
+            //         'message'     => $data['role'] . ' - Role Not Exist',
+            //     ], 400);
+            // }
 
             $emailExist = User::where('email', $data['email'])->first();
             if ($emailExist) {
@@ -97,7 +112,7 @@ class UserController extends Controller
             }
             $orignal_password = $data['password'];
             $data['password'] = Hash::make($data['password']);
-            $data['role_id'] = $role->id;
+            $data['role_id'] = User::CUSOTMER_ROLE_ID;
 
 
             $user = User::create($data);
@@ -109,6 +124,8 @@ class UserController extends Controller
 
                 $user       = User::find($user->id);
                 $user->role = $data['role'];
+
+                event(new Registered($user));
             }
             return response()->json([
                 'status_code' => 200,
