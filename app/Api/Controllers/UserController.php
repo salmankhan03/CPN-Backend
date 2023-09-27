@@ -126,7 +126,7 @@ class UserController extends Controller
                 $user       = User::find($user->id);
                 $user->role = User::CUSOTMER_ROLE_NAME;
 
-                event(new Registered($user));
+                // event(new Registered($user));
             }
             return response()->json([
                 'status_code' => 200,
