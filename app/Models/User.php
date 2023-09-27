@@ -22,6 +22,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, FileUploadTrait, HasRoles;
 
     const CUSOTMER_ROLE_ID = 6;
+    const CUSOTMER_ROLE_NAME = "CUSTOMER";
 
     /**
      * The attributes that are mass assignable.

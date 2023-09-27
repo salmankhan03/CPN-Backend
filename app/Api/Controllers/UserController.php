@@ -124,7 +124,7 @@ class UserController extends Controller
             if ($user) {
 
                 $user       = User::find($user->id);
-                $user->role = $data['role'];
+                $user->role = User::CUSOTMER_ROLE_NAME;
 
                 event(new Registered($user));
             }
