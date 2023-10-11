@@ -54,19 +54,19 @@ class UserController extends Controller
         try {
             $credentials = $request->only('email', 'password');
 
-            $user = User::where('email', $data['email'])->first();
+            $user = User::where('email', $credentials['email'])->first();
 
 
 
             $token = JWTAuth::attempt($credentials);
             if ($token) {
 
-                if (!$user->email_verified_at) {
-                    return response()->json([
-                        'status_code' => 400,
-                        'message'     => 'Please Verify Your Email First!',
-                    ], 400);
-                }
+                // if (!$user->email_verified_at) {
+                //     return response()->json([
+                //         'status_code' => 400,
+                //         'message'     => 'Please Verify Your Email First!',
+                //     ], 400);
+                // }
 
                 $user = \Auth::user();
 

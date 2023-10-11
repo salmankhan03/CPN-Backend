@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
-
-
+use App\Api\Controllers\ProductCategoryController;
+use App\Api\Controllers\ProductSubCategoryController;
 
 
 /*
@@ -63,5 +63,27 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('/role-permission/list', [RolePermissionController::class, 'rolePermissionList']);
 
     //product routes
-    Route::post('/product/save', [ProductController::class, 'createProduct']);
+
+    Route::prefix('/product')->group(function () {
+
+        Route::post('/save', [ProductController::class, 'upsert']);
+        Route::delete('/{id}/delete', [ProductCategoryController::class, 'delete']);
+        Route::get('/list', [ProductCategoryController::class, 'list']);
+    });
+
+    //category routes
+    Route::prefix('/category')->group(function () {
+
+        Route::post('/save', [ProductCategoryController::class, 'upsert']);
+        Route::delete('/{id}/delete', [ProductCategoryController::class, 'delete']);
+        Route::get('/list', [ProductCategoryController::class, 'list']);
+    });
+
+    //sub category routes
+    Route::prefix('/sub-category')->group(function () {
+
+        Route::post('/save', [ProductSubCategoryController::class, 'upsert']);
+        Route::delete('/{id}/delete', [ProductSubCategoryController::class, 'delete']);
+        Route::get('/list', [ProductSubCategoryController::class, 'list']);
+    });
 });

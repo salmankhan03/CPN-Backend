@@ -23,33 +23,39 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class ProductController extends Controller
 {
 
-    public function createProduct(ProductRequest $request)
+    public function upsert(ProductRequest $request)
     {
+        try {
+            $data = $request->only(
+                'id',
+                'name',
+                'price',
+                'currency',
+                'produced_by',
+                'shipping_weight',
+                'product_code',
+                'upc_code',
+                'package_quantity',
+                'dimensions',
+                'is_visible',
+                'description',
+                'suggested_use',
+                'other_ingredients',
+                'disclaimer',
+                'warnings'
+            );
 
-        $data = $request->only(
-            'id',
-            'name',
-            'price',
-            'currency',
-            'produced_by',
-            'shipping_weight',
-            'product_code',
-            'upc_code',
-            'package_quantity',
-            'dimensions',
-            'is_visible',
-            'description',
-            'suggested_use',
-            'other_ingredients',
-            'disclaimer',
-            'warnings'
-        );
+            Product::updateOrCreate(['id' => $data['id']], $data);
 
-        $product = Product::updateOrCreate(['id' => $data['id']], $data);
-
-        return response()->json([
-            'status_code' => 200,
-            'message'     => 'Product Created Successfully',
-        ], 200);
+            return response()->json([
+                'status_code' => 200,
+                'message'     => 'Product Saved Successfully',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }
