@@ -63,12 +63,11 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('/role-permission/list', [RolePermissionController::class, 'rolePermissionList']);
 
     //product routes
-
     Route::prefix('/product')->group(function () {
 
         Route::post('/save', [ProductController::class, 'upsert']);
-        Route::delete('/{id}/delete', [ProductCategoryController::class, 'delete']);
-        Route::get('/list', [ProductCategoryController::class, 'list']);
+        Route::delete('/{id}/delete', [ProductController::class, 'delete']);
+        Route::get('/list', [ProductController::class, 'list']);
     });
 
     //category routes

@@ -30,7 +30,7 @@ class ProductSubCategoryController extends Controller
         try {
 
             $request->validate([
-                'name' => 'required|unique:product_sub_categories,deleted_at,NULL',
+                'name' => 'required|unique:product_sub_categories,name,NULL,id,deleted_at,NULL',
                 'category_id' => 'required',
             ]);
 

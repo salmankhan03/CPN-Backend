@@ -29,4 +29,8 @@ class Product extends Model
         'updated_at',
         'created_at',
     ];
+
+    public function images(){
+        return $this->hasMany(ProductImages::class,'product_id','id');
+    }
 }

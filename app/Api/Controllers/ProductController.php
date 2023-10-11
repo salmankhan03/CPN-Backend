@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PasswordResetTokens;
 use App\Models\Product;
 use App\Models\ProductDescription;
+use App\Models\ProductImages;
 use App\Models\RoleMenuItemMap;
 use App\Models\User;
 use App\Notifications\ForgetPasswordNotification;
@@ -45,11 +46,68 @@ class ProductController extends Controller
                 'warnings'
             );
 
-            Product::updateOrCreate(['id' => $data['id']], $data);
+            $product = Product::updateOrCreate(['id' => $data['id']], $data);
+
+
+            foreach ($request->only('images')['images'] as  $image) {
+
+                $productImage = [];
+
+                $productImage['original_name'] = $image->getClientOriginalName();
+                $productImage['product_id'] = $product->id;
+                $productImage['name'] = $image;
+
+                ProductImages::create($productImage);
+            }
 
             return response()->json([
                 'status_code' => 200,
                 'message'     => 'Product Saved Successfully',
+            ], 200);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function delete($id)
+    {
+
+        try {
+            $obj = Product::find($id);
+
+            if ($obj) {
+                $obj->delete();
+
+                return response()->json([
+                    'status_code' => 200,
+                    'message' => 'Product Deleted Successfully'
+                ], 500);
+            } else {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Product Not Found'
+                ], 500);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function list()
+    {
+        try {
+            $list = Product::with('images')->get();
+
+            return response()->json([
+                'status_code' => 200,
+                'list' => $list
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

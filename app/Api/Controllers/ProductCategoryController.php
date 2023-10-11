@@ -29,7 +29,7 @@ class ProductCategoryController extends Controller
         try {
 
             $request->validate([
-                'name' => 'required|unique:product_category,deleted_at,NULL'
+                'name' => 'required|unique:product_category,name,NULL,id,deleted_at,NULL'
             ]);
 
             $request = $request->only(
@@ -61,11 +61,15 @@ class ProductCategoryController extends Controller
             if ($obj) {
 
                 $obj->delete();
+                return response()->json([
+                    'status_code' => 200,
+                    'message' => 'Category Deleted Successfully'
+                ]);
             }
 
             return response()->json([
-                'status_code' => 200,
-                'message' => 'Category Deleted Successfully'
+                'status_code' => 500,
+                'message' => 'Category Not Found'
             ]);
         } catch (\Exception $e) {
             return response()->json([
