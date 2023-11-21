@@ -76,6 +76,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/save', [ProductCategoryController::class, 'upsert']);
         Route::delete('/{id}/delete', [ProductCategoryController::class, 'delete']);
         Route::get('/list', [ProductCategoryController::class, 'list']);
+        Route::get('/{id}/category-data', [ProductCategoryController::class, 'getProductCategoryById']);
     });
 
     //sub category routes

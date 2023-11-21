@@ -106,4 +106,21 @@ class ProductCategoryController extends Controller
             ], 500);
         }
     }
+
+    public function getProductCategoryById($id)
+    {
+        try {
+            $category = ProductCategory::find($id);
+
+            return response()->json([
+                'status_code' => 200,
+                'category' => $category
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
