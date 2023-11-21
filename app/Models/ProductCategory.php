@@ -15,7 +15,10 @@ class ProductCategory extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'name'
+        'name',
+        'description',
+        'parent_id',
+        'status',
     ];
 
     protected $hidden = ['deleted_at'];
