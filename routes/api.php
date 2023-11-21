@@ -79,10 +79,17 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     });
 
     //sub category routes
-    Route::prefix('/sub-category')->group(function () {
+    // Route::prefix('/sub-category')->group(function () {
 
-        Route::post('/save', [ProductSubCategoryController::class, 'upsert']);
-        Route::delete('/{id}/delete', [ProductSubCategoryController::class, 'delete']);
-        Route::get('/list', [ProductSubCategoryController::class, 'list']);
+    //     Route::post('/save', [ProductSubCategoryController::class, 'upsert']);
+    //     Route::delete('/{id}/delete', [ProductSubCategoryController::class, 'delete']);
+    //     Route::get('/list', [ProductSubCategoryController::class, 'list']);
+    // });
+
+    //user Routes
+    Route::prefix('/user')->group(function () {
+
+        Route::delete('/{id}/delete', [UserController::class, 'delete']);
+        Route::get('/list', [UserController::class, 'list']);
     });
 });

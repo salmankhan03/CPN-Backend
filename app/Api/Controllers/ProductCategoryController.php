@@ -29,17 +29,28 @@ class ProductCategoryController extends Controller
         try {
 
             $request->validate([
-                'name' => 'required|unique:product_category,name,NULL,id,deleted_at,NULL'
+                'name' => 'required|unique:product_category,name,NULL,id,deleted_at,NULL',
+                'description' => 'required',
+                'parent_id' => 'required',
+                'status' => 'required'
             ]);
 
             $request = $request->only(
                 'id',
-                'name'
+                'name',
+                'description',
+                'parent_id',
+                'status',
             );
 
             $data['name'] = $request['name'];
+            $data['description'] = $request['description'];
+            $data['parent_id'] = $request['parent_id'];
+            $data['status'] = $request['status'];
 
-            ProductCategory::updateOrCreate(['id' => $request['id']], $data);
+            $category = ProductCategory::updateOrCreate(['id' => $request['id']], $data);
+
+
 
             return response()->json([
                 'status_code' => 200,
