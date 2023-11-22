@@ -29,7 +29,7 @@ class ProductCategoryController extends Controller
         try {
 
             $request->validate([
-                'name' => 'required|unique:product_category,name,NULL,id,deleted_at,NULL',
+                'name' => 'required',
                 'description' => 'required',
                 'parent_id' => 'required',
                 'status' => 'required'
