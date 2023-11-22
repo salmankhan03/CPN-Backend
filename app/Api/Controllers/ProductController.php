@@ -43,21 +43,25 @@ class ProductController extends Controller
                 'suggested_use',
                 'other_ingredients',
                 'disclaimer',
+                'category_id',
                 'warnings'
             );
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
 
 
-            foreach ($request->only('images')['images'] as  $image) {
+            if ($request->only('images')) {
 
-                $productImage = [];
+                foreach ($request->only('images')['images'] as  $image) {
 
-                $productImage['original_name'] = $image->getClientOriginalName();
-                $productImage['product_id'] = $product->id;
-                $productImage['name'] = $image;
+                    $productImage = [];
 
-                ProductImages::create($productImage);
+                    $productImage['original_name'] = $image->getClientOriginalName();
+                    $productImage['product_id'] = $product->id;
+                    $productImage['name'] = $image;
+
+                    ProductImages::create($productImage);
+                }
             }
 
             return response()->json([

@@ -21,7 +21,8 @@ class Product extends Model
         'name', 'price', 'produced_by', 'currency', 'shipping_weight', 'product_code', 'upc_code', 'package_quantity', 'dimensions', 'is_visible', 'description', 'suggested_use',
         'other_ingredients',
         'disclaimer',
-        'warnings'
+        'warnings',
+        'category_id'
     ];
 
     protected $hidden = [
