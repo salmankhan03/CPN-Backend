@@ -100,10 +100,10 @@ class ProductController extends Controller
         }
     }
 
-    public function list()
+    public function list(Request $request)
     {
         try {
-            $list = Product::with('images')->get();
+            $list = Product::with('images')->paginate($request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,

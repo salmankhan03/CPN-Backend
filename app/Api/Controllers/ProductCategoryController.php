@@ -90,10 +90,12 @@ class ProductCategoryController extends Controller
         }
     }
 
-    public function list()
+    public function list(Request $request)
     {
         try {
-            $list = ProductCategory::all();
+
+
+            $list = ProductCategory::paginate($request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,
