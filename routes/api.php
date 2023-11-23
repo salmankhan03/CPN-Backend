@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/save', [ProductController::class, 'upsert']);
         Route::delete('/{id}/delete', [ProductController::class, 'delete']);
         Route::get('/list', [ProductController::class, 'list']);
+        Route::get('/{id}/data', [ProductController::class, 'getProductById']);
     });
 
     //category routes

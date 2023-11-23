@@ -120,4 +120,22 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
+    public function getProductById($id)
+    {
+
+        try {
+            $product = Product::with('images')->find($id);
+
+            return response()->json([
+                'status_code' => 200,
+                'data' => $product
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
