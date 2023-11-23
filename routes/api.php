@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::delete('/{id}/delete', [ProductController::class, 'delete']);
         Route::get('/list', [ProductController::class, 'list']);
         Route::get('/{id}/data', [ProductController::class, 'getProductById']);
+        Route::post('/multiple_delete', [ProductController::class, 'multipleDelete']);
     });
 
     //category routes
@@ -78,6 +79,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/list', [ProductCategoryController::class, 'list']);
         Route::get('/{id}/category-data', [ProductCategoryController::class, 'getProductCategoryById']);
         Route::get('/tree', [ProductCategoryController::class, 'getCategoryTree']);
+        Route::post('/multiple_delete', [ProductCategoryController::class, 'multipleDelete']);
     });
 
     //sub category routes

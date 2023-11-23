@@ -2,24 +2,11 @@
 
 namespace App\Api\Controllers;
 
-use App\Api\Requests\Auth\ProductRequest;
 use App\Http\Controllers\Controller;
-use App\Models\PasswordResetTokens;
-use App\Models\Product;
-use App\Models\ProductCategory;
-use App\Models\ProductDescription;
+
 use App\Models\ProductSubCategories;
-use App\Models\RoleMenuItemMap;
-use App\Models\User;
-use App\Notifications\ForgetPasswordNotification;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
-use JWTAuth;
-use Auth;
-use DateTime;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
-use DB;
 
 
 class ProductSubCategoryController extends Controller

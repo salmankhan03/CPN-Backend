@@ -22,7 +22,12 @@ class Product extends Model
         'other_ingredients',
         'disclaimer',
         'warnings',
-        'category_id'
+        'category_id',
+        'sku',
+        'bar_code',
+        'quantity',
+        'slug',
+        'tags',
     ];
 
     protected $hidden = [

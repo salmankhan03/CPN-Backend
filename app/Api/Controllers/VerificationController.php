@@ -2,18 +2,11 @@
 
 namespace App\Api\Controllers;
 
-use App\Api\Requests\Auth\ProductRequest;
 use App\Http\Controllers\Controller;
-use App\Models\PasswordResetTokens;
-use App\Models\Product;
-use App\Models\ProductDescription;
-use App\Models\RoleMenuItemMap;
+
 use App\Models\User;
-use App\Notifications\ForgetPasswordNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
-use JWTAuth;
-use Auth;
+
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;

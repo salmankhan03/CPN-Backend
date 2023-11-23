@@ -3,18 +3,6 @@
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\PasswordResetTokens;
-use App\Models\RoleMenuItemMap;
-use App\Models\User;
-use App\Notifications\ForgetPasswordNotification;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
-use JWTAuth;
-use Auth;
-use DateTime;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Exceptions\JWTException;
 
 
 class RolePermissionController extends Controller

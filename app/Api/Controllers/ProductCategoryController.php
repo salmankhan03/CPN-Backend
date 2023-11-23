@@ -2,24 +2,10 @@
 
 namespace App\Api\Controllers;
 
-use App\Api\Requests\Auth\ProductRequest;
 use App\Http\Controllers\Controller;
-use App\Models\PasswordResetTokens;
-use App\Models\Product;
 use App\Models\ProductCategory;
-use App\Models\ProductCategoryParentCategoryMap;
-use App\Models\ProductDescription;
-use App\Models\RoleMenuItemMap;
-use App\Models\User;
-use App\Notifications\ForgetPasswordNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
-use JWTAuth;
-use Auth;
-use DateTime;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
-use DB;
 
 
 class ProductCategoryController extends Controller
@@ -32,7 +18,6 @@ class ProductCategoryController extends Controller
             $request->validate([
                 'name' => 'required',
                 'description' => 'required',
-                'parent_id' => 'required',
                 'status' => 'required'
             ]);
 
@@ -134,10 +119,30 @@ class ProductCategoryController extends Controller
             $result = ProductCategory::with('descendants')->get()->toArray();
 
             return response()->json([
-                [
-                    'status_code' => 200,
-                    'category' => $result
-                ]
+
+                'status_code' => 200,
+                'category' => $result
+
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function multipleDelete(Request $request)
+    {
+        try {
+
+            $ids = explode(",",  $request->only('ids')['ids']);
+
+            ProductCategory::whereIn('id', $ids)->delete();
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Multiple Categories Deleted Successfully'
             ]);
         } catch (\Exception $e) {
             return response()->json([
