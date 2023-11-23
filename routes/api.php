@@ -38,7 +38,6 @@ Route::get('/email/verify', function () {
 })->middleware('auth')->name('verification.notice');
 
 
-
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
 
@@ -77,6 +76,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::delete('/{id}/delete', [ProductCategoryController::class, 'delete']);
         Route::get('/list', [ProductCategoryController::class, 'list']);
         Route::get('/{id}/category-data', [ProductCategoryController::class, 'getProductCategoryById']);
+        Route::get('/tree', [ProductCategoryController::class, 'getCategoryTree']);
     });
 
     //sub category routes

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PasswordResetTokens;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductCategoryParentCategoryMap;
 use App\Models\ProductDescription;
 use App\Models\RoleMenuItemMap;
 use App\Models\User;
@@ -117,6 +118,26 @@ class ProductCategoryController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'category' => $category
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getCategoryTree()
+    {
+        try {
+
+            $result = ProductCategory::with('descendants')->get()->toArray();
+
+            return response()->json([
+                [
+                    'status_code' => 200,
+                    'category' => $result
+                ]
             ]);
         } catch (\Exception $e) {
             return response()->json([

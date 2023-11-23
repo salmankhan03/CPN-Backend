@@ -33,7 +33,7 @@ class Handler extends ExceptionHandler
     public function render($request,  $exception)
     {
         if ($exception instanceof UnauthorizedHttpException) {
-            return response()->json(['status' => 'JWT Token Is Not Valid'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['status' => 401, 'message' => 'JWT Token Is Not Valid'], Response::HTTP_UNAUTHORIZED);
         }
 
         return parent::render($request, $exception);
