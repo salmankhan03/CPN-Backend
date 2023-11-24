@@ -80,8 +80,7 @@ class ProductCategoryController extends Controller
     {
         try {
 
-
-            $list = ProductCategory::paginate($request->get('pageSize'));
+            $list = ProductCategory::paginate($request->get('pageSize'))->makeVisible(['description', 'parent_id']);
 
             return response()->json([
                 'status_code' => 200,
@@ -100,6 +99,8 @@ class ProductCategoryController extends Controller
         try {
             $category = ProductCategory::find($id);
 
+            if ($category) $category->makeVisible(['description', 'parent_id']);
+
             return response()->json([
                 'status_code' => 200,
                 'category' => $category
@@ -116,12 +117,12 @@ class ProductCategoryController extends Controller
     {
         try {
 
-            $result = ProductCategory::with('descendants')->get()->toArray();
+            $result = ProductCategory::select('id', 'name')->whereNull('parent_id')->with(['children'])->get()->toArray();
 
             return response()->json([
 
                 'status_code' => 200,
-                'category' => $result
+                'tree' => $result
 
             ]);
         } catch (\Exception $e) {

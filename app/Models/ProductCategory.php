@@ -24,5 +24,12 @@ class ProductCategory extends Model
         'status',
     ];
 
+    protected $visible = ['id', 'name', 'children'];
+
     protected $hidden = ['deleted_at'];
+
+    public function children()
+    {
+        return $this->hasMany(ProductCategory::class, 'parent_id')->with('children');
+    }
 }
