@@ -113,11 +113,11 @@ class ProductCategoryController extends Controller
         }
     }
 
-    public function getCategoryTree()
+    public function getCategoryTree(Request $request)
     {
         try {
 
-            $result = ProductCategory::select('id', 'name')->whereNull('parent_id')->with(['children'])->get()->toArray();
+            $result = ProductCategory::select('id', 'name')->whereNull('parent_id')->with(['children'])->paginate($request->get('pageSize'))->toArray();
 
             return response()->json([
 

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
 
-    public function upsert(ProductRequest $request)
+    public function upsert(Request $request)
     {
         try {
             $data = $request->only(
@@ -82,7 +82,7 @@ class ProductController extends Controller
                 return response()->json([
                     'status_code' => 200,
                     'message' => 'Product Deleted Successfully'
-                ], 500);
+                ], 200);
             } else {
                 return response()->json([
                     'status_code' => 500,
@@ -100,7 +100,22 @@ class ProductController extends Controller
     public function list(Request $request)
     {
         try {
-            $list = Product::with('images')->paginate($request->get('pageSize'));
+
+            $criteria = [];
+
+            if ($request->get('category')) {
+                $criteria['category_id'] = $request->get('category');
+            }
+
+            if ($request->get('title')) {
+                $criteria['name'] = $request->get('title');
+            }
+
+            if ($request->get('price')) {
+                $criteria['price'] = $request->get('price');
+            }
+
+            $list = Product::with('images')->where($criteria)->paginate($request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,

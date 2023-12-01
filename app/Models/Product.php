@@ -18,16 +18,16 @@ class Product extends Model
     protected $table = 'products';
 
     protected $fillable = [
-        'name', 'price', 'produced_by', 'currency', 'shipping_weight', 'product_code', 'upc_code', 'package_quantity', 'dimensions', 'is_visible', 'description', 'suggested_use',
-        'other_ingredients',
-        'disclaimer',
-        'warnings',
+        'name', 'price', 'is_visible', 'description',
         'category_id',
         'sku',
+        'slug',
+        'is_combination',
         'bar_code',
         'quantity',
         'slug',
         'tags',
+        'variants',
     ];
 
     protected $hidden = [
