@@ -24,7 +24,7 @@ class ProductCategory extends Model
         'status',
     ];
 
-    protected $visible = ['id', 'name', 'children'];
+    // protected $visible = ['id', 'name', 'children'];
 
     protected $hidden = ['deleted_at'];
 
