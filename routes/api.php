@@ -32,6 +32,7 @@ Route::get('/unauthorized', [UserController::class, 'unauthorized'])->name('unau
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/signup', [UserController::class, 'signUp']);
 Route::post('/forget-password', [UserController::class, 'forgetPassword']);
+Route::post('product/list', [ProductController::class, 'list']);
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -66,7 +67,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
         Route::post('/save', [ProductController::class, 'upsert']);
         Route::delete('/{id}/delete', [ProductController::class, 'delete']);
-        Route::post('/list', [ProductController::class, 'list']);
+
         Route::get('/{id}/data', [ProductController::class, 'getProductById']);
         Route::post('/multiple_delete', [ProductController::class, 'multipleDelete']);
     });
@@ -78,7 +79,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::delete('/{id}/delete', [ProductCategoryController::class, 'delete']);
         Route::get('/list', [ProductCategoryController::class, 'list']);
         Route::get('/{id}/category-data', [ProductCategoryController::class, 'getProductCategoryById']);
-        Route::get('/tree', [ProductCategoryController::class, 'getCategoryTree']);
+        Route::post('/tree', [ProductCategoryController::class, 'getCategoryTree']);
         Route::post('/multiple_delete', [ProductCategoryController::class, 'multipleDelete']);
     });
 
