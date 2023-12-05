@@ -33,7 +33,7 @@ Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/signup', [UserController::class, 'signUp']);
 Route::post('/forget-password', [UserController::class, 'forgetPassword']);
 Route::post('product/list', [ProductController::class, 'list']);
-Route::get('/{id}/data', [ProductController::class, 'getProductById']);
+Route::get('product/{id}/data', [ProductController::class, 'getProductById']);
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
