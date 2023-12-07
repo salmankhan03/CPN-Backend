@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Controllers\MediaController;
 use App\Api\Controllers\ProductController;
 use App\Api\Controllers\RolePermissionController;
 use App\Api\Controllers\UserController;
@@ -83,6 +84,14 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/tree', [ProductCategoryController::class, 'getCategoryTree']);
         Route::post('/multiple_delete', [ProductCategoryController::class, 'multipleDelete']);
     });
+
+
+    Route::post('/image/upload', [MediaController::class, 'upload']);
+    Route::post('/image/multiple-delete', [MediaController::class, 'delete']);
+
+    Route::get('/category/images', [MediaController::class, 'categoryImages']);
+    Route::get('/product/images', [MediaController::class, 'productImages']);
+
 
     //sub category routes
     // Route::prefix('/sub-category')->group(function () {

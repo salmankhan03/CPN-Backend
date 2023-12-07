@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductImages extends Model
+class CategoryImages extends Model
 {
 
     use HasFactory, SoftDeletes, FileUploadTrait;
@@ -17,7 +17,7 @@ class ProductImages extends Model
     protected $guarded = ['id'];
 
     protected $fillable = [
-        'name', 'product_id', 'original_name'
+        'name', 'category_id', 'original_name'
     ];
 
     protected $hidden = [
@@ -28,7 +28,7 @@ class ProductImages extends Model
 
     public function setNameAttribute($value)
     {
-        $this->saveFile($value, 'name', "products/" . date('Y/m'));
+        $this->saveFile($value, 'name', "category/" . date('Y/m'));
     }
 
 
@@ -41,8 +41,8 @@ class ProductImages extends Model
         }
     }
 
-    public function product()
+    public function category()
     {
-        return $this->hasOne(ProductCategory::class, 'id', 'product_id');
+        return $this->hasOne(ProductCategory::class, 'id', 'category_id');
     }
 }
