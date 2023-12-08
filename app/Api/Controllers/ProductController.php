@@ -43,8 +43,7 @@ class ProductController extends Controller
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
 
-            var_dump($request->only('images'));
-            die;
+
             if ($request->only('images')) {
 
                 foreach ($request->only('images')['images'] as  $image) {
