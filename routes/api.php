@@ -1,6 +1,7 @@
 <?php
 
 use App\Api\Controllers\MediaController;
+use App\Api\Controllers\OrderController;
 use App\Api\Controllers\ProductController;
 use App\Api\Controllers\RolePermissionController;
 use App\Api\Controllers\UserController;
@@ -52,6 +53,11 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::prefix('/cart')->group(function () {
+
+    Route::post('/place-order', [OrderController::class, 'placeOrder']);
+});
 
 
 Route::group(['middleware' => 'auth.jwt'], function () {

@@ -117,7 +117,15 @@ class ProductCategoryController extends Controller
     {
         try {
 
-            $result = ProductCategory::select('id', 'name', 'description', 'status')->whereNull('parent_id')->with(['children'])->paginate($request->get('pageSize'))->toArray();
+            $filter = [];
+
+            if ($request->get('name')) {
+
+                $filter['name'] = $request->get('name');
+            }
+
+
+            $result = ProductCategory::select('id', 'name', 'description', 'status')->whereNull('parent_id')->where($filter)->with(['children'])->paginate($request->get('pageSize'))->toArray();
 
             return response()->json([
 

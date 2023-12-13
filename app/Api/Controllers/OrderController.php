@@ -3,63 +3,77 @@
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderItems;
+use App\Models\Payments;
 use App\Models\Product;
 use App\Models\ProductImages;
+use App\Models\UserBillingAddress;
+use App\Models\UserShippingAddress;
 use Illuminate\Http\Request;
 
 
-class ProductController extends Controller
+class OrderController extends Controller
 {
 
-    public function upsert(Request $request)
+    public function placeOrder(Request $request)
     {
+
         try {
-            $data = $request->only(
-                'id',
-                'name',
-                'price',
-                'currency',
-                'produced_by',
-                'shipping_weight',
-                'product_code',
-                'upc_code',
-                'package_quantity',
-                'dimensions',
-                'is_visible',
-                'description',
-                'suggested_use',
-                'other_ingredients',
-                'disclaimer',
-                'category_id',
-                'warnings',
-                'sku',
-                'bar_code',
-                'quantity',
-                'slug',
-                'tags',
-                'status'
+            // $data = $request->all();
+
+            $orderData = $request->only(
+                'user_id',
+                'total_amount',
+                'status',
+                'is_guest',
+                'guest_user_id'
+
             );
 
-            $product = Product::updateOrCreate(['id' => $data['id']], $data);
+            $order = Order::create($orderData);
 
 
-            if ($request->only('images')) {
+            $paymentData = $request->get('payment_data');
 
-                foreach ($request->only('images')['images'] as  $image) {
 
-                    $productImage = [];
+            $paymentData['order_id'] = $order->id;
+            $paymentData['user_id'] = $orderData['user_id'];
 
-                    $productImage['original_name'] = $image->getClientOriginalName();
-                    $productImage['product_id'] = $product->id;
-                    $productImage['name'] = $image;
+            $payment = Payments::create($paymentData);
 
-                    ProductImages::create($productImage);
-                }
+            $order->payment_id = $payment->id;
+            $order->save();
+
+            $shippingAddress = $request->get('shipping_address');
+
+            $shippingAddress['user_id'] = $orderData['user_id'];
+            $shippingAddress['order_id'] = $order->id;
+
+            UserShippingAddress::create($shippingAddress);
+
+            $billingAddress = $request->get('billing_address');
+
+            $billingAddress['user_id'] = $orderData['user_id'];
+            $billingAddress['order_id'] = $order->id;
+
+            UserBillingAddress::create($billingAddress);
+
+            // need to reduce the quantity from available quantity in products table
+            $productData = $request->get('product_data');
+
+            foreach ($productData as $product) {
+
+                $product['order_id'] = $order->id;
+
+                OrderItems::create($product);
             }
+
 
             return response()->json([
                 'status_code' => 200,
-                'message'     => 'Product Saved Successfully',
+                'message'     => 'Order Created Successfully',
+                'order_id' => $order->id
             ], 200);
         } catch (\Exception $e) {
 

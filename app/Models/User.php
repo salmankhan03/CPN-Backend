@@ -98,6 +98,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         $this->saveFile($value, 'profile_pic', "user/" . date('Y/m'));
     }
 
+    public function role()
+    {
+        return $this->hasOne(Role::class, 'id', 'role_id');
+    }
+
     public function getProfilePicAttribute()
     {
         if (empty($this->attributes['profile_pic'])) {
