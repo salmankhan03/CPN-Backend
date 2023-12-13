@@ -37,6 +37,8 @@ Route::post('/forget-password', [UserController::class, 'forgetPassword']);
 Route::post('product/list', [ProductController::class, 'list']);
 Route::get('product/{id}/data', [ProductController::class, 'getProductById']);
 
+Route::post('category/tree', [ProductCategoryController::class, 'getCategoryTree']);
+
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
@@ -87,7 +89,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::delete('/{id}/delete', [ProductCategoryController::class, 'delete']);
         Route::get('/list', [ProductCategoryController::class, 'list']);
         Route::get('/{id}/category-data', [ProductCategoryController::class, 'getProductCategoryById']);
-        Route::post('/tree', [ProductCategoryController::class, 'getCategoryTree']);
+
         Route::post('/multiple_delete', [ProductCategoryController::class, 'multipleDelete']);
     });
 
