@@ -31,8 +31,9 @@ class OrderController extends Controller
 
             );
 
-            $order = Order::create($orderData);
+            $orderData['status'] = Order::STATUS_PENDING;
 
+            $order = Order::create($orderData);
 
             $paymentData = $request->get('payment_data');
 

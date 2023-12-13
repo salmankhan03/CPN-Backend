@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
 
+    const STATUS_PENDING = "PENDING";
+    const STATUS_CANCELLED = "CANCELLED";
+    const STATUS_CONFIRMED = "CONFIRMED";
+    const STATUS_DELIVERED = "DELIVERED";
+
     use HasFactory, SoftDeletes;
 
     public $timestamps = true;
@@ -17,13 +22,11 @@ class Order extends Model
 
     protected $table = 'orders';
 
-
-
     protected $fillable = [
         'user_id',
         'payment_id',
         'total_amount',
-        'pecent_discount_applied',
+        'percent_discount_applied',
         'status',
         'promo_code',
         'is_guest',
