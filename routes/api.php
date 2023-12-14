@@ -61,6 +61,8 @@ Route::prefix('/cart')->group(function () {
     Route::post('/place-order', [OrderController::class, 'placeOrder']);
 });
 
+Route::post('product/filter', [ProductController::class, 'getProducts']);
+
 
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('/get-user', [UserController::class, 'getUser']);

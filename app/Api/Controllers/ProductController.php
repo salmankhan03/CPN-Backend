@@ -165,4 +165,25 @@ class ProductController extends Controller
             ]);
         }
     }
+
+    public function getProducts(Request $request)
+    {
+        try {
+
+            $categories = $request->get('category');
+            $priceRange = $request->get('price');
+
+            $list = Product::whereIn('category_id', $categories)->whereBetween('price', $priceRange)->get();
+
+            return response()->json([
+                'status_code' => 200,
+                'list' => $list
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
