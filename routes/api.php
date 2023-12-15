@@ -61,6 +61,8 @@ Route::prefix('/cart')->group(function () {
     Route::post('/place-order', [OrderController::class, 'placeOrder']);
 });
 
+Route::get('product/get-max-price', [ProductController::class, 'getMaxPrice']);
+
 Route::post('product/filter', [ProductController::class, 'getProducts']);
 
 
@@ -81,7 +83,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::delete('/{id}/delete', [ProductController::class, 'delete']);
 
 
-        Route::post('/multiple_delete', [ProductController::class, 'multipleDelete']);
+        Route::post('/multiple-delete', [ProductController::class, 'multipleDelete']);
     });
 
     //category routes
@@ -92,7 +94,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/list', [ProductCategoryController::class, 'list']);
         Route::get('/{id}/category-data', [ProductCategoryController::class, 'getProductCategoryById']);
 
-        Route::post('/multiple_delete', [ProductCategoryController::class, 'multipleDelete']);
+        Route::post('/multiple-delete', [ProductCategoryController::class, 'multipleDelete']);
     });
 
 

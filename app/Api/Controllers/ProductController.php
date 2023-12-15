@@ -37,7 +37,8 @@ class ProductController extends Controller
                 'quantity',
                 'slug',
                 'tags',
-                'status'
+                'status',
+                'brand'
             );
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
@@ -172,19 +173,40 @@ class ProductController extends Controller
 
             $categories = $request->get('category');
             $priceRange = $request->get('price');
+            $brands = $request->get('brands');
+
+            $brands[] = NULL;
 
             $list = [];
 
             if ($categories) {
-                $list = Product::with('images')->whereIn('category_id',  $categories)->whereBetween('price', $priceRange)->get();
+                $list = Product::with('images')->whereIn('category_id',  $categories)->whereIn('brand', $brands)->whereBetween('price', $priceRange)->get();
             } else {
-                $list = Product::with('images')->whereBetween('price', $priceRange)->get();
+                $list = Product::with('images')->whereIn('brand', $brands)->whereBetween('price', $priceRange)->get();
             }
 
 
             return response()->json([
                 'status_code' => 200,
                 'list' => $list
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getMaxPrice()
+    {
+
+        try {
+            $maxPrice = Product::max('price');
+
+            return response()->json([
+                'status_code' => 200,
+                'max_price' => $maxPrice
             ]);
         } catch (\Exception $e) {
             return response()->json([
