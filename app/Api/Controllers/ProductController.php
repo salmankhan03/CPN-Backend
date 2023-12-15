@@ -173,7 +173,14 @@ class ProductController extends Controller
             $categories = $request->get('category');
             $priceRange = $request->get('price');
 
-            $list = Product::with('images')->whereIn('category_id', $categories)->whereBetween('price', $priceRange)->get();
+            $list = [];
+
+            if ($categories) {
+                $list = Product::with('images')->whereIn('category_id',  $categories)->whereBetween('price', $priceRange)->get();
+            } else {
+                $list = Product::with('images')->whereBetween('price', $priceRange)->get();
+            }
+
 
             return response()->json([
                 'status_code' => 200,
