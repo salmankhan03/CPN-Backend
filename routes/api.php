@@ -66,7 +66,7 @@ Route::get('product/get-max-price', [ProductController::class, 'getMaxPrice']);
 
 Route::post('product/filter', [ProductController::class, 'getProducts']);
 
-Route::get('product-brand/list', [ProductBrandController::class, 'list']);
+Route::post('product-brand/list', [ProductBrandController::class, 'list']);
 
 
 Route::group(['middleware' => 'auth.jwt'], function () {
