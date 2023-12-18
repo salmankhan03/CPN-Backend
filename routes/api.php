@@ -2,6 +2,7 @@
 
 use App\Api\Controllers\MediaController;
 use App\Api\Controllers\OrderController;
+use App\Api\Controllers\ProductBrandController;
 use App\Api\Controllers\ProductController;
 use App\Api\Controllers\RolePermissionController;
 use App\Api\Controllers\UserController;
@@ -65,6 +66,8 @@ Route::get('product/get-max-price', [ProductController::class, 'getMaxPrice']);
 
 Route::post('product/filter', [ProductController::class, 'getProducts']);
 
+Route::get('product-brand/list', [ProductBrandController::class, 'list']);
+
 
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('/get-user', [UserController::class, 'getUser']);
@@ -95,6 +98,18 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/{id}/category-data', [ProductCategoryController::class, 'getProductCategoryById']);
 
         Route::post('/multiple-delete', [ProductCategoryController::class, 'multipleDelete']);
+    });
+
+    //product brand routes
+
+    Route::prefix('/product-brand')->group(function () {
+
+        Route::post('/save', [ProductBrandController::class, 'upsert']);
+        Route::delete('/{id}/delete', [ProductBrandController::class, 'delete']);
+
+        Route::get('/{id}/data', [ProductBrandController::class, 'getProductBrandById']);
+
+        Route::post('/multiple-delete', [ProductBrandController::class, 'multipleDelete']);
     });
 
 
