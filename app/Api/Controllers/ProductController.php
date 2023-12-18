@@ -175,14 +175,12 @@ class ProductController extends Controller
             $priceRange = $request->get('price');
             $brands = $request->get('brands');
 
-
-
             $list = [];
 
             if ($categories) {
-                $list = Product::with('images')->whereIn('category_id',  $categories)->orWhereNull('brand', $brands)->whereIn('brand', $brands)->whereBetween('price', $priceRange)->get();
+                $list = Product::with('images')->whereIn('category_id',  $categories)->whereIn('brand', $brands)->whereBetween('price', $priceRange)->get();
             } else {
-                $list = Product::with('images')->whereIn('brand', $brands)->orWhereNull('brand', $brands)->whereBetween('price', $priceRange)->get();
+                $list = Product::with('images')->whereIn('brand', $brands)->whereBetween('price', $priceRange)->get();
             }
 
 
