@@ -112,6 +112,15 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/multiple-delete', [ProductBrandController::class, 'multipleDelete']);
     });
 
+    //order routes
+
+    Route::prefix('/order')->group(function () {
+
+        Route::get('/list', [OrderController::class, 'list']);
+    });
+
+
+
 
     Route::post('/image/upload', [MediaController::class, 'upload']);
     Route::post('/image/multiple-delete', [MediaController::class, 'delete']);

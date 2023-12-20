@@ -39,11 +39,16 @@ class Order extends Model
 
     public function shippingAddress()
     {
-        return $this->hasOne(UserShippingAddress::class, 'order_id', 'id');
+        return $this->hasOne(UserShippingAddress::class);
     }
 
     public function billignAddress()
     {
-        return $this->hasOne(UserBillingAddress::class, 'order_id', 'id');
+        return $this->hasOne(UserBillingAddress::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payments::class);
     }
 }

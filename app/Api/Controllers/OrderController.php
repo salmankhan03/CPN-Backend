@@ -84,4 +84,22 @@ class OrderController extends Controller
             ], 500);
         }
     }
+
+    public function list(Request $request)
+    {
+        try {
+
+            $list = Order::with('shippingAddress', 'billignAddress', 'payment')->paginate($request->get('pageSize'));
+
+            return response()->json([
+                'status_code' => 200,
+                'list' => $list
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
