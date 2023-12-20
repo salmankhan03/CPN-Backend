@@ -4,6 +4,7 @@ namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductBrands;
 use App\Models\ProductImages;
 use Illuminate\Http\Request;
 
@@ -43,20 +44,31 @@ class ProductController extends Controller
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
 
+            $isExist = ProductBrands::where(['name' => $data['brand']])->exists();
 
-            if ($request->only('images')) {
+            if (!$isExist) {
+                $brandData['name'] = $data['brand'];
+                $brandData['is_active'] = 1;
 
-                foreach ($request->only('images')['images'] as  $image) {
-
-                    $productImage = [];
-
-                    $productImage['original_name'] = $image->getClientOriginalName();
-                    $productImage['product_id'] = $product->id;
-                    $productImage['name'] = $image;
-
-                    ProductImages::create($productImage);
-                }
+                ProductBrands::create($brandData);
             }
+
+            if ($data['brand'])
+
+
+                if ($request->only('images')) {
+
+                    foreach ($request->only('images')['images'] as  $image) {
+
+                        $productImage = [];
+
+                        $productImage['original_name'] = $image->getClientOriginalName();
+                        $productImage['product_id'] = $product->id;
+                        $productImage['name'] = $image;
+
+                        ProductImages::create($productImage);
+                    }
+                }
 
             return response()->json([
                 'status_code' => 200,
@@ -177,12 +189,20 @@ class ProductController extends Controller
 
             $list = [];
 
+            $queryBuilder = $list = Product::with('images');
+
             if ($categories) {
-                $list = Product::with('images')->whereIn('category_id',  $categories)->whereIn('brand', $brands)->whereBetween('price', $priceRange)->get();
-            } else {
-                $list = Product::with('images')->whereIn('brand', $brands)->whereBetween('price', $priceRange)->get();
+                $queryBuilder->whereIn('category_id',  $categories);
+            }
+            if ($brands) {
+
+                $queryBuilder->whereIn('brand', $brands);
             }
 
+            if ($priceRange) {
+                $queryBuilder->whereBetween('price', $priceRange);
+            }
+            $list = $queryBuilder->get();
 
             return response()->json([
                 'status_code' => 200,
