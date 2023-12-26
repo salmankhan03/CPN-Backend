@@ -16,7 +16,8 @@ class ProductBrandsSeeder extends Seeder
     public function run(): void
     {
         DB::table('product_brands')->insert([
-            'name' => 'Default Brand'
+            'name' => 'Default Brand',
+            'is_active' => 1
         ]);
     }
 }
