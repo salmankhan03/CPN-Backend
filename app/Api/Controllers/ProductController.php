@@ -51,25 +51,26 @@ class ProductController extends Controller
                 $brandData['name'] = $data['brand'];
                 $brandData['is_active'] = 1;
 
-                ProductBrands::create($brandData);
+                $newProductBrand = ProductBrands::create($brandData);
+
+                $product->brand_id = $newProductBrand->id;
+
+                $product->save();
             }
 
-            if ($data['brand'])
+            if ($request->only('images')) {
 
+                foreach ($request->only('images')['images'] as  $image) {
 
-                if ($request->only('images')) {
+                    $productImage = [];
 
-                    foreach ($request->only('images')['images'] as  $image) {
+                    $productImage['original_name'] = $image->getClientOriginalName();
+                    $productImage['product_id'] = $product->id;
+                    $productImage['name'] = $image;
 
-                        $productImage = [];
-
-                        $productImage['original_name'] = $image->getClientOriginalName();
-                        $productImage['product_id'] = $product->id;
-                        $productImage['name'] = $image;
-
-                        ProductImages::create($productImage);
-                    }
+                    ProductImages::create($productImage);
                 }
+            }
 
             return response()->json([
                 'status_code' => 200,
