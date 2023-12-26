@@ -43,6 +43,21 @@ class ProductBrandController extends Controller
             $obj = ProductBrands::find($id);
 
             if ($obj) {
+
+                $defaultBrand = ProductBrands::where('name', ProductBrands::DEFAULT_BRAND_NAME)->first();
+
+                if ($defaultBrand->id == $id) {
+                    return response()->json(
+                        [
+                            'status_code' => 500,
+                            'message' => "Can't Delete the Default Brand"
+                        ]
+                    );
+                }
+
+                Product::where('brand', $obj->name)->update(['brand' => ProductBrands::DEFAULT_BRAND_NAME]);
+                Product::where('brand_id', $id)->update(['brand_id' => $defaultBrand->id]);
+
                 $obj->delete();
 
                 return response()->json([
@@ -111,6 +126,24 @@ class ProductBrandController extends Controller
     {
         try {
             $ids = explode(",",  $request->only('ids')['ids']);
+
+            $defaultBrand = ProductBrands::where('name', ProductBrands::DEFAULT_BRAND_NAME)->first();
+
+            if (in_array($defaultBrand->id, $ids)) {
+                return response()->json(
+                    [
+                        'status_code' => 500,
+                        'message' => "Can't Delete the Default Brand"
+                    ]
+                );
+            }
+
+
+            $productNames = ProductBrands::selcet('name')->whereIn('brand', $ids)->get();
+
+
+            Product::whereIn('brand', $productNames)->update(['brand' => ProductBrands::DEFAULT_BRAND_NAME]);
+            Product::whereIn('brand_id', $ids)->update(['brand_id' => $defaultBrand->id]);
 
             ProductBrands::whereIn('id', $ids)->delete();
 

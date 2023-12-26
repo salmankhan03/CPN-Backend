@@ -29,7 +29,8 @@ class Product extends Model
         'tags',
         'variants',
         'status',
-        'brand'
+        'brand',
+        'brand_id'
     ];
 
     protected $hidden = [

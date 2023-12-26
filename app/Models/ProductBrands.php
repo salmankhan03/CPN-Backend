@@ -13,6 +13,8 @@ class ProductBrands extends Model
 
     public $timestamps = true;
 
+    const DEFAULT_BRAND_NAME = "Default Brand";
+
     protected $guarded = ['id'];
 
     protected $table = 'product_brands';
