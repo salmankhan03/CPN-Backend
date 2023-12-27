@@ -42,7 +42,7 @@ class Order extends Model
         return $this->hasOne(UserShippingAddress::class);
     }
 
-    public function billignAddress()
+    public function billingAddress()
     {
         return $this->hasOne(UserBillingAddress::class);
     }

@@ -148,4 +148,22 @@ class OrderController extends Controller
             ], 500);
         }
     }
+
+    public function getById($id)
+    {
+        try {
+
+            $order = Order::with('shippingAddress', 'billingAddress', 'payment')->find($id);
+
+            return response()->json([
+                'status_code' => 200,
+                'order' => $order
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
