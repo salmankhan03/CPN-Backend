@@ -12,6 +12,8 @@ class ProductCategory extends Model
 
     protected $table   = "product_category";
 
+    const DEFAULT_PRODUCT_CATEGORY = "Uncategorized";
+
 
 
     // preventing from adding timestamp by default

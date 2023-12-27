@@ -3,6 +3,7 @@
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -56,6 +57,19 @@ class ProductCategoryController extends Controller
         try {
             $obj = ProductCategory::find($id);
             if ($obj) {
+
+                $defaultCategory = ProductCategory::where('name', ProductCategory::DEFAULT_PRODUCT_CATEGORY)->first();
+
+                if ($defaultCategory->id == $id) {
+                    return response()->json(
+                        [
+                            'status_code' => 500,
+                            'message' => "Can't Delete the Default Product Category"
+                        ]
+                    );
+                }
+
+                Product::whereIn('category_id', $id)->update(['category_id' => $defaultCategory->id]);
 
                 $obj->delete();
                 return response()->json([
@@ -146,6 +160,19 @@ class ProductCategoryController extends Controller
         try {
 
             $ids = explode(",",  $request->only('ids')['ids']);
+
+            $defaultCategory = ProductCategory::where('name', ProductCategory::DEFAULT_PRODUCT_CATEGORY)->first();
+
+            if (in_array($defaultBrand->id, $ids)) {
+                return response()->json(
+                    [
+                        'status_code' => 500,
+                        'message' => "Can't Delete the Default Product Category"
+                    ]
+                );
+            }
+
+            Product::whereIn('category_id', $ids)->update(['category_id' => $defaultCategory->id]);
 
             ProductCategory::whereIn('id', $ids)->delete();
 
