@@ -29,7 +29,6 @@ class Product extends Model
         'tags',
         'variants',
         'status',
-        'brand',
         'brand_id'
     ];
 

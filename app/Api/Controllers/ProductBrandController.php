@@ -55,7 +55,6 @@ class ProductBrandController extends Controller
                     );
                 }
 
-                Product::where('brand', $obj->name)->update(['brand' => ProductBrands::DEFAULT_BRAND_NAME]);
                 Product::where('brand_id', $id)->update(['brand_id' => $defaultBrand->id]);
 
                 $obj->delete();
@@ -138,11 +137,6 @@ class ProductBrandController extends Controller
                 );
             }
 
-
-            $productNames = ProductBrands::selcet('name')->whereIn('brand', $ids)->get();
-
-
-            Product::whereIn('brand', $productNames)->update(['brand' => ProductBrands::DEFAULT_BRAND_NAME]);
             Product::whereIn('brand_id', $ids)->update(['brand_id' => $defaultBrand->id]);
 
             ProductBrands::whereIn('id', $ids)->delete();

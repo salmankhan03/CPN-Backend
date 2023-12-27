@@ -39,7 +39,6 @@ class ProductController extends Controller
                 'slug',
                 'tags',
                 'status',
-                'brand',
                 'brand_id'
             );
 
