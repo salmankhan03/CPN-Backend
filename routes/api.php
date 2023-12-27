@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Controllers\CouponCodeController;
 use App\Api\Controllers\MediaController;
 use App\Api\Controllers\OrderController;
 use App\Api\Controllers\ProductBrandController;
@@ -110,6 +111,19 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/{id}/data', [ProductBrandController::class, 'getProductBrandById']);
 
         Route::post('/multiple-delete', [ProductBrandController::class, 'multipleDelete']);
+    });
+
+    //coupon code
+    Route::prefix('/coupon-code')->group(function () {
+
+        Route::post('/save', [CouponCodeController::class, 'upsert']);
+        Route::post('/list', [CouponCodeController::class, 'list']);
+
+        Route::delete('/{id}/delete', [CouponCodeController::class, 'delete']);
+
+        Route::get('/{id}/data', [CouponCodeController::class, 'getById']);
+
+        Route::post('/multiple-delete', [CouponCodeController::class, 'multipleDelete']);
     });
 
     //order routes

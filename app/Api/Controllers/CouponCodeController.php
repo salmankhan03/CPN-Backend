@@ -3,13 +3,14 @@
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\CouponCode;
 use App\Models\Product;
 use App\Models\ProductBrands;
 use App\Models\ProductImages;
 use Illuminate\Http\Request;
 
 
-class ProductBrandController extends Controller
+class CouponCodeController extends Controller
 {
 
     public function upsert(Request $request)
@@ -17,15 +18,18 @@ class ProductBrandController extends Controller
         try {
             $data = $request->only(
                 'id',
-                'name',
-                'is_active'
+                'code',
+                'expires_at',
+                'amount',
+                'calculation_type',
+                'minimum_amount'
             );
 
-            ProductBrands::updateOrCreate(['id' => $data['id']], $data);
+            CouponCode::updateOrCreate(['id' => $data['id']], $data);
 
             return response()->json([
                 'status_code' => 200,
-                'message'     => 'Product Brand Created Successfully',
+                'message'     => 'Coupon Code Created Successfully',
             ], 200);
         } catch (\Exception $e) {
 
@@ -40,33 +44,20 @@ class ProductBrandController extends Controller
     {
 
         try {
-            $obj = ProductBrands::find($id);
+            $obj = CouponCode::find($id);
 
             if ($obj) {
-
-                $defaultBrand = ProductBrands::where('name', ProductBrands::DEFAULT_BRAND_NAME)->first();
-
-                if ($defaultBrand->id == $id) {
-                    return response()->json(
-                        [
-                            'status_code' => 500,
-                            'message' => "Can't Delete the Default Brand"
-                        ]
-                    );
-                }
-
-                Product::where('brand_id', $id)->update(['brand_id' => $defaultBrand->id]);
 
                 $obj->delete();
 
                 return response()->json([
                     'status_code' => 200,
-                    'message' => 'Product Brand Deleted Successfully'
+                    'message' => 'Coupon Code Deleted Successfully'
                 ], 200);
             } else {
                 return response()->json([
                     'status_code' => 500,
-                    'message' => 'Product Brand Not Found'
+                    'message' => 'Coupon Code Not Found'
                 ], 500);
             }
         } catch (\Exception $e) {
@@ -85,11 +76,10 @@ class ProductBrandController extends Controller
 
             if ($name) {
 
-                $list = ProductBrands::where('name', $request->get('name'))->paginate($request->get('pageSize'));
+                $list = CouponCode::where('code', $request->get('name'))->paginate($request->get('pageSize'));
             } else {
-                $list = ProductBrands::paginate($request->get('pageSize'));
+                $list = CouponCode::paginate($request->get('pageSize'));
             }
-
 
             return response()->json([
                 'status_code' => 200,
@@ -103,15 +93,15 @@ class ProductBrandController extends Controller
         }
     }
 
-    public function getProductBrandById($id)
+    public function getById($id)
     {
 
         try {
-            $productBrand = ProductBrands::find($id);
+            $couponCode = CouponCode::find($id);
 
             return response()->json([
                 'status_code' => 200,
-                'data' => $productBrand
+                'data' => $couponCode
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -126,24 +116,11 @@ class ProductBrandController extends Controller
         try {
             $ids = explode(",",  $request->only('ids')['ids']);
 
-            $defaultBrand = ProductBrands::where('name', ProductBrands::DEFAULT_BRAND_NAME)->first();
-
-            if (in_array($defaultBrand->id, $ids)) {
-                return response()->json(
-                    [
-                        'status_code' => 500,
-                        'message' => "Can't Delete the Default Brand"
-                    ]
-                );
-            }
-
-            Product::whereIn('brand_id', $ids)->update(['brand_id' => $defaultBrand->id]);
-
-            ProductBrands::whereIn('id', $ids)->delete();
+            CouponCode::whereIn('id', $ids)->delete();
 
             return response()->json([
                 'status_code' => 200,
-                'message' => 'Multiple Products Brands Deleted Successfully'
+                'message' => 'Multiple Coupon Codes Deleted Successfully'
             ]);
         } catch (\Exception $e) {
             return response()->json([
