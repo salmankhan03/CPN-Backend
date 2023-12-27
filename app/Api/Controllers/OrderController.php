@@ -89,7 +89,7 @@ class OrderController extends Controller
     {
         try {
 
-            $list = Order::with('shippingAddress', 'billignAddress', 'payment')->paginate($request->get('pageSize'));
+            $list = Order::with('shippingAddress', 'billingAddress', 'payment')->paginate($request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,
