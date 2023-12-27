@@ -39,7 +39,8 @@ class ProductController extends Controller
                 'slug',
                 'tags',
                 'status',
-                'brand_id'
+                'brand_id',
+                'brand'
             );
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
