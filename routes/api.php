@@ -117,6 +117,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::prefix('/order')->group(function () {
 
         Route::get('/list', [OrderController::class, 'list']);
+        Route::post('/update-status', [OrderController::class, 'updateStatus']);
     });
 
 

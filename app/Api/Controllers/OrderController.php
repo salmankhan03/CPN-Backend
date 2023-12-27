@@ -102,4 +102,50 @@ class OrderController extends Controller
             ]);
         }
     }
+
+    public function updateStatus(Request $request)
+    {
+        try {
+
+            $orderId = $request->get('id');
+            $status = $request->get('status');
+
+            if (!$orderId) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Order Id Is missing'
+                ], 500);
+            }
+
+            if (!$status) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'status is missing'
+                ], 500);
+            }
+
+            $order = Order::find($orderId);
+
+            if (!$order) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Order Not Found'
+                ], 500);
+            }
+
+            $order->status = $status;
+
+            $order->save();
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Status Updated Successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
