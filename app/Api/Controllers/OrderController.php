@@ -12,6 +12,9 @@ use App\Models\UserBillingAddress;
 use App\Models\UserShippingAddress;
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
+
+
 
 class OrderController extends Controller
 {
@@ -90,8 +93,52 @@ class OrderController extends Controller
         try {
 
 
+            $customerName = $request->get('customerName');
+            $status = $request->get('status');
+            $ordersFromLastNDays = $request->get('day');
+            $startDate = $request->get('startDate');
+            $endDate = $request->get('endDate');
+            $paymentMethod = $request->get('method');
 
-            $list = Order::with('shippingAddress', 'billingAddress', 'payment', 'Items.product.images')->paginate($request->get('pageSize'));
+            $queryBuilder = Order::with('shippingAddress', 'billingAddress', 'payment', 'Items.product.images');
+
+            if ($customerName) {
+                $queryBuilder->whereHas('shippingAddress', function ($q) use ($customerName) {
+
+                    $q->where('first_name', $customerName);
+                });
+            }
+
+            if ($status) {
+                $queryBuilder->where('status', $status);
+            }
+
+            if ($ordersFromLastNDays) {
+                $lastNDayDate = \Carbon\Carbon::today()->subDays($ordersFromLastNDays);
+                $queryBuilder->where('created_at', '>=', $lastNDayDate);
+            }
+
+            if ($startDate) {
+
+                $startDateFormatted = Carbon::parse(strtotime($startDate))->format('Y-m-d H:i:s');
+
+                $queryBuilder->where('created_at', '>=', $startDateFormatted);
+            }
+
+            if ($endDate) {
+                $endDateFormatted = Carbon::parse(strtotime($endDate))->format('Y-m-d H:i:s');
+
+                $queryBuilder->where('created_at', '<=', $endDateFormatted);
+            }
+
+            if ($paymentMethod) {
+
+                $queryBuilder->whereHas('payment', function ($q) use ($paymentMethod) {
+                    $q->where('type', $paymentMethod);
+                });
+            }
+
+            $list = $queryBuilder->paginate($request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,
