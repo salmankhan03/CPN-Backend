@@ -89,7 +89,9 @@ class OrderController extends Controller
     {
         try {
 
-            $list = Order::with('shippingAddress', 'billingAddress', 'payment')->paginate($request->get('pageSize'));
+
+
+            $list = Order::with('shippingAddress', 'billingAddress', 'payment', 'Items.product.images')->paginate($request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,
@@ -110,6 +112,8 @@ class OrderController extends Controller
             $orderId = $request->get('id');
             $status = $request->get('status');
 
+            //can't revert back from cancelled orders
+
             if (!$orderId) {
                 return response()->json([
                     'status_code' => 500,
@@ -125,6 +129,13 @@ class OrderController extends Controller
             }
 
             $order = Order::find($orderId);
+
+            if ($order->status == Order::STATUS_CANCELLED || $order->status == Order::STATUS_DELIVERED) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => "Can't Change The Status"
+                ], 500);
+            }
 
             if (!$order) {
                 return response()->json([

@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
 
-    const STATUS_PENDING = "PENDING";
-    const STATUS_CANCELLED = "CANCELLED";
-    const STATUS_CONFIRMED = "CONFIRMED";
-    const STATUS_DELIVERED = "DELIVERED";
+    const STATUS_PENDING = "Pending";
+    const STATUS_CANCELLED = "Cancelled";
+    const STATUS_CONFIRMED = "Confirmed";
+    const STATUS_DELIVERED = "Delivered";
+    const STATUS_RETURNED = "Returned";
+    const STATUS_REFUNDED = "Refunded";
 
     use HasFactory, SoftDeletes;
 
@@ -50,5 +52,10 @@ class Order extends Model
     public function payment()
     {
         return $this->hasOne(Payments::class);
+    }
+
+    public function Items()
+    {
+        return $this->hasMany(OrderItems::class, 'order_id');
     }
 }

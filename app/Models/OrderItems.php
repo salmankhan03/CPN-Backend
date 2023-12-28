@@ -28,4 +28,9 @@ class OrderItems extends Model
     protected $hidden = [
         'deleted_at'
     ];
+
+    public function product()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+    }
 }
