@@ -22,7 +22,8 @@ class CouponCodeController extends Controller
                 'expires_at',
                 'amount',
                 'calculation_type',
-                'minimum_amount'
+                'minimum_amount',
+                'product_category_id'
             );
 
             CouponCode::updateOrCreate(['id' => $data['id']], $data);
