@@ -19,7 +19,7 @@ class CouponCode extends Model
     protected $table = 'coupon_code';
 
     protected $fillable = [
-        'code', 'expires_at', 'amount', 'calculation_type', 'minimum_amount', 'product_category_id'
+        'code', 'expires_at', 'amount', 'calculation_type', 'minimum_amount', 'product_category_id', 'is_eligible_for_free_shipping'
     ];
 
     protected $hidden = [

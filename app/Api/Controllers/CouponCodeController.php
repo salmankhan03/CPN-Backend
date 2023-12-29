@@ -23,7 +23,8 @@ class CouponCodeController extends Controller
                 'amount',
                 'calculation_type',
                 'minimum_amount',
-                'product_category_id'
+                'product_category_id',
+                'is_eligible_for_free_shipping'
             );
 
             CouponCode::updateOrCreate(['id' => $data['id']], $data);

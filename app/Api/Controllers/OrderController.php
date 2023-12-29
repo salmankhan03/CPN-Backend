@@ -92,7 +92,6 @@ class OrderController extends Controller
     {
         try {
 
-
             $customerName = $request->get('customerName');
             $status = $request->get('status');
             $ordersFromLastNDays = $request->get('day');
