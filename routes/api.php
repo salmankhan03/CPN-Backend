@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use App\Api\Controllers\ProductCategoryController;
 use App\Api\Controllers\ProductSubCategoryController;
-
+use App\Api\Controllers\TempTemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +68,16 @@ Route::get('product/get-max-price', [ProductController::class, 'getMaxPrice']);
 Route::post('product/filter', [ProductController::class, 'getProducts']);
 
 Route::post('product-brand/list', [ProductBrandController::class, 'list']);
+
+//temporary route for other project
+Route::prefix('/temp/template')->group(function () {
+
+    Route::post('/save', [TempTemplateController::class, 'upsert']);
+    Route::get('/list', [TempTemplateController::class, 'list']);
+    Route::get('/{id}/data', [TempTemplateController::class, 'getById']);
+    Route::post('/multiple-delete', [TempTemplateController::class, 'multipleDelete']);
+    Route::delete('/{id}/delete', [TempTemplateController::class, 'delete']);
+});
 
 
 Route::group(['middleware' => 'auth.jwt'], function () {
@@ -134,9 +144,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/{id}/data', [OrderController::class, 'getById']);
         Route::post('/update-status', [OrderController::class, 'updateStatus']);
     });
-
-
-
 
     Route::post('/image/upload', [MediaController::class, 'upload']);
     Route::post('/image/multiple-delete', [MediaController::class, 'delete']);

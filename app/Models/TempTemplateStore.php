@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CouponCode extends Model
+class TempTemplateStore extends Model
 {
 
     use HasFactory, SoftDeletes;
@@ -16,13 +16,13 @@ class CouponCode extends Model
 
     protected $guarded = ['id'];
 
-    protected $table = 'coupon_code';
+    protected $table = 'temp_template_store';
 
     protected $fillable = [
-        'code', 'expires_at', 'amount', 'calculation_type', 'minimum_amount', 'product_category_id', 'is_eligible_for_free_shipping'
+        'name', 'template'
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at', 'created_at', 'updated_at'
     ];
 }
