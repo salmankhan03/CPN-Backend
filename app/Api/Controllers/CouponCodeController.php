@@ -172,7 +172,7 @@ class CouponCodeController extends Controller
                 'status_code' => 200,
                 'is_coupon_code_valid' => $couponCode ? true : false,
                 'coupon_code' => $couponCode,
-                'message' => "Coupon Code Not Matched or Expired Already ."
+                'message' => "Coupon Code Not Matched."
             ]);
         } catch (\Exception $e) {
             return response()->json([
