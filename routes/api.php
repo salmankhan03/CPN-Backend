@@ -69,6 +69,8 @@ Route::post('product/filter', [ProductController::class, 'getProducts']);
 
 Route::post('product-brand/list', [ProductBrandController::class, 'list']);
 
+Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);
+
 //temporary route for other project
 Route::prefix('/temp/template')->group(function () {
 

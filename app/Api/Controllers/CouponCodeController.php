@@ -3,10 +3,12 @@
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CouponCodeValidateRequest;
 use App\Models\CouponCode;
 use App\Models\Product;
 use App\Models\ProductBrands;
 use App\Models\ProductImages;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
@@ -129,6 +131,54 @@ class CouponCodeController extends Controller
                 'status_code' => 500,
                 'message' => $e->getMessage()
             ]);
+        }
+    }
+
+    public function validateCouponCode(CouponCodeValidateRequest $request)
+    {
+        try {
+
+
+
+
+
+            $currentTimestmap = Carbon::now();
+
+            $couponCode = $request->get('coupon_code');
+            $cartAmount = $request->get('cart_amount');
+
+            $couponCode = CouponCode::where(function ($query) use ($couponCode) {
+                $query->where('code',  strtoupper($couponCode))
+                    ->orWhere('code', strtolower($couponCode));
+            })->where('minimum_amount', '<', $cartAmount)
+                ->where('expires_at', '>', $currentTimestmap->toDateTimeString())->first();
+
+            // $messages = [];
+
+            // $couponCodeSelected = null;
+
+            // foreach ($couponCodes as $couponCode) {
+
+            //     if (
+            //         $couponCode->expires_at >= $currentTimestmap->toDateTimeString() &&
+            //         $couponCode->minimum_amount <= $cartAmount
+            //     ) {
+            //         $couponCodeSelected = $couponCode;
+            //     }
+            // }
+
+
+            return response()->json([
+                'status_code' => 200,
+                'is_coupon_code_valid' => $couponCode ? true : false,
+                'coupon_code' => $couponCode,
+                'message' => "Coupon Code Not Matched or Expired Already ."
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 }
