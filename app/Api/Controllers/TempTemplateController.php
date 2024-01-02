@@ -3,6 +3,7 @@
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\TempTemplateImages;
 use App\Models\TempTemplateStore;
 use Illuminate\Http\Request;
 
@@ -66,7 +67,7 @@ class TempTemplateController extends Controller
     {
         try {
 
-            $list = TempTemplateStore::paginate($request->get('pageSize'));
+            $list = TempTemplateStore::with('images')->paginate($request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,
@@ -107,6 +108,39 @@ class TempTemplateController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'message' => 'Multiple Templates Deleted Successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function imageUpload(Request $request)
+    {
+        try {
+
+
+            $templateId = $request->get('template_id');
+
+            if ($request->only('images')) {
+
+                foreach ($request->only('images')['images'] as  $image) {
+
+                    $imageData = [];
+
+                    $imageData['original_name'] = $image->getClientOriginalName();
+                    $imageData['product_id'] = $templateId;
+                    $imageData['name'] = $image;
+
+                    TempTemplateImages::create($imageData);
+                }
+            }
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Images Uploaded Successfully'
             ]);
         } catch (\Exception $e) {
             return response()->json([

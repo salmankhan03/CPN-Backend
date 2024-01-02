@@ -25,4 +25,9 @@ class TempTemplateStore extends Model
     protected $hidden = [
         'deleted_at', 'created_at', 'updated_at'
     ];
+
+    public function images()
+    {
+        return $this->hasMany(TempTemplateImages::class, 'template_id');
+    }
 }

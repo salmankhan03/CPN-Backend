@@ -79,6 +79,7 @@ Route::prefix('/temp/template')->group(function () {
     Route::get('/{id}/data', [TempTemplateController::class, 'getById']);
     Route::post('/multiple-delete', [TempTemplateController::class, 'multipleDelete']);
     Route::delete('/{id}/delete', [TempTemplateController::class, 'delete']);
+    Route::post('/image-upload', [TempTemplateController::class, 'imageUpload']);
 });
 
 

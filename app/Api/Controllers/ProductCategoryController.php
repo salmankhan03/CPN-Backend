@@ -163,7 +163,7 @@ class ProductCategoryController extends Controller
 
             $defaultCategory = ProductCategory::where('name', ProductCategory::DEFAULT_PRODUCT_CATEGORY)->first();
 
-            if (in_array($defaultBrand->id, $ids)) {
+            if (in_array($defaultCategory->id, $ids)) {
                 return response()->json(
                     [
                         'status_code' => 500,
