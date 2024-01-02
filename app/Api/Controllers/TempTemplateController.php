@@ -121,6 +121,7 @@ class TempTemplateController extends Controller
     {
         try {
 
+            $paths = [];
 
             $templateId = $request->get('template_id');
 
@@ -134,13 +135,15 @@ class TempTemplateController extends Controller
                     $imageData['product_id'] = $templateId;
                     $imageData['name'] = $image;
 
-                    TempTemplateImages::create($imageData);
+                    $imageSaved = TempTemplateImages::create($imageData);
+
+                    $paths[] =  $imageSaved->name;
                 }
             }
 
             return response()->json([
                 'status_code' => 200,
-                'message' => 'Images Uploaded Successfully'
+                'images' => $paths
             ]);
         } catch (\Exception $e) {
             return response()->json([
