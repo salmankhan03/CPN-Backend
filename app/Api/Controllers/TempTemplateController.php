@@ -121,30 +121,38 @@ class TempTemplateController extends Controller
     {
         try {
 
-            $paths = [];
+            $path = null;
 
             $templateId = $request->get('template_id');
 
-            if ($request->only('images')) {
+            if ($request->only('image')) {
 
-                foreach ($request->only('images')['images'] as  $image) {
+                $image = $request->only('image')['image'];
 
-                    $imageData = [];
+                $imageData = [];
 
-                    $imageData['original_name'] = $image->getClientOriginalName();
-                    $imageData['product_id'] = $templateId;
-                    $imageData['name'] = $image;
+                $imageData['original_name'] = $image->getClientOriginalName();
+                $imageData['product_id'] = $templateId;
+                $imageData['name'] = $image;
 
-                    $imageSaved = TempTemplateImages::create($imageData);
+                $imageSaved = TempTemplateImages::create($imageData);
 
-                    $paths[] =  $imageSaved->name;
-                }
+                $path =  $imageSaved->name;
+
+                return response()->json([
+                    'uploaded' => true,
+                    'fileName' => $image->getClientOriginalName(),
+                    'url' => $path
+
+                ], 200);
             }
 
             return response()->json([
                 'status_code' => 200,
-                'images' => $paths
-            ]);
+                'message' => 'Image Not Found',
+                'url' => $path
+
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status_code' => 500,
