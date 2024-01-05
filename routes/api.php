@@ -1,6 +1,7 @@
 <?php
 
 use App\Api\Controllers\CouponCodeController;
+use App\Api\Controllers\DemoControllerTest;
 use App\Api\Controllers\MediaController;
 use App\Api\Controllers\OrderController;
 use App\Api\Controllers\ProductBrandController;
@@ -170,3 +171,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/list', [UserController::class, 'list']);
     });
 });
+
+Route::post('/send-mail', [DemoControllerTest::class, 'sendMail']);
+Route::post('/send-notification', [DemoControllerTest::class, 'sendMail']);
