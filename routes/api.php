@@ -2,6 +2,7 @@
 
 use App\Api\Controllers\CouponCodeController;
 use App\Api\Controllers\DemoControllerTest;
+use App\Api\Controllers\EmailTemplateController;
 use App\Api\Controllers\MediaController;
 use App\Api\Controllers\OrderController;
 use App\Api\Controllers\ProductBrandController;
@@ -73,15 +74,7 @@ Route::post('product-brand/list', [ProductBrandController::class, 'list']);
 Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);
 
 //temporary route for other project
-Route::prefix('/temp/template')->group(function () {
 
-    Route::post('/save', [TempTemplateController::class, 'upsert']);
-    Route::get('/list', [TempTemplateController::class, 'list']);
-    Route::get('/{id}/data', [TempTemplateController::class, 'getById']);
-    Route::post('/multiple-delete', [TempTemplateController::class, 'multipleDelete']);
-    Route::delete('/{id}/delete', [TempTemplateController::class, 'delete']);
-    Route::post('/image-upload', [TempTemplateController::class, 'imageUpload']);
-});
 
 
 Route::group(['middleware' => 'auth.jwt'], function () {
@@ -149,6 +142,27 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/update-status', [OrderController::class, 'updateStatus']);
     });
 
+    //static page tempalates
+    Route::prefix('/template')->group(function () {
+
+        Route::post('/save', [TempTemplateController::class, 'upsert']);
+        Route::get('/list', [TempTemplateController::class, 'list']);
+        Route::get('/{id}/data', [TempTemplateController::class, 'getById']);
+        Route::post('/multiple-delete', [TempTemplateController::class, 'multipleDelete']);
+        Route::delete('/{id}/delete', [TempTemplateController::class, 'delete']);
+        Route::post('/image-upload', [TempTemplateController::class, 'imageUpload']);
+    });
+
+    //email templates
+
+    Route::prefix('/email-template')->group(function () {
+
+        Route::post('/save', [EmailTemplateController::class, 'upsert']);
+        Route::get('/list', [EmailTemplateController::class, 'list']);
+        Route::get('/{id}/data', [EmailTemplateController::class, 'getById']);
+        Route::post('/multiple-delete', [EmailTemplateController::class, 'multipleDelete']);
+        Route::delete('/{id}/delete', [EmailTemplateController::class, 'delete']);
+    });
     Route::post('/image/upload', [MediaController::class, 'upload']);
     Route::post('/image/multiple-delete', [MediaController::class, 'delete']);
 

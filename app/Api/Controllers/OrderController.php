@@ -190,6 +190,13 @@ class OrderController extends Controller
                 ], 500);
             }
 
+            if (!in_array($status, Order::STATUSES)) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Unknown Status :-' . $status
+                ], 500);
+            }
+
             $order->status = $status;
 
             $order->save();

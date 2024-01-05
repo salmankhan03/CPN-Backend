@@ -16,6 +16,15 @@ class Order extends Model
     const STATUS_RETURNED = "Returned";
     const STATUS_REFUNDED = "Refunded";
 
+    const STATUSES = [
+        self::STATUS_PENDING,
+        self::STATUS_CANCELLED,
+        self::STATUS_CONFIRMED,
+        self::STATUS_DELIVERED,
+        self::STATUS_RETURNED,
+        self::STATUS_REFUNDED,
+    ];
+
     use HasFactory, SoftDeletes;
 
     public $timestamps = true;
