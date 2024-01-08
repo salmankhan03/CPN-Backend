@@ -178,9 +178,9 @@ class OrderController extends Controller
 
             if ($order->status == Order::STATUS_CANCELLED || $order->status == Order::STATUS_DELIVERED) {
                 return response()->json([
-                    'status_code' => 500,
-                    'message' => "Can't Change The Status"
-                ], 500);
+                    'status_code' => 200,
+                    'message' => "Can't Change The Status That are already cancelled or delivered"
+                ], 200);
             }
 
             if (!$order) {

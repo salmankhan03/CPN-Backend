@@ -9,14 +9,10 @@ use App\Models\RoleMenuItemMap;
 use App\Models\User;
 use App\Notifications\ForgetPasswordNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 use JWTAuth;
-use Auth;
-use DateTime;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -90,33 +86,64 @@ class UserController extends Controller
     {
         try {
 
-            $data             = $request->only(['email', 'password', 'phone', 'profile_pic']);
+            $data             = $request->only([
+                'email', 'password', 'phone', 'profile_pic',
+                'id',
+                'role',
+                'first_name',
+                'last_name',
+                'middle_name',
+                'date_of_birth',
+                'contact_no',
+                'secondary_contact_number',
+                'city',
+                'state',
+                'country',
+                'zipcode'
+            ]);
 
-            // role is defaulted to customer now
+            $valiadated = $request->validate([]);
 
-            // $role = Role::where('name', $data['role'])->first();
+            if ($data['id']) {
 
-            // if (!$role) {
-            //     return response()->json([
-            //         'status_code' => 400,
-            //         'message'     => $data['role'] . ' - Role Not Exist',
-            //     ], 400);
-            // }
-
-            $emailExist = User::where('email', $data['email'])->first();
-            if ($emailExist) {
-                return response()->json([
-                    'status_code' => 400,
-                    'message'     => 'This email is already registered',
-                ], 400);
+                $validation = Validator::make($request->all(), [
+                    'email' => 'required|unique:users,email,' . $data['id'] . ',id,deleted_at,NULL',
+                ]);
+            } else {
+                $validation = Validator::make($request->all(), [
+                    'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL',
+                ]);
             }
+
+
+            if ($validation->fails()) {
+
+                return response()->json([
+                    'status_code' => 500,
+                    'message'     => $validation->errors()->messages()['email'][0],
+                ], 500);
+            }
+
+            if ($data['role']) {
+
+                $role = Role::where('name', $data['role'])->first();
+
+                if (!$role) {
+                    return response()->json([
+                        'status_code' => 400,
+                        'message'     => $data['role'] . ' - Role Not Exist',
+                    ], 400);
+                }
+
+                $data['role_id'] = $role->id;
+            }
+
             $orignal_password = $data['password'];
             $data['password'] = Hash::make($data['password']);
-            $data['role_id'] = User::CUSOTMER_ROLE_ID;
+            $data['role_id'] = $data['role_id'] ? $data['role_id'] : User::CUSOTMER_ROLE_ID;
             $data['contact_no'] = $data['phone'];
 
-
-            $user = User::create($data);
+            $user = User::updateOrCreate(['id' => $request['id']], $data);
 
             $user->orignal_password = $orignal_password;
 
@@ -205,6 +232,45 @@ class UserController extends Controller
             }
         } catch (JWTException $e) {
             return response()->json(['message' => $e->getMessage()]);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $user = User::find($id);
+
+            if ($user) {
+                $user->delete($id);
+            }
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => "User Deleted Successfully"
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function list()
+    {
+        try {
+
+            $list = User::orderBy('created_at', 'DESC')->with('menuList', 'role')->get();
+
+            return response()->json([
+                'status_code' => 200,
+                'list' => $list
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 }
