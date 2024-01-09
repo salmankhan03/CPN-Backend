@@ -217,7 +217,7 @@ class OrderController extends Controller
     {
         try {
 
-            $order = Order::with('shippingAddress', 'billingAddress', 'payment')->find($id);
+            $order = Order::with('shippingAddress', 'billingAddress', 'payment', 'Items')->find($id);
 
             return response()->json([
                 'status_code' => 200,
