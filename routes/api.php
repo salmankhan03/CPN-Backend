@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Controllers\AdminUserController;
 use App\Api\Controllers\CouponCodeController;
 use App\Api\Controllers\DemoControllerTest;
 use App\Api\Controllers\EmailTemplateController;
@@ -34,10 +35,16 @@ Route::get('/', [UserController::class, 'index']);
 Route::get('/index2', [UserController::class, 'index2']);
 Route::get('/unauthorized', [UserController::class, 'unauthorized'])->name('unauthorized');
 
+//customers without role id , auth old flow
+Route::post('/customer/login', [UserController::class, 'login'])->name('login');
+Route::post('/customer/signup', [UserController::class, 'signUp']);
+Route::post('/customer/forget-password', [UserController::class, 'forgetPassword']);
 
-Route::post('/login', [UserController::class, 'login'])->name('login');
-Route::post('/signup', [UserController::class, 'signUp']);
-Route::post('/forget-password', [UserController::class, 'forgetPassword']);
+//admin panel users with role id
+Route::post('/admin/login', [AdminUserController::class, 'login'])->name('adminLogin');
+Route::post('/admin/signup', [AdminUserController::class, 'signUp']);
+Route::post('/admin/forget-password', [AdminUserController::class, 'forgetPassword']);
+
 Route::post('product/list', [ProductController::class, 'list']);
 Route::get('product/{id}/data', [ProductController::class, 'getProductById']);
 
@@ -73,12 +80,12 @@ Route::post('product-brand/list', [ProductBrandController::class, 'list']);
 
 Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);
 
-//temporary route for other project
-
-
 
 Route::group(['middleware' => 'auth.jwt'], function () {
-    Route::get('/get-user', [UserController::class, 'getUser']);
+    Route::get('/get-admin-user', [AdminUserController::class, 'getUser']);
+
+    Route::get('/get-customer', [UserController::class, 'getUser']);
+
 
     Route::get('/role/save', [RolePermissionController::class, 'saveRole']);
     Route::get('/permission/save', [RolePermissionController::class, 'savePermission']);
