@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         // Schema::create('admin_panel_users', function (Blueprint $table) {
-        if (!Schema::hasTable('users')) {
+        if (!Schema::hasTable('admin_panel_users')) {
             // The "users" table exists...
             DB::statement('CREATE TABLE admin_panel_users LIKE users ');
         }
