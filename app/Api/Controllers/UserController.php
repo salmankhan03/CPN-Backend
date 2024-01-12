@@ -124,23 +124,23 @@ class UserController extends Controller
                 ], 500);
             }
 
-            if ($data['role']) {
+            // if ($data['role']) {
 
-                $role = Role::where('name', $data['role'])->first();
+            //     $role = Role::where('name', $data['role'])->first();
 
-                if (!$role) {
-                    return response()->json([
-                        'status_code' => 400,
-                        'message'     => $data['role'] . ' - Role Not Exist',
-                    ], 400);
-                }
+            //     if (!$role) {
+            //         return response()->json([
+            //             'status_code' => 400,
+            //             'message'     => $data['role'] . ' - Role Not Exist',
+            //         ], 400);
+            //     }
 
-                $data['role_id'] = $role->id;
-            }
+            //     $data['role_id'] = $role->id;
+            // }
 
             $orignal_password = $data['password'];
             $data['password'] = Hash::make($data['password']);
-            $data['role_id'] = $data['role_id'] ? $data['role_id'] : User::CUSOTMER_ROLE_ID;
+            // $data['role_id'] = $data['role_id'] ? $data['role_id'] : User::CUSOTMER_ROLE_ID;
             $data['contact_no'] = $data['phone'];
 
             $user = User::updateOrCreate(['id' => $request['id']], $data);
@@ -151,7 +151,7 @@ class UserController extends Controller
             if ($user) {
 
                 $user       = User::find($user->id);
-                $user->role = User::CUSOTMER_ROLE_NAME;
+                // $user->role = User::CUSOTMER_ROLE_NAME;
 
                 // event(new Registered($user));
             }
