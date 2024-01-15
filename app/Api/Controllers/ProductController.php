@@ -40,7 +40,8 @@ class ProductController extends Controller
                 'tags',
                 'status',
                 'brand_id',
-                'brand'
+                'brand',
+                'is_tax_apply'
             );
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
