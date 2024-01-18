@@ -9,6 +9,7 @@ use App\Models\RoleMenuItemMap;
 use App\Models\User;
 use App\Notifications\ForgetPasswordNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -271,6 +272,30 @@ class UserController extends Controller
                 'status_code' => 500,
                 'message' => $e->getMessage()
             ], 500);
+        }
+    }
+
+    public function logout()
+    {
+        try {
+
+            Auth::logout();
+
+            return response()->json(
+                [
+                    'status_code' => 200,
+                    'message' => 'User Logged Out Successfully'
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'status_code' => 500,
+                    'message' => $e->getMessage()
+                ],
+                500
+            );
         }
     }
 }

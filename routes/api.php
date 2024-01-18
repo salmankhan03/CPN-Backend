@@ -86,6 +86,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     Route::get('/get-customer', [UserController::class, 'getUser']);
 
+    Route::get('/customer/logout', [UserController::class, 'logout']);
+
 
     Route::get('/role/save', [RolePermissionController::class, 'saveRole']);
     Route::get('/permission/save', [RolePermissionController::class, 'savePermission']);
