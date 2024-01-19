@@ -65,6 +65,7 @@ class ProductController extends Controller
             $files = $_FILES;
             print_r($files);
             print_r($request->file('image1'));
+            print_r($request->all());
             die;
             foreach ($files as  $fileName => $file) {
 
