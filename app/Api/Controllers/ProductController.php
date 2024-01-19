@@ -15,6 +15,9 @@ class ProductController extends Controller
     public function upsert(Request $request)
     {
         try {
+
+            // print_r($_FILES);
+            // die;
             $data = $request->only(
                 'id',
                 'name',
@@ -59,18 +62,19 @@ class ProductController extends Controller
                 $product->save();
             }
 
-            if ($request->only('images')) {
+            $files = $_FILES;
 
-                foreach ($request->only('images')['images'] as  $image) {
+            foreach ($files as  $fileName => $file) {
 
-                    $productImage = [];
+                $productImage = [];
 
-                    $productImage['original_name'] = $image->getClientOriginalName();
-                    $productImage['product_id'] = $product->id;
-                    $productImage['name'] = $image;
+                $image = $request->file($fileName);
 
-                    ProductImages::create($productImage);
-                }
+                $productImage['original_name'] = $image->getClientOriginalName();
+                $productImage['product_id'] = $product->id;
+                $productImage['name'] = $image;
+
+                ProductImages::create($productImage);
             }
 
             return response()->json([
