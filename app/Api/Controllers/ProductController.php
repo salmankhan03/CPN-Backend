@@ -68,7 +68,7 @@ class ProductController extends Controller
 
             return response()->json([
                 'status_code' => 200,
-                'message'     => $files,
+                'message'     => $request->all(),
             ], 200);
             foreach ($files as  $fileName => $file) {
 
