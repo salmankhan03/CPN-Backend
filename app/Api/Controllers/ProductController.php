@@ -16,8 +16,6 @@ class ProductController extends Controller
     {
         try {
 
-            // print_r($_FILES);
-            // die;
             $data = $request->only(
                 'id',
                 'name',
@@ -63,13 +61,7 @@ class ProductController extends Controller
             }
 
             $files = $_FILES;
-            // print_r($files);
-            // die;
 
-            return response()->json([
-                'status_code' => 200,
-                'message'     => $request->all(),
-            ], 200);
             foreach ($files as  $fileName => $file) {
 
                 $productImage = [];
