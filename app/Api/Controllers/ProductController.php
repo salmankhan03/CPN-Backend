@@ -63,8 +63,13 @@ class ProductController extends Controller
             }
 
             $files = $_FILES;
-            print_r($files);
-            die;
+            // print_r($files);
+            // die;
+
+            return response()->json([
+                'status_code' => 200,
+                'message'     => $files,
+            ], 200);
             foreach ($files as  $fileName => $file) {
 
                 $productImage = [];
