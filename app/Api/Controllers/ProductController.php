@@ -63,7 +63,8 @@ class ProductController extends Controller
             }
 
             $files = $_FILES;
-
+            print_r($files);
+            die;
             foreach ($files as  $fileName => $file) {
 
                 $productImage = [];
