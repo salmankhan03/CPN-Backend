@@ -153,7 +153,7 @@ class ProductController extends Controller
     {
 
         try {
-            $product = Product::with('images')->find($id);
+            $product = Product::with('images', 'category')->find($id);
 
             return response()->json([
                 'status_code' => 200,
