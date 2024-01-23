@@ -78,6 +78,9 @@ Route::post('product/filter', [ProductController::class, 'getProducts']);
 
 Route::post('product-brand/list', [ProductBrandController::class, 'list']);
 
+Route::post('product/demoFormUpload', [ProductController::class, 'demoFormUpload']);
+
+
 Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);
 
 
