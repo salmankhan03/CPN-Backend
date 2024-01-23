@@ -247,7 +247,7 @@ class ProductController extends Controller
             // die;
             return response()->json([
                 'status_code' => 500,
-                'message' => 'ff'
+                'message' => $request->all()
             ]);
         } catch (\Exception $e) {
             return response()->json([
