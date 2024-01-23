@@ -47,6 +47,8 @@ Route::post('/admin/forget-password', [AdminUserController::class, 'forgetPasswo
 
 Route::post('product/list', [ProductController::class, 'list']);
 Route::get('product/{id}/data', [ProductController::class, 'getProductById']);
+Route::post('product/demo-form-upload', [ProductController::class, 'demoFormUpload']);
+
 
 Route::post('category/tree', [ProductCategoryController::class, 'getCategoryTree']);
 
@@ -78,7 +80,6 @@ Route::post('product/filter', [ProductController::class, 'getProducts']);
 
 Route::post('product-brand/list', [ProductBrandController::class, 'list']);
 
-Route::post('product/demoFormUpload', [ProductController::class, 'demoFormUpload']);
 
 
 Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);
