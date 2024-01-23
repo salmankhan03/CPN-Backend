@@ -239,11 +239,17 @@ class ProductController extends Controller
         }
     }
 
-    public function demoFormUpload(Request $request){
+    public function demoFormUpload(Request $request)
+    {
         try {
-            print_r($request->all());
-        }
-        catch (\Exception $e){
+            // print_r($request->all());
+            // echo "ff";
+            // die;
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'ff'
+            ]);
+        } catch (\Exception $e) {
             return response()->json([
                 'status_code' => 500,
                 'error' => $e->getMessage()
