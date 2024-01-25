@@ -247,7 +247,7 @@ class ProductController extends Controller
             // die;
             return response()->json([
                 'status_code' => 500,
-                'message' => [$_FILES, $request->all()]
+                'message' => [$_FILES, $request->all(), $request->files()]
             ]);
         } catch (\Exception $e) {
             return response()->json([
