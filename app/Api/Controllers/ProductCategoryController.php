@@ -42,6 +42,13 @@ class ProductCategoryController extends Controller
 
             $files = $_FILES;
 
+            if (count($files) && isset($requestData['id'])) {
+                if ($requestData['id']) {
+
+                    CategoryImages::where(['category_id' => $requestData['id']])->delete();
+                }
+            }
+
             foreach ($files as  $fileName => $file) {
 
                 $categoryImage = [];
@@ -156,7 +163,7 @@ class ProductCategoryController extends Controller
             }
 
 
-            $result = ProductCategory::select('id', 'name', 'description', 'status', 'categoryImage')->whereNull('parent_id')->where($filter)->with(['children'])->paginate($request->get('pageSize'))->toArray();
+            $result = ProductCategory::select('id', 'name', 'description', 'status')->whereNull('parent_id')->where($filter)->with(['children', 'categoryImage'])->paginate($request->get('pageSize'))->toArray();
 
             return response()->json([
 
