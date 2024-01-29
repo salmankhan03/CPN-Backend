@@ -3,6 +3,7 @@
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\CategoryImages;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class ProductCategoryController extends Controller
                 'status' => 'required'
             ]);
 
-            $request = $request->only(
+            $requestData = $request->only(
                 'id',
                 'name',
                 'description',
@@ -30,13 +31,29 @@ class ProductCategoryController extends Controller
                 'status',
             );
 
-            $data['name'] = $request['name'];
-            $data['description'] = $request['description'];
-            $data['parent_id'] = $request['parent_id'];
-            $data['status'] = $request['status'];
+            $data = [];
 
-            $category = ProductCategory::updateOrCreate(['id' => $request['id']], $data);
+            $data['name'] = $requestData['name'];
+            $data['description'] = $requestData['description'];
+            $data['parent_id'] = $requestData['parent_id'];
+            $data['status'] = $requestData['status'];
 
+            $category = ProductCategory::updateOrCreate(['id' => $requestData['id']], $data);
+
+            $files = $_FILES;
+
+            foreach ($files as  $fileName => $file) {
+
+                $categoryImage = [];
+
+                $image = $request->file($fileName);
+
+                $categoryImage['original_name'] = $image->getClientOriginalName();
+                $categoryImage['category_id'] = $category->id;
+                $categoryImage['name'] = $image;
+
+                CategoryImages::create($categoryImage);
+            }
 
 
             return response()->json([
@@ -94,7 +111,7 @@ class ProductCategoryController extends Controller
     {
         try {
 
-            $list = ProductCategory::paginate($request->get('pageSize'))->makeVisible(['description', 'parent_id']);
+            $list = ProductCategory::with('categoryImage')->paginate($request->get('pageSize'))->makeVisible(['description', 'parent_id']);
 
             return response()->json([
                 'status_code' => 200,
@@ -111,7 +128,7 @@ class ProductCategoryController extends Controller
     public function getProductCategoryById($id)
     {
         try {
-            $category = ProductCategory::find($id);
+            $category = ProductCategory::with('categoryImage')->find($id);
 
             if ($category) $category->makeVisible(['description', 'parent_id']);
 
@@ -139,7 +156,7 @@ class ProductCategoryController extends Controller
             }
 
 
-            $result = ProductCategory::select('id', 'name', 'description', 'status')->whereNull('parent_id')->where($filter)->with(['children'])->paginate($request->get('pageSize'))->toArray();
+            $result = ProductCategory::select('id', 'name', 'description', 'status', 'categoryImage')->whereNull('parent_id')->where($filter)->with(['children'])->paginate($request->get('pageSize'))->toArray();
 
             return response()->json([
 
