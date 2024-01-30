@@ -3,42 +3,111 @@
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
-
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolePermissionController extends Controller
 {
 
-    public function saveRole()
+    public function saveRole(Request $request)
     {
-        return response()->json([
-            'status_code' => 200,
-            'message'     => 'hello from index',
-        ], 200);
+        try {
+            $role = Role::updateOrCreate(['id' => $request->id], ['name' => $request->name]);
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Role Saved Successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    public function savePermission()
+    public function savePermission(Request $request)
     {
-        return response()->json([
-            'status_code' => 200,
-            'message'     => 'hello from index 2',
-        ], 200);
+        try {
+            $permission = Permission::updateOrCreate(['id' => $request->id], ['name' => $request->name]);
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Permission Saved Successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    public function synRolePermissions()
+    public function synRolePermissions(Request $request)
     {
+        try {
 
-        return response()->json([
-            'status_code' => 401,
-            'message'     => 'unauthorized',
-        ], 401);
+            $roleId = $request->get('roleId');
+            $permissions = $request->get('permissions');
+
+            $role = Role::find($roleId);
+
+            $role->syncPermissions($permissions);
+
+            return response()->json([
+                'status_code' => 200,
+                'message'     => 'Permissions For this role is updated',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'status_code' => 500,
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
     }
 
     public function deleteRole($roleId)
     {
+        try {
+
+
+            $result = Role::where('id', $roleId)->delete();
+
+            return response()->json([
+                'status_code' => 200,
+                'message'     => 'Role Deleted Successfully',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'status_code' => 500,
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
     }
 
     public function deletePermission($permissionId)
     {
+        try {
+
+            $result = Role::where('id', $permissionId)->delete();
+
+            return response()->json([
+                'status_code' => 200,
+                'message'     => 'Permission Deleted Successfully',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'status_code' => 500,
+                    'message' => $e->getMessage()
+                ]
+            );
+        }
     }
 
     public function rolePermissionList()
