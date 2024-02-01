@@ -96,8 +96,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('/role/save', [RolePermissionController::class, 'saveRole']);
     Route::post('/permission/save', [RolePermissionController::class, 'savePermission']);
     Route::get('/sync-role-permission', [RolePermissionController::class, 'synRolePermissions']);
-    Route::get('/role/delete', [RolePermissionController::class, 'deleteRole']);
-    Route::get('/permission/delete', [RolePermissionController::class, 'deletePermission']);
+    Route::get('/role/{roleId}/delete', [RolePermissionController::class, 'deleteRole']);
+    Route::get('/permission/{permissionId}/delete', [RolePermissionController::class, 'deletePermission']);
     Route::get('/role-permission/list', [RolePermissionController::class, 'rolePermissionList']);
 
     //product routes
