@@ -114,4 +114,38 @@ class RolePermissionController extends Controller
     public function rolePermissionList()
     {
     }
+
+    public function roleList()
+    {
+        try {
+            $roles = Role::all();
+
+            return response()->json([
+                'status_code' => 200,
+                'roles' => $roles
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function permissionList()
+    {
+        try {
+            $roles = Permission::all();
+
+            return response()->json([
+                'status_code' => 200,
+                'permissions' => $roles
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
