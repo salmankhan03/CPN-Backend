@@ -167,7 +167,7 @@ class RolePermissionController extends Controller
     {
         try {
 
-            $permissionList = RoleHasPermissions::with('Role', 'Permission')->where('role_id', $roleId)->get();
+            $permissionList = RoleHasPermissions::with('Permission')->where('role_id', $roleId)->get();
 
             return response()->json([
                 'status_code' => 200,
