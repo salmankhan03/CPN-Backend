@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\Permission;
-
+use App\Models\RoleHasPermissions;
 
 class RolePermissionController extends Controller
 {
@@ -154,6 +154,24 @@ class RolePermissionController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'permissions' => $roles
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function permissionListForRole($roleId)
+    {
+        try {
+
+            $permissionList = RoleHasPermissions::with('Role', 'Permission')->where('role_id', $roleId)->get();
+
+            return response()->json([
+                'status_code' => 200,
+                'permissions' => $permissionList
             ]);
         } catch (\Exception $e) {
             return response()->json([

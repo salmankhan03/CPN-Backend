@@ -102,7 +102,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     Route::get('/role/list', [RolePermissionController::class, 'roleList']);
     Route::get('/permission/list', [RolePermissionController::class, 'permissionList']);
-    Route::get('/{role}/permission-list', [RolePermissionController::class, 'permissionList']);
+    Route::get('/{role}/permission-list', [RolePermissionController::class, 'permissionListForRole']);
 
     //product routes
     Route::prefix('/product')->group(function () {
