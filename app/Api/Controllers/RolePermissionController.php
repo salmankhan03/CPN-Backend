@@ -54,6 +54,8 @@ class RolePermissionController extends Controller
             // print_r($permissions);
             // die;
             $role = Role::find($roleId);
+            echo $role->id;
+            die;
 
             $role->syncPermissions($permissions);
 
