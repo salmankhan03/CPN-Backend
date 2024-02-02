@@ -49,7 +49,8 @@ class RolePermissionController extends Controller
     {
         try {
 
-            $roleId = $request->get('roleId');
+            echo $roleId = $request->get('roleId');
+            die;
             $permissions = $request->get('permissions'); // array of permissions
             // print_r($permissions);
             // die;
