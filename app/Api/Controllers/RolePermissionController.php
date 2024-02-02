@@ -52,8 +52,8 @@ class RolePermissionController extends Controller
             $roleId = $request->get('roleId');
 
             $permissions = $request->get('permissions'); // array of permissions
-            // print_r($permissions);
-            // die;
+            print_r($permissions);
+            die;
             $role = Role::find($roleId);
             echo $permissions[2];
             die;
