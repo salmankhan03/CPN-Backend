@@ -49,14 +49,13 @@ class RolePermissionController extends Controller
     {
         try {
 
-            echo $roleId = $request->get('roleId');
-            die;
+            $roleId = $request->get('roleId');
+
             $permissions = $request->get('permissions'); // array of permissions
             // print_r($permissions);
             // die;
             $role = Role::find($roleId);
-            echo $role->id;
-            die;
+
 
             $role->syncPermissions($permissions);
 
