@@ -50,8 +50,9 @@ class RolePermissionController extends Controller
         try {
 
             $roleId = $request->get('roleId');
-            $permissions = $request->get('permissions');
-
+            $permissions = $request->get('permissions'); // array of permissions
+            // print_r($permissions);
+            // die;
             $role = Role::find($roleId);
 
             $role->syncPermissions($permissions);
@@ -73,7 +74,6 @@ class RolePermissionController extends Controller
     public function deleteRole($roleId)
     {
         try {
-
 
             $result = Role::where('id', $roleId)->delete();
 
@@ -111,10 +111,6 @@ class RolePermissionController extends Controller
         }
     }
 
-    public function rolePermissionList()
-    {
-    }
-
     public function roleList()
     {
         try {
@@ -133,6 +129,23 @@ class RolePermissionController extends Controller
     }
 
     public function permissionList()
+    {
+        try {
+            $roles = Permission::all();
+
+            return response()->json([
+                'status_code' => 200,
+                'permissions' => $roles
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function rolePermissionList($roleId)
     {
         try {
             $roles = Permission::all();
