@@ -96,7 +96,7 @@ class RolePermissionController extends Controller
     {
         try {
 
-            $result = Role::where('id', $permissionId)->delete();
+            $result = Permission::where('id', $permissionId)->delete();
 
             return response()->json([
                 'status_code' => 200,
