@@ -99,6 +99,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('/role/{roleId}/delete', [RolePermissionController::class, 'deleteRole']);
     Route::get('/permission/{permissionId}/delete', [RolePermissionController::class, 'deletePermission']);
     Route::get('/role-permission/list', [RolePermissionController::class, 'rolePermissionList']);
+    Route::get('/role/{id}/data', [RolePermissionController::class, 'roleById']);
+    Route::get('/permission/{id}/data', [RolePermissionController::class, 'permissionById']);
 
     Route::get('/role/list', [RolePermissionController::class, 'roleList']);
     Route::get('/permission/list', [RolePermissionController::class, 'permissionList']);

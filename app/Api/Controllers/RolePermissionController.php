@@ -180,4 +180,40 @@ class RolePermissionController extends Controller
             ]);
         }
     }
+
+    public function roleById($id)
+    {
+        try {
+
+            $role = Role::find($id);
+
+            return response()->json([
+                'status_code' => 200,
+                'role' => $role
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function permissionById($id)
+    {
+        try {
+
+            $permission = Permission::find($id);
+
+            return response()->json([
+                'status_code' => 200,
+                'permission' => $permission
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
