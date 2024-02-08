@@ -31,7 +31,8 @@ class Product extends Model
         'status',
         'brand_id',
         'brand',
-        'is_tax_apply'
+        'is_tax_apply',
+        'sell_price'
     ];
 
     protected $hidden = [

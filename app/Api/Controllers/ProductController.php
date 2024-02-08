@@ -42,7 +42,8 @@ class ProductController extends Controller
                 'status',
                 'brand_id',
                 'brand',
-                'is_tax_apply'
+                'is_tax_apply',
+                'sell_price'
             );
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
@@ -247,7 +248,7 @@ class ProductController extends Controller
             // die;
             return response()->json([
                 'status_code' => 500,
-                'message' => [$_FILES, $request->all(), $request->files()]
+                'message' => [$_FILES, $request->all()]
             ]);
         } catch (\Exception $e) {
             return response()->json([
