@@ -83,15 +83,24 @@ class ProductCategoryController extends Controller
             if ($obj) {
 
                 $defaultCategory = ProductCategory::where('name', ProductCategory::DEFAULT_PRODUCT_CATEGORY)->first();
-
-                if ($defaultCategory->id == $id) {
+                if ($defaultCategory) {
+                    if ($defaultCategory->id == $id) {
+                        return response()->json(
+                            [
+                                'status_code' => 500,
+                                'message' => "Can't Delete the Default Product Category"
+                            ]
+                        );
+                    }
+                } else {
                     return response()->json(
                         [
                             'status_code' => 500,
-                            'message' => "Can't Delete the Default Product Category"
+                            'message' => "Default Category Not Found"
                         ]
                     );
                 }
+
 
                 Product::whereIn('category_id', $id)->update(['category_id' => $defaultCategory->id]);
 
@@ -187,14 +196,24 @@ class ProductCategoryController extends Controller
 
             $defaultCategory = ProductCategory::where('name', ProductCategory::DEFAULT_PRODUCT_CATEGORY)->first();
 
-            if (in_array($defaultCategory->id, $ids)) {
+            if ($defaultCategory) {
+                if (in_array($defaultCategory->id, $ids)) {
+                    return response()->json(
+                        [
+                            'status_code' => 500,
+                            'message' => "Can't Delete the Default Product Category"
+                        ]
+                    );
+                }
+            } else {
                 return response()->json(
                     [
                         'status_code' => 500,
-                        'message' => "Can't Delete the Default Product Category"
+                        'message' => "Default Category Not Found"
                     ]
                 );
             }
+
 
             Product::whereIn('category_id', $ids)->update(['category_id' => $defaultCategory->id]);
 
