@@ -102,7 +102,7 @@ class ProductCategoryController extends Controller
                 }
 
 
-                Product::whereIn('category_id', $id)->update(['category_id' => $defaultCategory->id]);
+                Product::where('category_id', $id)->update(['category_id' => $defaultCategory->id]);
 
                 $obj->delete();
                 return response()->json([
