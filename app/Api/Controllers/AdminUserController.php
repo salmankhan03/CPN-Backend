@@ -251,11 +251,20 @@ class AdminUserController extends Controller
         }
     }
 
-    public function list()
+    public function list(Request $request)
     {
         try {
 
-            $list = AdminUser::orderBy('created_at', 'DESC')->with('menuList', 'role')->get();
+            $name = $request->get('name');
+
+            if ($request->get('name')) {
+                $list = AdminUser::where('name', $name)->orderBy('created_at', 'DESC')->with('menuList', 'role')->get();
+            } else {
+
+                $list = AdminUser::orderBy('created_at', 'DESC')->with('menuList', 'role')->get();
+            }
+
+
 
             return response()->json([
                 'status_code' => 200,

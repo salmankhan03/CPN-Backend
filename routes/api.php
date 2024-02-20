@@ -127,6 +127,12 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/multiple-delete', [ProductCategoryController::class, 'multipleDelete']);
     });
 
+    //customer route
+
+    Route::prefix('/customer')->group(function () {
+
+        Route::post('/list', [AdminUserController::class, 'list']);
+
     //product brand routes
 
     Route::prefix('/product-brand')->group(function () {
