@@ -258,13 +258,11 @@ class AdminUserController extends Controller
             $name = $request->get('name');
 
             if ($request->get('name')) {
-                $list = AdminUser::where('name', $name)->orderBy('created_at', 'DESC')->with('menuList', 'role')->get();
+                $list = AdminUser::where('name', $name)->orderBy('created_at', 'DESC')->with('menuList', 'role')->paginate($request->get('pageSize'))->get();
             } else {
 
-                $list = AdminUser::orderBy('created_at', 'DESC')->with('menuList', 'role')->get();
+                $list = AdminUser::orderBy('created_at', 'DESC')->with('menuList', 'role')->paginate($request->get('pageSize'))->get();
             }
-
-
 
             return response()->json([
                 'status_code' => 200,
