@@ -189,16 +189,22 @@ class ProductController extends Controller
     {
         try {
 
-            $categories = $request->get('category');
-            $priceRange = $request->get('price');
-            $brands = $request->get('brands');
+            $categories = $request->get('category'); //[1,2] , for all it will be ""
+            $priceRange = $request->get('price'); // [min, max]
+            $brands = $request->get('brands'); // [brand1,brand2]
+            $productName = $request->get('title'); // productName
+
+            //mixed filters will be handled manuallly and discussed the sorting order
 
             $list = [];
 
             $queryBuilder = $list = Product::with('images');
 
-            if ($categories) {
-                $queryBuilder->whereIn('category_id',  $categories);
+            if (is_array($categories)) {
+                if (count($categories)) {
+
+                    $queryBuilder->whereIn('category_id',  $categories);
+                }
             }
             if ($brands) {
 
@@ -207,6 +213,10 @@ class ProductController extends Controller
 
             if ($priceRange) {
                 $queryBuilder->whereBetween('price', $priceRange);
+            }
+
+            if ($productName) {
+                $queryBuilder->where('name', $productName);
             }
             $list = $queryBuilder->get();
 

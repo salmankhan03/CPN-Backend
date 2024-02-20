@@ -127,7 +127,14 @@ class ProductCategoryController extends Controller
     {
         try {
 
-            $list = ProductCategory::with('categoryImage')->paginate($request->get('pageSize'))->makeVisible(['description', 'parent_id']);
+            $name = $request->get('name');
+
+            if ($name) {
+
+                $list = ProductCategory::with('categoryImage')->where('name', $name)->paginate($request->get('pageSize'))->makeVisible(['description', 'parent_id']);
+            } else {
+                $list = ProductCategory::with('categoryImage')->paginate($request->get('pageSize'))->makeVisible(['description', 'parent_id']);
+            }
 
             return response()->json([
                 'status_code' => 200,
