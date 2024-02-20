@@ -132,6 +132,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::prefix('/customer')->group(function () {
 
         Route::post('/list', [AdminUserController::class, 'list']);
+    });
 
     //product brand routes
 
