@@ -112,7 +112,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/save', [ProductController::class, 'upsert']);
         Route::delete('/{id}/delete', [ProductController::class, 'delete']);
 
-
         Route::post('/multiple-delete', [ProductController::class, 'multipleDelete']);
     });
 
