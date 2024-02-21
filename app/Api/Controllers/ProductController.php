@@ -120,6 +120,8 @@ class ProductController extends Controller
     {
         try {
 
+            $qb = Product::with('images');
+
             $criteria = [];
 
             if ($request->get('category')) {
@@ -134,11 +136,15 @@ class ProductController extends Controller
                 $criteria['price'] = $request->get('price');
             }
 
-            if ($request->get('status')) {
-                $criteria['status'] = $request->get('status');
+            $qb->where($criteria);
+
+            if ($request->get('quantity') == 1) {
+                $qb->where('quantity', '>', 0);
             }
 
-            $qb = Product::with('images')->where($criteria);
+            if ($request->get('quantity') == -1) {
+                $qb->where('quantity', '<=', 0);
+            }
 
             if ($request->get('sort')) {
                 $qb->orderBy(array_key_first($request->get('sort')), array_values($request->get('sort'))[0]);
