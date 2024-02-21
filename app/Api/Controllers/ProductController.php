@@ -136,15 +136,15 @@ class ProductController extends Controller
                 $criteria['price'] = $request->get('price');
             }
 
-            $qb->where($criteria);
-
             if ($request->get('quantity') == 1) {
-                $qb->where('quantity', '>', 0);
+                $criteria[] = ['quantity', '>', 0];
             }
 
             if ($request->get('quantity') == -1) {
-                $qb->where('quantity', '<=', 0);
+                $criteria[] = ['quantity', '<=', 0];
             }
+
+            $qb->where($criteria);
 
             if ($request->get('sort')) {
                 $qb->orderBy(array_key_first($request->get('sort')), array_values($request->get('sort'))[0]);
