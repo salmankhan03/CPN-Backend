@@ -139,10 +139,9 @@ class ProductController extends Controller
             }
 
             $qb = Product::with('images')->where($criteria);
-            print_r($request->get('sort'));
-            die;
+
             if ($request->get('sort')) {
-                $qb->orderBy(array_key_first($request->get('sort')), array_shift(array_values($request->get('sort'))));
+                $qb->orderBy(array_key_first($request->get('sort')), array_values($request->get('sort'))[0]);
             }
 
             $list = $qb->paginate($request->get('pageSize'));
