@@ -131,7 +131,7 @@ class ProductController extends Controller
             }
 
             if ($request->get('price')) {
-                $criteria['price'] = $request->get('price');
+                $criteria['sell_price'] = $request->get('price');
             }
 
             $list = Product::with('images')->where($criteria)->paginate($request->get('pageSize'));
