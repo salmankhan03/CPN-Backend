@@ -131,7 +131,7 @@ class ProductController extends Controller
             }
 
             if ($request->get('price')) {
-                $criteria['sell_price'] = $request->get('price');
+                $criteria['price'] = $request->get('price');
             }
 
             $list = Product::with('images')->where($criteria)->paginate($request->get('pageSize'));
@@ -212,7 +212,7 @@ class ProductController extends Controller
             }
 
             if ($priceRange) {
-                $queryBuilder->whereBetween('price', $priceRange);
+                $queryBuilder->whereBetween('sell_price', $priceRange);
             }
 
             if ($productName) {
