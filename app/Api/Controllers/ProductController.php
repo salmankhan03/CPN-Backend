@@ -134,7 +134,17 @@ class ProductController extends Controller
                 $criteria['price'] = $request->get('price');
             }
 
-            $list = Product::with('images')->where($criteria)->paginate($request->get('pageSize'));
+            if ($request->get('status')) {
+                $criteria['status'] = $request->get('status');
+            }
+
+            $qb = Product::with('images')->where($criteria);
+
+            if ($request->get('sort')) {
+                $qb->orderBy(array_key_first($request->get('sort')), array_shift(array_values($request->get('sort'))));
+            }
+
+            $list = $qb->paginate($request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,
