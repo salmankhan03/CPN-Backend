@@ -98,7 +98,7 @@ class AdminUserController extends Controller
                 'zipcode'
             ]);
 
-            $alreadyExistUser = AdminUser::where(['email', $data['email']])->get();
+            $alreadyExistUser = AdminUser::where('email', $data['email'])->get();
 
             if ($alreadyExistUser) {
                 return response()->json([
