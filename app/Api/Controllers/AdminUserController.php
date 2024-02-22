@@ -98,6 +98,15 @@ class AdminUserController extends Controller
                 'zipcode'
             ]);
 
+            $alreadyExistUser = AdminUser::where(['email', $data['email']])->get();
+
+            if ($alreadyExistUser) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'User With this Email Already Exist'
+                ], 500);
+            }
+
             $valiadated = $request->validate([]);
 
             if ($data['id']) {
