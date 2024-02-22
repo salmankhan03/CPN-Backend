@@ -128,9 +128,7 @@ class ProductController extends Controller
                 $criteria['category_id'] = $request->get('category');
             }
 
-            if ($request->get('title')) {
-                $criteria['name'] = $request->get('title');
-            }
+
 
             if ($request->get('price')) {
                 $criteria['price'] = $request->get('price');
@@ -145,6 +143,10 @@ class ProductController extends Controller
             }
 
             $qb->where($criteria);
+
+            if ($request->get('title')) {
+                $qb->andWhere('name', 'like', '%' . $request->get('title') . "%");
+            }
 
             if ($request->get('sort')) {
                 $qb->orderBy(array_key_first($request->get('sort')), array_values($request->get('sort'))[0]);
