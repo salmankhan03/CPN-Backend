@@ -142,11 +142,13 @@ class ProductController extends Controller
                 $criteria[] = ['quantity', '<=', 0];
             }
 
-            $qb->where($criteria);
-
             if ($request->get('title')) {
                 $criteria[] = ['name', 'like', '%' . $request->get('title') . "%"];
             }
+
+            $qb->where($criteria);
+
+
 
             if ($request->get('sort')) {
                 $qb->orderBy(array_key_first($request->get('sort')), array_values($request->get('sort'))[0]);
