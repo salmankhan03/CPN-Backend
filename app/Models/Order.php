@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
 
-    const STATUS_PENDING = "Pending";
-    const STATUS_CANCELLED = "Cancelled";
-    const STATUS_CONFIRMED = "Confirmed";
-    const STATUS_DELIVERED = "Delivered";
-    const STATUS_RETURNED = "Returned";
-    const STATUS_REFUNDED = "Refunded";
+    const STATUS_PENDING = "Pending"; // very first stage
+    const STATUS_CONFIRMED = "Confirmed"; // accepted by admin
+    const STATUS_PROCESSING = "Processing"; // out for delivery
+    const STATUS_DELIVERED = "Delivered"; // handed over to customer
+    const STATUS_CANCELLED = "Cancelled"; // before delivery or before confirming
+    const STATUS_RETURNED = "Returned"; // after delivered
+    const STATUS_REFUNDED = "Refunded"; // if payment is not cod , after deleivered the product >> payment will be reverted
 
     const STATUSES = [
         self::STATUS_PENDING,
