@@ -237,44 +237,7 @@ class UserController extends Controller
         }
     }
 
-    public function delete($id)
-    {
-        try {
-            $user = User::find($id);
 
-            if ($user) {
-                $user->delete();
-            }
-
-            return response()->json([
-                'status_code' => 200,
-                'message' => "User Deleted Successfully"
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status_code' => 500,
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function list()
-    {
-        try {
-
-            $list = User::orderBy('created_at', 'DESC')->with('menuList', 'role')->get();
-
-            return response()->json([
-                'status_code' => 200,
-                'list' => $list
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status_code' => 500,
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
 
     public function logout()
     {
@@ -367,24 +330,6 @@ class UserController extends Controller
             ]);
         } catch (JWTException $e) {
             return response()->json(['message' => $e->getMessage()]);
-        }
-    }
-
-    public function getOrders($id)
-    {
-
-        try {
-            $orders = Order::with('shippingAddress', 'billingAddress', 'payment', 'Items.product.images')->where(['user_id' => $id])->get();
-
-            return response()->json([
-                'status_code' => 200,
-                'list' => $orders
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status_code' => 500,
-                'message' => $e->getMessage()
-            ], 500);
         }
     }
 }

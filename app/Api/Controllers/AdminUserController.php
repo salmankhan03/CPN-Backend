@@ -4,6 +4,7 @@ namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdminUser;
+use App\Models\Order;
 use App\Models\PasswordResetTokens;
 use App\Models\Role;
 use App\Models\RoleMenuItemMap;
@@ -268,6 +269,69 @@ class AdminUserController extends Controller
                 'status_code' => 200,
                 'list' => $list
             ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function customerDelete($id)
+    {
+        try {
+            $user = User::find($id);
+
+            if ($user) {
+                $user->delete();
+            } else {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => "User Not Found"
+                ], 500);
+            }
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => "User Deleted Successfully"
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function customerList()
+    {
+        try {
+
+            $list = User::orderBy('created_at', 'DESC')->with('menuList', 'role')->get();
+
+            return response()->json([
+                'status_code' => 200,
+                'list' => $list
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    public function getOrders($id)
+    {
+
+        try {
+            $orders = Order::with('shippingAddress', 'billingAddress', 'payment', 'Items.product.images')->where(['user_id' => $id])->get();
+
+            return response()->json([
+                'status_code' => 200,
+                'list' => $orders
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status_code' => 500,

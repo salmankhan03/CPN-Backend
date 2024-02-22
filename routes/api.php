@@ -206,10 +206,11 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     //user Routes
     Route::prefix('/user')->group(function () {
 
-        Route::get('/{id}/delete', [UserController::class, 'delete']);
-        Route::get('/list', [UserController::class, 'list']);
         Route::post('/update', [UserController::class, 'update']);
-        Route::get('/{id}/orders', [UserController::class, 'getOrders']);
+
+        Route::get('/{id}/delete', [AdminUserController::class, 'delete']);
+        Route::get('/list', [AdminUserController::class, 'list']);
+        Route::get('/{id}/orders', [AdminUserController::class, 'getOrders']);
     });
 });
 
