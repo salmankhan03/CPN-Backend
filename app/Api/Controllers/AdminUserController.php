@@ -243,7 +243,7 @@ class AdminUserController extends Controller
     public function delete($id)
     {
         try {
-            $user = AdminUser::find($id);
+            $user = User::find($id);
 
             if ($user) {
                 $user->delete($id);
@@ -268,10 +268,10 @@ class AdminUserController extends Controller
             $name = $request->get('name');
 
             if ($request->get('name')) {
-                $list = AdminUser::where('first_name', $name)->orderBy('created_at', 'DESC')->with('menuList', 'role')->paginate($request->get('pageSize'));
+                $list = User::where('first_name', $name)->orderBy('created_at', 'DESC')->with('menuList', 'role')->paginate($request->get('pageSize'));
             } else {
 
-                $list = AdminUser::orderBy('created_at', 'DESC')->with('menuList', 'role')->paginate($request->get('pageSize'));
+                $list = User::orderBy('created_at', 'DESC')->with('menuList', 'role')->paginate($request->get('pageSize'));
             }
 
             return response()->json([
