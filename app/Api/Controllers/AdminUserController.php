@@ -100,7 +100,7 @@ class AdminUserController extends Controller
 
             $alreadyExistUser = AdminUser::where('email', $data['email'])->get();
 
-            if ($alreadyExistUser) {
+            if ($alreadyExistUser->count()) {
                 return response()->json([
                     'status_code' => 500,
                     'message' => 'User With this Email Already Exist'
