@@ -145,7 +145,7 @@ class ProductController extends Controller
             $qb->where($criteria);
 
             if ($request->get('title')) {
-                $qb->andWhere('name', 'like', '%' . $request->get('title') . "%");
+                $criteria[] = ['name', 'like', '%' . $request->get('title') . "%"];
             }
 
             if ($request->get('sort')) {
