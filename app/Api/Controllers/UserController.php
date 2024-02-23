@@ -289,7 +289,7 @@ class UserController extends Controller
                 'phone',
                 'profile_pic',
                 'id',
-                'role',
+                // 'role',
                 'first_name',
                 'last_name',
                 'middle_name',
