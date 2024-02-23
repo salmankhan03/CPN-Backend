@@ -160,7 +160,7 @@ class UserController extends Controller
             $orignal_password = $data['password'];
             $data['password'] = Hash::make($data['password']);
             // $data['role_id'] = $data['role_id'] ? $data['role_id'] : User::CUSOTMER_ROLE_ID;
-            $data['contact_no'] = $data['phone'];
+
 
             $user = User::updateOrCreate(['id' => $request['id']], $data);
 
