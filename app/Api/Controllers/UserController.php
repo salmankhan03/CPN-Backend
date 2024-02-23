@@ -367,7 +367,7 @@ class UserController extends Controller
 
             if ($user) {
 
-                $user = AdminUser::find($user->id);
+                $user = User::find($user->id);
                 $menuList = RoleMenuItemMap::with('menuItem')->where('role_id', $user->role_id)->get()->toArray();
 
                 $menus = [];
