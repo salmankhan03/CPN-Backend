@@ -110,7 +110,7 @@ class UserController extends Controller
                 'street'
             ]);
 
-            $alreadyExistUser = User::where(['email', $data['email']])->get();
+            $alreadyExistUser = User::where('email', $data['email'])->get();
 
             if ($alreadyExistUser->count()) {
                 return response()->json([
@@ -302,7 +302,7 @@ class UserController extends Controller
                 'zipcode'
             ]);
 
-            $alreadyExistUser = User::where(['email', $data['email']])->get();
+            $alreadyExistUser = User::where('email', $data['email'])->get();
 
             if ($alreadyExistUser->count()) {
                 return response()->json([
