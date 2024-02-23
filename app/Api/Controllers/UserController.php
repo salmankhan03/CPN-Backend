@@ -286,7 +286,6 @@ class UserController extends Controller
 
             $data             = $request->only([
                 'email',
-                'phone',
                 'profile_pic',
                 'id',
                 // 'role',
@@ -333,7 +332,7 @@ class UserController extends Controller
             }
 
             if (isset($data['role'])) {
-                if ($data['role']){
+                if ($data['role']) {
                     $role = Role::where('name', $data['role'])->first();
 
                     if (!$role) {
@@ -342,14 +341,14 @@ class UserController extends Controller
                             'message'     => $data['role'] . ' - Role Not Exist',
                         ], 400);
                     }
-    
+
                     $data['role_id'] = $role->id;
                 }
-               
+            } else {
+                $data['role_id'] = User::CUSOTMER_ROLE_ID;
             }
 
-            $data['role_id'] = $data['role_id'] ? $data['role_id'] : User::CUSOTMER_ROLE_ID;
-            $data['contact_no'] = $data['phone'];
+
 
             $user = User::updateOrCreate(['id' => $request['id']], $data);
             return response()->json([
