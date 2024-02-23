@@ -301,14 +301,14 @@ class UserController extends Controller
                 'zipcode'
             ]);
 
-            $alreadyExistUser = User::where('email', $data['email'])->get();
+            // $alreadyExistUser = User::where('email', $data['email'])->get();
 
-            if ($alreadyExistUser->count()) {
-                return response()->json([
-                    'status_code' => 500,
-                    'message' => 'User With this Email Already Exist'
-                ], 500);
-            }
+            // if ($alreadyExistUser->count()) {
+            //     return response()->json([
+            //         'status_code' => 500,
+            //         'message' => 'User With this Email Already Exist'
+            //     ], 500);
+            // }
 
             $valiadated = $request->validate([]);
 
