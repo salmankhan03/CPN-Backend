@@ -45,7 +45,10 @@ class AdminUser extends Authenticatable implements JWTSubject, MustVerifyEmail
         'city',
         'state',
         'country',
-        'zipcode'
+        'zipcode',
+        'address',
+        'street',
+        'landmark'
 
     ];
 

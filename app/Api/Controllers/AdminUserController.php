@@ -83,9 +83,12 @@ class AdminUserController extends Controller
         try {
 
             $data             = $request->only([
-                'email', 'password', 'phone', 'profile_pic',
                 'id',
+                'email',
+                'password',
+                'profile_pic',
                 'role',
+                'role_id',
                 'first_name',
                 'last_name',
                 'middle_name',
@@ -95,7 +98,10 @@ class AdminUserController extends Controller
                 'city',
                 'state',
                 'country',
-                'zipcode'
+                'zipcode',
+                'address',
+                'landmark',
+                'street'
             ]);
 
             $alreadyExistUser = AdminUser::where('email', $data['email'])->get();
@@ -114,6 +120,8 @@ class AdminUserController extends Controller
                 $validation = Validator::make($request->all(), [
                     'email' => 'required|unique:admin_panel_users,email,' . $data['id'] . ',id,deleted_at,NULL',
                 ]);
+
+                unset($data['password']);
             } else {
                 $validation = Validator::make($request->all(), [
                     'email' => 'required|unique:admin_panel_users,email,NULL,id,deleted_at,NULL',
@@ -206,7 +214,41 @@ class AdminUserController extends Controller
         }
     }
 
-    public function getUser()
+    public function getUserById($id)
+    {
+        try {
+
+            $user = \Auth::user();
+
+            if ($user) {
+
+                $user = AdminUser::find($id);
+                $menuList = RoleMenuItemMap::with('menuItem')->where('role_id', $user->role_id)->get()->toArray();
+
+                $menus = [];
+
+                foreach ($menuList as $item) {
+                    $menus[] = $item['menu_item'];
+                }
+
+                $user->menuList = $menus;
+
+                return response()->json([
+                    'status_code' => 200,
+                    'user'        => $user
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 400,
+                    'user'        => 'User Not Found'
+                ], 400);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['message' => $e->getMessage()]);
+        }
+    }
+
+    public function getCurrentUser()
     {
         try {
 
