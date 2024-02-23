@@ -128,8 +128,6 @@ class ProductController extends Controller
                 $criteria['category_id'] = $request->get('category');
             }
 
-
-
             if ($request->get('price')) {
                 $criteria['price'] = $request->get('price');
             }
@@ -147,8 +145,6 @@ class ProductController extends Controller
             }
 
             $qb->where($criteria);
-
-
 
             if ($request->get('sort')) {
                 $qb->orderBy(array_key_first($request->get('sort')), array_values($request->get('sort'))[0]);
@@ -238,6 +234,11 @@ class ProductController extends Controller
             if ($productName) {
                 $queryBuilder->where('name', $productName);
             }
+
+            if ($request->get('sort')) {
+                $queryBuilder->orderBy(array_key_first($request->get('sort')), array_values($request->get('sort'))[0]);
+            }
+
             $list = $queryBuilder->get();
 
             return response()->json([
