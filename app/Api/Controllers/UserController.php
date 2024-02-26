@@ -124,13 +124,15 @@ class UserController extends Controller
 
             $valiadated = $request->validate([]);
 
-            if ($data['id']) {
+            if (isset($data['id'])) {
 
-                $validation = Validator::make($request->all(), [
-                    'email' => 'required|unique:users,email,' . $data['id'] . ',id,deleted_at,NULL',
-                ]);
+                if ($data['id']) {
+                    $validation = Validator::make($request->all(), [
+                        'email' => 'required|unique:users,email,' . $data['id'] . ',id,deleted_at,NULL',
+                    ]);
 
-                unset($data['password']);
+                    unset($data['password']);
+                }
             } else {
                 $validation = Validator::make($request->all(), [
                     'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL',
