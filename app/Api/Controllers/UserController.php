@@ -15,9 +15,20 @@ use JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Config;
+
 
 class UserController extends Controller
 {
+
+    function __construct()
+    {
+        Config::set('jwt.user', User::class);
+        Config::set('auth.providers', ['users' => [
+            'driver' => 'eloquent',
+            'model' => User::class,
+        ]]);
+    }
 
     public function index()
     {
