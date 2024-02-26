@@ -110,6 +110,9 @@ class UserController extends Controller
                 'street'
             ]);
 
+            print_r($data);
+            die;
+
             $alreadyExistUser = User::where('email', $data['email'])->get();
 
             if ($alreadyExistUser->count()) {
