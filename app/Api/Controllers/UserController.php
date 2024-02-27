@@ -116,7 +116,7 @@ class UserController extends Controller
                 'state',
                 'country',
                 'zipcode',
-                'address',
+                'street_address',
                 'landmark',
                 'street'
             ]);
@@ -371,40 +371,6 @@ class UserController extends Controller
                 'status_code' => 200,
                 'data'        => $user
             ]);
-        } catch (JWTException $e) {
-            return response()->json(['message' => $e->getMessage()]);
-        }
-    }
-
-    public function getUserById($id)
-    {
-        try {
-
-            $user = \Auth::user();
-
-            if ($user) {
-
-                $user = User::find($id);
-                $menuList = RoleMenuItemMap::with('menuItem')->where('role_id', $user->role_id)->get()->toArray();
-
-                $menus = [];
-
-                foreach ($menuList as $item) {
-                    $menus[] = $item['menu_item'];
-                }
-
-                $user->menuList = $menus;
-
-                return response()->json([
-                    'status_code' => 200,
-                    'user'        => $user
-                ]);
-            } else {
-                return response()->json([
-                    'status_code' => 400,
-                    'user'        => 'User Not Found'
-                ], 400);
-            }
         } catch (JWTException $e) {
             return response()->json(['message' => $e->getMessage()]);
         }

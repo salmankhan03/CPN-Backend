@@ -99,7 +99,7 @@ class AdminUserController extends Controller
                 'state',
                 'country',
                 'zipcode',
-                'address',
+                'street_address',
                 'landmark',
                 'street'
             ]);

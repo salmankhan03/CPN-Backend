@@ -29,8 +29,8 @@ class UserShippingAddress extends Model
         "street_address",
         "city",
         "state",
-        "zip",
-        "phone",
+        "zipcode",
+        "contact_no",
         "email"
     ];
 
