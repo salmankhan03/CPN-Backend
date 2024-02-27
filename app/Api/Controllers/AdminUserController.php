@@ -406,19 +406,17 @@ class AdminUserController extends Controller
 
                 if (isset($user->role_id)) {
                     $menuList = RoleMenuItemMap::with('menuItem')->where('role_id', $user->role_id)->get()->toArray();
+
+                    $menus = [];
+
+                    foreach ($menuList as $item) {
+                        $menus[] = $item['menu_item'];
+                    }
                 }
-
-                $menus = [];
-
-                foreach ($menuList as $item) {
-                    $menus[] = $item['menu_item'];
-                }
-
-                $user->menuList = $menus;
-
                 return response()->json([
                     'status_code' => 200,
-                    'user'        => $user
+                    'user'        => $user,
+                    'menuList'    => $menus
                 ]);
             } else {
                 return response()->json([
