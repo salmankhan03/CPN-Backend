@@ -404,10 +404,12 @@ class AdminUserController extends Controller
 
                 $user = User::with('orders', 'shippingAddress', 'billingAddress')->where(['id' => $id])->get();
 
+                $menus = [];
+
+
                 if (isset($user->role_id)) {
                     $menuList = RoleMenuItemMap::with('menuItem')->where('role_id', $user->role_id)->get()->toArray();
 
-                    $menus = [];
 
                     foreach ($menuList as $item) {
                         $menus[] = $item['menu_item'];
