@@ -314,7 +314,8 @@ class UserController extends Controller
                 'city',
                 'state',
                 'country',
-                'zipcode'
+                'zipcode',
+                'street_address'
             ]);
 
             // $alreadyExistUser = User::where('email', $data['email'])->get();
