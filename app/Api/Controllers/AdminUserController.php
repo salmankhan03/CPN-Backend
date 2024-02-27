@@ -217,7 +217,7 @@ class AdminUserController extends Controller
         }
     }
 
-    public function getUserById($id)
+    public function getAdminById($id)
     {
         try {
 
@@ -391,6 +391,40 @@ class AdminUserController extends Controller
                 'status_code' => 500,
                 'message' => $e->getMessage()
             ], 500);
+        }
+    }
+
+    public function getUserById($id) // customer
+    {
+        try {
+
+            $user = \Auth::user();
+
+            if ($user) {
+
+                $user = User::with('orders', 'shippingAddress', 'billingAddress')->where(['id' => $id])->get();
+                $menuList = RoleMenuItemMap::with('menuItem')->where('role_id', $user->role_id)->get()->toArray();
+
+                $menus = [];
+
+                foreach ($menuList as $item) {
+                    $menus[] = $item['menu_item'];
+                }
+
+                $user->menuList = $menus;
+
+                return response()->json([
+                    'status_code' => 200,
+                    'user'        => $user
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 400,
+                    'user'        => 'User Not Found'
+                ], 400);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['message' => $e->getMessage()]);
         }
     }
 }
