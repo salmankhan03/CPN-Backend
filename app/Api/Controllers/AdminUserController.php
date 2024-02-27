@@ -406,7 +406,6 @@ class AdminUserController extends Controller
 
                 $menus = [];
 
-
                 if (isset($user->role_id)) {
                     $menuList = RoleMenuItemMap::with('menuItem')->where('role_id', $user->role_id)->get()->toArray();
 
@@ -415,6 +414,7 @@ class AdminUserController extends Controller
                         $menus[] = $item['menu_item'];
                     }
                 }
+
                 return response()->json([
                     'status_code' => 200,
                     'user'        => $user,
