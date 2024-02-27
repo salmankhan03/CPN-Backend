@@ -403,7 +403,10 @@ class AdminUserController extends Controller
             if ($user) {
 
                 $user = User::with('orders', 'shippingAddress', 'billingAddress')->where(['id' => $id])->get();
-                $menuList = RoleMenuItemMap::with('menuItem')->where('role_id', $user->role_id)->get()->toArray();
+
+                if (isset($user->role_id)) {
+                    $menuList = RoleMenuItemMap::with('menuItem')->where('role_id', $user->role_id)->get()->toArray();
+                }
 
                 $menus = [];
 
