@@ -318,14 +318,14 @@ class UserController extends Controller
                 'street_address'
             ]);
 
-            // $alreadyExistUser = User::where('email', $data['email'])->get();
+            $alreadyExistUser = User::where('email', $data['email'])->where('id', '!=', $data['id'])->get();
 
-            // if ($alreadyExistUser->count()) {
-            //     return response()->json([
-            //         'status_code' => 500,
-            //         'message' => 'User With this Email Already Exist'
-            //     ], 500);
-            // }
+            if ($alreadyExistUser->count()) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'User With this Email Already Exist'
+                ], 500);
+            }
 
             $valiadated = $request->validate([]);
 
