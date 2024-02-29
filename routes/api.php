@@ -84,6 +84,9 @@ Route::post('product-brand/list', [ProductBrandController::class, 'list']);
 
 Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);
 
+Route::get('template/list', [TempTemplateController::class, 'list']);
+Route::get('template/{id}/data', [TempTemplateController::class, 'getById']);
+
 
 Route::group(['middleware' => 'auth.jwt'], function () {
 
@@ -176,8 +179,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::prefix('/template')->group(function () {
 
         Route::post('/save', [TempTemplateController::class, 'upsert']);
-        Route::get('/list', [TempTemplateController::class, 'list']);
-        Route::get('/{id}/data', [TempTemplateController::class, 'getById']);
+
         Route::post('/multiple-delete', [TempTemplateController::class, 'multipleDelete']);
         Route::delete('/{id}/delete', [TempTemplateController::class, 'delete']);
         Route::post('/image-upload', [TempTemplateController::class, 'imageUpload']);
