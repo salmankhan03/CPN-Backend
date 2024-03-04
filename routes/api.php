@@ -80,6 +80,8 @@ Route::post('product/filter', [ProductController::class, 'getProducts']);
 
 Route::post('product-brand/list', [ProductBrandController::class, 'list']);
 
+Route::post('product/dashboard-list', [ProductController::class, 'dashboardProductList']);
+Route::post('product/featured-list', [ProductController::class, 'getFeaturedProductsList']);
 
 
 Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);

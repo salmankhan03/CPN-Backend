@@ -43,7 +43,8 @@ class ProductController extends Controller
                 'brand_id',
                 'brand',
                 'is_tax_apply',
-                'sell_price'
+                'sell_price',
+                'visitors_counter'
             );
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
@@ -170,6 +171,8 @@ class ProductController extends Controller
         try {
             $product = Product::with('images', 'category')->find($id);
 
+            Product::where('id', $id)->increment('visitors_counter'); // update the counter with 1
+
             return response()->json([
                 'status_code' => 200,
                 'data' => $product
@@ -271,21 +274,58 @@ class ProductController extends Controller
         }
     }
 
-    public function demoFormUpload(Request $request)
+    public function getFeaturedProductsList(Request $request)
     {
         try {
-            // print_r($request->all());
-            // echo "ff";
-            // die;
+
+            $categoryId = $request->get('category_id');
+
+            $qb = Product::with('images', 'category');
+
+            if ($categoryId) {
+                $qb->where('category_id', $categoryId);
+            }
+
+            $featuredProducts = $qb->orderBy('updated_at', 'DESC')->get();
+
             return response()->json([
-                'status_code' => 500,
-                'message' => [$_FILES, $request->all()]
+                'status_code' => 200,
+                'list' => $featuredProducts
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status_code' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ]);
+        }
+    }
+
+    public function dashboardProductList()
+    {
+        // new products
+        // selling products
+        // top rated products
+
+        try {
+
+            $newProducts = Product::orderBy('created_at', 'DESC')->with('images', 'category')->get();
+            $productsOnSale = Product::where('sell_price', '>', '0')->orderBy('updated_at', 'DESC')->with('images', 'category')->get();
+            $topViewedProducts = Product::orderBy('visitors_counter', 'DESC')->with('images', 'category')->get();
+
+            return response()->json([
+                'status_code' => 200,
+                'list' => [
+                    'newProducts' => $newProducts,
+                    'productsOnSale' => $productsOnSale,
+                    'topRatedProducts'  => $topViewedProducts
+                ]
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 }
