@@ -6,6 +6,7 @@ use App\Api\Controllers\DemoControllerTest;
 use App\Api\Controllers\EmailTemplateController;
 use App\Api\Controllers\MediaController;
 use App\Api\Controllers\OrderController;
+use App\Api\Controllers\PaymentController;
 use App\Api\Controllers\ProductBrandController;
 use App\Api\Controllers\ProductController;
 use App\Api\Controllers\RolePermissionController;
@@ -85,6 +86,8 @@ Route::get('product/featured-list', [ProductController::class, 'getFeaturedProdu
 
 
 Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);
+Route::post('strip-charge', [PaymentController::class, 'processStripePayment']);
+
 
 Route::get('template/list', [TempTemplateController::class, 'list']);
 Route::get('template/{id}/data', [TempTemplateController::class, 'getById']);
