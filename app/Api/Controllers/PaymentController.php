@@ -19,7 +19,7 @@ class PaymentController extends Controller
         try {
 
             $token = $request->input('token');
-            $price = $request->input('price');
+            $price = $request->input('orderPrice');
             $orderId = $request->input('orderId');
 
             Stripe::setApiKey('sk_test_51NBOXVFb9Yh8bF65NwWJ0TqLndQLndBwzKm2xUNBGTMsqnBDIByK2GgeejLIgJvNN9wEWRJ0VdC64F1Ut29x601c009i3TN4Mq');
