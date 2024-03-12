@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SentOrderStatusUpdateEmailLog extends Model
 {
 
-    use  SoftDeletes;
 
     public $timestamps = true;
 

@@ -16,6 +16,7 @@ use JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class AdminUserController extends Controller
 {
@@ -435,7 +436,17 @@ class AdminUserController extends Controller
     {
         try {
 
-            $data = User::with('sentEmails')->where('id', $userId)->paginate($request->get('pageSize'));
+            // relation returns the full result always , can't select the specific columns
+            // and paginate on the main result only >> in this case on user table only
+
+            // $data = User::with('sentEmails')->where('id', $userId)->paginate($request->get('pageSize')); 
+
+            $data = DB::table('users')
+                ->join('orders', 'users.id', '=', 'orders.user_id')
+                ->join('sent_order_status_update_email_log', 'sent_order_status_update_email_log.order_id', '=', 'orders.id')
+                ->select('sent_order_status_update_email_log.*')
+                ->where('users.id', $userId)
+                ->paginate( $request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,

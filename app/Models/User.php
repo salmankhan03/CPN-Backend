@@ -49,6 +49,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'landmark'
     ];
 
+
+
+    public $timestamps = true;
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -140,6 +144,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     public function sentEmails()
     {
-        return $this->hasManyThrough(SentOrderStatusUpdateEmailLog::class, Order::class, 'user_id', 'order_id');
+        return $this->hasManyThrough(SentOrderStatusUpdateEmailLog::class, Order::class, 'user_id', 'order_id', 'id', 'id');
     }
 }
