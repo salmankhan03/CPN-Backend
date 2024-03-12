@@ -24,6 +24,6 @@ class SentOrderStatusUpdateEmailLog extends Model
         "email_body",
         "from_email",
         "to_email",
-        "status_updated_by"
+        "updated_by"
     ];
 }

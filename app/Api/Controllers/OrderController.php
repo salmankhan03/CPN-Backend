@@ -214,7 +214,7 @@ class OrderController extends Controller
 
             $order->save();
 
-            $orderUpdateData['status_updated_by'] = $userId;
+            $orderUpdateData['updated_by'] = $userId;
 
             // check order previous status and current status
 
