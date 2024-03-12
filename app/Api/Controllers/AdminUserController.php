@@ -435,7 +435,7 @@ class AdminUserController extends Controller
     {
         try {
 
-            $data = User::select('sentEmails')->where('id', $userId)->get();
+            $data = User::with('sentEmails')->where('id', $userId)->get()->pluck('sentEmails');
 
             return response()->json([
                 'status_code' => 200,
