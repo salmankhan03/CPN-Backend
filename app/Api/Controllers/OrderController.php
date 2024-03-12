@@ -215,6 +215,7 @@ class OrderController extends Controller
             $order->save();
 
             $orderUpdateData['updated_by'] = $userId;
+            $orderUpdateData['to_email'] = json_encode($orderUpdateData['to_email']);
 
             // check order previous status and current status
 
