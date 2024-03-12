@@ -161,15 +161,15 @@ class OrderController extends Controller
 
             $orderUpdateData = $request->only(
                 'order_id',
-                'previous_order_status_id',
-                'current_order_status_id',
+                'previous_order_status',
+                'current_order_status',
                 'email_body',
                 'from_email',
                 'to_email'
             );
 
             $orderId = $orderUpdateData['order_id'];
-            $status =  $orderUpdateData['current_order_status_id'];
+            $status =  $orderUpdateData['current_order_status'];
 
             //can't revert back from cancelled orders
 
@@ -189,18 +189,18 @@ class OrderController extends Controller
 
             $order = Order::find($orderId);
 
-            if ($order->status == Order::STATUS_CANCELLED || $order->status == Order::STATUS_DELIVERED) {
-                return response()->json([
-                    'status_code' => 200,
-                    'message' => "Can't Change The Status That are already cancelled or delivered"
-                ], 200);
-            }
-
             if (!$order) {
                 return response()->json([
                     'status_code' => 500,
                     'message' => 'Order Not Found'
                 ], 500);
+            }
+
+            if ($order->status == Order::STATUS_CANCELLED || $order->status == Order::STATUS_DELIVERED) {
+                return response()->json([
+                    'status_code' => 200,
+                    'message' => "Can't Change The Status That are already cancelled or delivered"
+                ], 200);
             }
 
             if (!in_array($status, Order::STATUSES)) {
