@@ -15,6 +15,8 @@ class SentOrderStatusUpdateEmailLog extends Model
 
     protected $guarded = ['id'];
 
+    protected $table = 'sent_order_status_update_email_log';
+
     protected $fillable = [
         "order_id",
         "previous_order_status",
