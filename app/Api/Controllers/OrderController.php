@@ -206,7 +206,7 @@ class OrderController extends Controller
             if (!in_array($status, Order::STATUSES)) {
                 return response()->json([
                     'status_code' => 500,
-                    'message' => 'Unknown Status :-' . $status
+                    'message' => 'Unknown Status :- ' . $status
                 ], 500);
             }
 

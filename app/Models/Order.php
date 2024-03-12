@@ -24,6 +24,7 @@ class Order extends Model
         self::STATUS_DELIVERED,
         self::STATUS_RETURNED,
         self::STATUS_REFUNDED,
+        self::STATUS_PROCESSING,
     ];
 
     use HasFactory, SoftDeletes;
