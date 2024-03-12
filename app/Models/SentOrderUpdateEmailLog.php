@@ -19,7 +19,8 @@ class SentOrderStatusUpdateEmailLog extends Model
 
     protected $fillable = [
         "order_id",
-        "current_order_status_id",
+        "previous_order_status",
+        "current_order_status",
         "email_body",
         "from_email",
         "to_email",
