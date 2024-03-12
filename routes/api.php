@@ -120,6 +120,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('/permission/list', [RolePermissionController::class, 'permissionList']);
     Route::get('/{role}/permission-list', [RolePermissionController::class, 'permissionListForRole']);
 
+    Route::get('/{userId}/order-status-update', [AdminUserController::class, 'getSentEmails']);
+
     //product routes
     Route::prefix('/product')->group(function () {
 

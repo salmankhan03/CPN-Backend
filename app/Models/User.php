@@ -137,4 +137,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return $this->hasOne(UserBillingAddress::class, 'user_id')->latest();
     }
+
+    public function sentEmails()
+    {
+        return $this->hasManyThrough(SentOrderStatusUpdateEmailLog::class, Order::class, 'user_id', 'order_id');
+    }
 }

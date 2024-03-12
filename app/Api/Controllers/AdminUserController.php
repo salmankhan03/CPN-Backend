@@ -430,4 +430,22 @@ class AdminUserController extends Controller
             return response()->json(['message' => $e->getMessage()]);
         }
     }
+
+    public function getSentEmails($userId)
+    {
+        try {
+
+            $data = User::select('sentEmails')->where('id', $userId)->get();
+
+            return response()->json([
+                'status_code' => 200,
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
