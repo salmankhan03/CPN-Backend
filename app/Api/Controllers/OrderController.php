@@ -8,9 +8,11 @@ use App\Models\OrderItems;
 use App\Models\Payments;
 use App\Models\Product;
 use App\Models\ProductImages;
+use App\Models\SentOrderStatusUpdateEmailLog;
 use App\Models\UserBillingAddress;
 use App\Models\UserShippingAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Carbon\Carbon;
 
@@ -155,8 +157,19 @@ class OrderController extends Controller
     {
         try {
 
-            $orderId = $request->get('id');
-            $status = $request->get('status');
+            $userId = Auth::id();
+
+            $orderUpdateData = $request->only(
+                'order_id',
+                'previous_order_status_id',
+                'current_order_status_id',
+                'email_body',
+                'from_email',
+                'to_email'
+            );
+
+            $orderId = $orderUpdateData['order_id'];
+            $status =  $orderUpdateData['current_order_status_id'];
 
             //can't revert back from cancelled orders
 
@@ -200,6 +213,12 @@ class OrderController extends Controller
             $order->status = $status;
 
             $order->save();
+
+            $orderUpdateData['status_updated_by'] = $userId;
+
+            SentOrderStatusUpdateEmailLog::create($orderUpdateData);
+
+            //order status mail
 
             return response()->json([
                 'status_code' => 200,

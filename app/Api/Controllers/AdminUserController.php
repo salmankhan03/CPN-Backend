@@ -115,7 +115,7 @@ class AdminUserController extends Controller
 
             $valiadated = $request->validate([]);
 
-            if ($data['id']) {
+            if (isset($data['id'])) {
 
                 $validation = Validator::make($request->all(), [
                     'email' => 'required|unique:admin_panel_users,email,' . $data['id'] . ',id,deleted_at,NULL',

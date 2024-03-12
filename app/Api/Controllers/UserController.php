@@ -300,6 +300,8 @@ class UserController extends Controller
     {
         try {
 
+            // user will not have any role , admin will have roles
+
             $data             = $request->only([
                 'email',
                 'profile_pic',
