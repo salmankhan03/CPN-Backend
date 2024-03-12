@@ -431,11 +431,13 @@ class AdminUserController extends Controller
         }
     }
 
-    public function getSentEmails($userId)
+    public function getSentEmails(Request $request)
     {
         try {
 
-            $data = User::with('sentEmails')->where('id', $userId)->get()->pluck('sentEmails');
+            $userId = $request->get('userId');
+
+            $data = User::with('sentEmails')->where('id', $userId)->paginate($request->get('pageSize'))->pluck('sentEmails');
 
             return response()->json([
                 'status_code' => 200,
