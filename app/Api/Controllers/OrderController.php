@@ -216,6 +216,8 @@ class OrderController extends Controller
 
             $orderUpdateData['status_updated_by'] = $userId;
 
+            // check order previous status and current status
+
             SentOrderStatusUpdateEmailLog::create($orderUpdateData);
 
             //order status mail
