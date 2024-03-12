@@ -435,7 +435,7 @@ class AdminUserController extends Controller
     {
         try {
 
-            $data = User::with('sentEmails')->where('id', $userId)->pluck('sentEmails')->paginate($request->get('pageSize'));
+            $data = User::with('sentEmails')->where('id', $userId)->paginate($request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,
