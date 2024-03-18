@@ -87,7 +87,7 @@ Route::get('product/featured-list', [ProductController::class, 'getFeaturedProdu
 
 Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);
 
-Route::post('strip-charge', [PaymentController::class, 'processStripePayment']);
+Route::post('stripe-charge', [PaymentController::class, 'processStripePayment']);
 
 
 Route::get('template/list', [TempTemplateController::class, 'list']);

@@ -31,10 +31,9 @@ class PaymentController extends Controller
                 'description' => "OrderId:- {$orderId}",
             ]);
 
-            print_r($charge);
-            die;
 
-            return response()->json(['message' => 'Payment processed successfully']);
+
+            return response()->json(['message' => 'Payment processed successfully', 'stripe-message' => $charge]);
         } catch (\Exception $e) {
 
             return response()->json(['error' => 'Payment processing failed'], 500);
