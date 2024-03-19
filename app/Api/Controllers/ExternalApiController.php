@@ -16,15 +16,15 @@ class ExternalApiController extends Controller
             ini_set('max_execution_time', 3600);
             // Define parameters for the request
             $shippingFormData = $request->all();
-            print_r($shippingFormData);die;
+
             $originPostalCode = isset($shippingFormData['originPostalCode']) ? $shippingFormData['originPostalCode'] : ''; // You can adjust this according to your needs
 
             $weight = isset($shippingFormData['weight']) ? $shippingFormData['weight'] : '';
-
+            
             // Ensure zipcode is set and has a length greater than 5
-            if (isset($shippingFormData['destinationPostalCode ']) && strlen($shippingFormData['destinationPostalCode ']) > 5) {
-                // Construct XML request
-                $destinationPostalCode = $shippingFormData['destinationPostalCode '];
+            if (isset($shippingFormData['destinationPostalCode']) && strlen($shippingFormData['destinationPostalCode']) > 5) {
+              
+                $destinationPostalCode = $shippingFormData['destinationPostalCode'];
                 // Example weight, adjust according to your requirements
 
                 $xmlRequest = '<?xml version="1.0" encoding="UTF-8"?>
