@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Api\Controllers\ProductCategoryController;
 use App\Api\Controllers\ProductSubCategoryController;
 use App\Api\Controllers\TempTemplateController;
+use App\Http\Controllers\ExternalApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +93,8 @@ Route::post('stripe-charge', [PaymentController::class, 'processStripePayment'])
 
 Route::get('template/list', [TempTemplateController::class, 'list']);
 Route::get('template/{id}/data', [TempTemplateController::class, 'getById']);
+
+Route::post('shipping-calculation', [ExternalApiController::class, 'getShippingQuote']);
 
 
 Route::group(['middleware' => 'auth.jwt'], function () {
