@@ -13,7 +13,7 @@ class ExternalApiController extends Controller
     {
         try {
 
-
+            ini_set('max_execution_time', 3600);
             // Define parameters for the request
             $shippingFormData = $request->all();
             $originPostalCode = isset($shippingFormData['originPostalCode']) ? $shippingFormData['originPostalCode'] : ''; // You can adjust this according to your needs
