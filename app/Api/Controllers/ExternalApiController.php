@@ -16,6 +16,7 @@ class ExternalApiController extends Controller
             ini_set('max_execution_time', 3600);
             // Define parameters for the request
             $shippingFormData = $request->all();
+            print_r($shippingFormData);die;
             $originPostalCode = isset($shippingFormData['originPostalCode']) ? $shippingFormData['originPostalCode'] : ''; // You can adjust this according to your needs
 
             $weight = isset($shippingFormData['weight']) ? $shippingFormData['weight'] : '';
@@ -56,7 +57,7 @@ class ExternalApiController extends Controller
                 ]);
             } else {
 
-                return response()->json(['error' => 'Invalid zipcode'], 400);
+                return response()->json(['error' => 'Invalid zipcode'], 500);
             }
         } catch (\Exception $e) {
             return response()->json([
