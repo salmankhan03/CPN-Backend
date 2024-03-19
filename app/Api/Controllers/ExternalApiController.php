@@ -27,18 +27,18 @@ class ExternalApiController extends Controller
                 // Example weight, adjust according to your requirements
 
                 $xmlRequest = '<?xml version="1.0" encoding="UTF-8"?>
-<mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">
-    <parcel-characteristics>
-        <weight>' . $weight . '</weight>
-    </parcel-characteristics>
-    <origin-postal-code>' . $originPostalCode . '</origin-postal-code>
-    <destination>
-        <domestic>
-            <postal-code>' . $destinationPostalCode . '</postal-code>
-        </domestic>
-    </destination>
-    <quote-type>counter</quote-type>
-</mailing-scenario>';
+                                <mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">
+                                    <parcel-characteristics>
+                                        <weight>' . $weight . '</weight>
+                                    </parcel-characteristics>
+                                    <origin-postal-code>' . $originPostalCode . '</origin-postal-code>
+                                    <destination>
+                                        <domestic>
+                                            <postal-code>' . $destinationPostalCode . '</postal-code>
+                                        </domestic>
+                                    </destination>
+                                    <quote-type>counter</quote-type>
+                                </mailing-scenario>';
 
                 // username = f89d8930468d9b94
                 // password =2100e015132b09d589da39
