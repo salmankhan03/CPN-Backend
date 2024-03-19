@@ -38,29 +38,29 @@ class ExternalApiController extends Controller
     <quote-type>counter</quote-type>
 </mailing-scenario>';
 
-                // username = f89d8930468d9b94
-                // password =2100e015132b09d589da39
+// username = f89d8930468d9b94
+// password =2100e015132b09d589da39
 
-                $response = Http::withHeaders([
-                    'Content-Type' => 'application/vnd.cpc.ship.rate-v4+xml',
-                    'Accept' => 'application/vnd.cpc.ship.rate-v4+xml',
-                    'Authorization' => 'Basic ' . base64_encode('f89d8930468d9b94' . ':' . '2100e015132b09d589da39'),
-                ])->post('https://ct.soa-gw.canadapost.ca/rs/ship/price', $xmlRequest);
+$response = Http::withHeaders([
+'Content-Type' => 'application/vnd.cpc.ship.rate-v4+xml',
+'Accept' => 'application/vnd.cpc.ship.rate-v4+xml',
+'Authorization' => 'Basic ' . base64_encode('f89d8930468d9b94' . ':' . '2100e015132b09d589da39'),
+])->post('https://ct.soa-gw.canadapost.ca/rs/ship/price', $xmlRequest);
 
-                return $response->body();
-                return response()->json([
-                    'response' => $response->body(),
-                    'status_code' => 200
-                ]);
-            } else {
 
-                return response()->json(['error' => 'Invalid zipcode'], 400);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'status_code' => 500,
-                'message' => $e->getMessage()
-            ]);
-        }
-    }
+return response()->json([
+'response' => $response->body(),
+'status_code' => 200
+]);
+} else {
+
+return response()->json(['error' => 'Invalid zipcode'], 400);
+}
+} catch (\Exception $e) {
+return response()->json([
+'status_code' => 500,
+'message' => $e->getMessage()
+]);
+}
+}
 }
