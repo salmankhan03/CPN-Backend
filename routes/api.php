@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Api\Controllers\ProductCategoryController;
 use App\Api\Controllers\ProductSubCategoryController;
 use App\Api\Controllers\TempTemplateController;
-use App\Http\Controllers\ExternalApiController;
+use App\Api\Controllers\ExternalApiController;
 
 /*
 |--------------------------------------------------------------------------
