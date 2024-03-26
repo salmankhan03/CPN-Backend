@@ -15,7 +15,7 @@ class ProductAttribute extends Model
 
     protected $guarded = ['id'];
 
-    protected $table = 'product_attributes';
+    protected $table = 'product_attribute';
 
     protected $fillable = [
         "name",
