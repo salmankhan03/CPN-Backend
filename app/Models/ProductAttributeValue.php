@@ -20,7 +20,8 @@ class ProductAttributeValue extends Model
     protected $fillable = [
         "name",
         "type", // same as parent type >> dropdoon or radio button
-        "status"
+        "status",
+        'product_attribute_id'
     ];
 
     protected $hidden = [
