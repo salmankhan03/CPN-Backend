@@ -21,6 +21,8 @@ use App\Api\Controllers\ProductCategoryController;
 use App\Api\Controllers\ProductSubCategoryController;
 use App\Api\Controllers\TempTemplateController;
 use App\Api\Controllers\ExternalApiController;
+use App\Api\Controllers\ProductAttributeController;
+use App\Api\Controllers\ProductAttributeValueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -230,6 +232,28 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/list', [AdminUserController::class, 'list']);
         Route::get('/{id}/orders', [AdminUserController::class, 'getOrders']);
     });
+
+    //product attribute Routes 
+
+    Route::prefix('/product-attribute')->group(function () {
+
+        Route::post('/upsert', [ProductAttributeController::class, 'upsert']);
+
+        Route::get('/{id}/delete', [ProductAttributeController::class, 'delete']);
+        Route::post('/list', [ProductAttributeController::class, 'list']);
+        Route::get('/{id}/values', [ProductAttributeController::class, 'getValues']);
+    });
+
+       //product attribute Value Routes 
+
+       Route::prefix('/product-attribute-value')->group(function () {
+
+        Route::post('/upsert', [ProductAttributeValueController::class, 'upsert']);
+
+        Route::get('/{id}/delete', [ProductAttributeValueController::class, 'delete']);
+
+    });
+
 });
 
 Route::post('/send-mail', [DemoControllerTest::class, 'sendMail']);
