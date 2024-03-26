@@ -13,6 +13,16 @@ class ExternalApiController extends Controller
     {
         try {
 
+            $username = env('CANADAPOST_USERNAME');
+            $password = env('CANADAPOST_PASSWORD');
+
+            if (!$username || !$password){
+                return response()->json([
+                    'message' => 'CANADA POST credentials are not set',
+                    'status_code' => 500
+                ],500);
+            }
+
             ini_set('max_execution_time', 3600);
             // Define parameters for the request
             $shippingFormData = $request->all();
@@ -41,13 +51,12 @@ class ExternalApiController extends Controller
                                     <quote-type>counter</quote-type>
                                 </mailing-scenario>';
 
-                // username = f89d8930468d9b94
-                // password =2100e015132b09d589da39
+      
 
                 $response = Http::withHeaders([
                     'Content-Type' => 'application/vnd.cpc.ship.rate-v4+xml',
                     'Accept' => 'application/vnd.cpc.ship.rate-v4+xml',
-                    'Authorization' => 'Basic ' . base64_encode('f89d8930468d9b94' . ':' . '2100e015132b09d589da39'),
+                    'Authorization' => 'Basic ' . base64_encode($username . ':' . $password),
                 ])->post('https://ct.soa-gw.canadapost.ca/rs/ship/price', $xmlRequest);
 
 

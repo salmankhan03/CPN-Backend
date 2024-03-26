@@ -18,11 +18,26 @@ class PaymentController extends Controller
     {
         try {
 
+            $request->validate([
+                'token' => 'required',
+                'orderPrice' => 'required',
+                'orderId' => 'required'
+            ]);
+       
             $token = $request->input('token');
             $price = $request->input('orderPrice');
             $orderId = $request->input('orderId');
 
-            Stripe::setApiKey('sk_test_51NBOXVFb9Yh8bF65NwWJ0TqLndQLndBwzKm2xUNBGTMsqnBDIByK2GgeejLIgJvNN9wEWRJ0VdC64F1Ut29x601c009i3TN4Mq');
+            $stripeApiKey = env('STRIPE_API_KEY');
+
+            if (!$stripeApiKey){
+                return response()->json([
+                    'message' => 'Stripe Credentials Are Not set',
+                    'status_code' => 500
+                ],500);
+            }
+
+            Stripe::setApiKey($stripeApiKey);
 
             $charge = Charge::create([
                 'amount' => $price * 100, // Amount is in cents
@@ -36,7 +51,7 @@ class PaymentController extends Controller
             return response()->json(['message' => 'Payment processed successfully', 'stripe-message' => $charge]);
         } catch (\Exception $e) {
 
-            return response()->json(['error' => 'Payment processing failed'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }
