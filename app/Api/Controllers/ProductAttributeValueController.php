@@ -18,6 +18,7 @@ class ProductAttributeValueController extends Controller{
                 'name',
                 'type',
                 'status',
+                'product_attribute_id'
             ]);
     
             ProductAttributeValue::updateOrCreate(['id' => $attributeValueData['id']] , $attributeValueData);
