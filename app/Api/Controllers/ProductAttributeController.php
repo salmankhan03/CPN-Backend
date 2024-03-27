@@ -22,9 +22,7 @@ class ProductAttributeController extends Controller{
                 'id'
             ]);
     
-            ProductAttribute::updateOrCreate(['id' => $attributeData['id']] , $attributeData);
-
-            $variants = $request->only('variants');
+            $attribute = ProductAttribute::updateOrCreate(['id' => $attributeData['id']] , $attributeData);
 
             if (isset($attributeData['id'])){
                 if ($attributeData['id']){
@@ -32,14 +30,19 @@ class ProductAttributeController extends Controller{
                 }
             }   
 
-            
+            $variants = $request->only('variants');
+
             foreach ($variants as $variant){
+
+                $productAttributeValue = [];
                 
                 $productAttributeValue['name'] = $variant;
+                $productAttributeValue['product_attribute_id'] = $attribute->id;
+                $productAttributeValue['type'] = $attributeData['option'];
+                $productAttributeValue['status'] = 'show';
             
                 ProductAttributeValue::create($productAttributeValue);
 
-                $productAttributeValue = [];
             }
 
             return response()->json([

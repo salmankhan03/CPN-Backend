@@ -15,8 +15,6 @@ class ProductAttributeValue extends Model
 
     protected $guarded = ['id'];
 
-    // protected $table = 'user_billing_addresses';
-
     protected $fillable = [
         "name",
         "type", // same as parent type >> dropdoon or radio button
