@@ -32,18 +32,23 @@ class ProductAttributeController extends Controller{
 
             $variants = $request->only('variants');
 
-            foreach ($variants['variants'] as $variant){
-
-                $productAttributeValue = [];
+            if (isset($variants['variants'])){
                 
-                $productAttributeValue['name'] = $variant;
-                $productAttributeValue['product_attribute_id'] = $attribute->id;
-                $productAttributeValue['type'] = $attributeData['option'];
-                $productAttributeValue['status'] = 'show';
-            
-                ProductAttributeValue::create($productAttributeValue);
+                foreach ($variants['variants'] as $variant){
 
+                    $productAttributeValue = [];
+                    
+                    $productAttributeValue['name'] = $variant;
+                    $productAttributeValue['product_attribute_id'] = $attribute->id;
+                    $productAttributeValue['type'] = $attributeData['option'];
+                    $productAttributeValue['status'] = 'show';
+                
+                    ProductAttributeValue::create($productAttributeValue);
+    
+                }
             }
+
+        
 
             return response()->json([
                 'status_code' => 200,
