@@ -32,7 +32,7 @@ class ProductAttributeController extends Controller{
 
             $variants = $request->only('variants');
 
-            foreach ($variants as $variant){
+            foreach ($variants['variants'] as $variant){
 
                 $productAttributeValue = [];
                 
