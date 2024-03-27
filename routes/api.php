@@ -242,6 +242,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/{id}/delete', [ProductAttributeController::class, 'delete']);
         Route::post('/list', [ProductAttributeController::class, 'list']);
         Route::get('/{id}/values', [ProductAttributeController::class, 'getValues']);
+        Route::get('/{id}/get-by-id', [ProductAttributeController::class, 'getById']);
+        Route::post('/multiple-delete', [ProductAttributeController::class, 'multipleDelete']);
     });
 
        //product attribute Value Routes 
@@ -249,8 +251,9 @@ Route::group(['middleware' => 'auth.jwt'], function () {
        Route::prefix('/product-attribute-value')->group(function () {
 
         Route::post('/upsert', [ProductAttributeValueController::class, 'upsert']);
-
         Route::get('/{id}/delete', [ProductAttributeValueController::class, 'delete']);
+        Route::get('/{id}/get-by-id', [ProductAttributeController::class, 'getById']);
+        Route::post('/multiple-delete', [ProductAttributeController::class, 'multipleDelete']);
 
     });
 

@@ -85,6 +85,58 @@ class ProductAttributeValueController extends Controller{
 
     }
 
+    public function getById($id){
+
+        try {
+            $attribute = ProductAttributeValue::find($id);
+
+            if ($attribute){
+
+                return response()->json([
+                    'status_code' => 200,
+                    'attributeValue' => $attribute
+                ]);
+
+            }
+
+            else{
+                return response()->json([
+                    'status_code' => 200,
+                    'message' => 'Attribute Value Not Found'
+                ]);
+            }
+
+            
+        }
+
+        catch (\Exception $e){
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+
+    }
+
+    public function multipleDelete(request $request){
+
+        try {
+            $ids = explode(",",  $request->only('ids')['ids']);
+
+            ProductAttributeValue::whereIn('id', $ids)->delete();
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Multiple Product Attribute Values Deleted Successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
 
  
 

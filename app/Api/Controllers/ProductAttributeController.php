@@ -33,7 +33,7 @@ class ProductAttributeController extends Controller{
             $variants = $request->only('variants');
 
             if (isset($variants['variants'])){
-                
+
                 foreach ($variants['variants'] as $variant){
 
                     $productAttributeValue = [];
@@ -101,11 +101,11 @@ class ProductAttributeController extends Controller{
 
             if ($name){
 
-                $list = ProductAttribute::where('name' , $name)->get();
+                $list = ProductAttribute::where('name' , $name)->paginate($request->get('pageSize'));
             }
 
             else{
-                $list = ProductAttribute::get();
+                $list = ProductAttribute::paginate($request->get('pageSize'));
             }
 
 
@@ -126,11 +126,11 @@ class ProductAttributeController extends Controller{
 
     }
 
-    public function getValues ($id) {
+    public function getValues ($id , Request $request) {
 
         try{
 
-        $list = ProductAttributeValue::where('product_attribute_id' , $id)->get();
+            $list = ProductAttributeValue::where('product_attribute_id' , $id)->paginate($request->get('pageSize'));
 
             return response()->json([
                 'status_code' => 200,
@@ -146,6 +146,58 @@ class ProductAttributeController extends Controller{
             ]);
         }
 
+    }
+
+    public function getById($id){
+
+        try {
+            $attribute = ProductAttribute::find($id);
+
+            if ($attribute){
+
+                return response()->json([
+                    'status_code' => 200,
+                    'attribute' => $attribute
+                ]);
+
+            }
+
+            else{
+                return response()->json([
+                    'status_code' => 200,
+                    'message' => 'Attribute Not Found'
+                ]);
+            }
+
+            
+        }
+
+        catch (\Exception $e){
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+
+    }
+
+    public function multipleDelete(request $request){
+
+        try {
+            $ids = explode(",",  $request->only('ids')['ids']);
+
+            ProductAttribute::whereIn('id', $ids)->delete();
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Multiple Product Attribute Deleted Successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
 }
