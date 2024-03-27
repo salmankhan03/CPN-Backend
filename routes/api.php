@@ -253,8 +253,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
         Route::post('/upsert', [ProductAttributeValueController::class, 'upsert']);
         Route::get('/{id}/delete', [ProductAttributeValueController::class, 'delete']);
-        Route::get('/{id}/get-by-id', [ProductAttributeController::class, 'getById']);
-        Route::post('/multiple-delete', [ProductAttributeController::class, 'multipleDelete']);
+        Route::get('/{id}/get-by-id', [ProductAttributeValueController::class, 'getById']);
+        Route::post('/multiple-delete', [ProductAttributeValueController::class, 'multipleDelete']);
 
     });
 
