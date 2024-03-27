@@ -208,6 +208,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/multiple-delete', [EmailTemplateController::class, 'multipleDelete']);
         Route::delete('/{id}/delete', [EmailTemplateController::class, 'delete']);
     });
+    
     Route::post('/image/upload', [MediaController::class, 'upload']);
     Route::post('/image/multiple-delete', [MediaController::class, 'delete']);
 
@@ -246,9 +247,9 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/multiple-delete', [ProductAttributeController::class, 'multipleDelete']);
     });
 
-       //product attribute Value Routes 
+    //product attribute Value Routes 
 
-       Route::prefix('/product-attribute-value')->group(function () {
+    Route::prefix('/product-attribute-value')->group(function () {
 
         Route::post('/upsert', [ProductAttributeValueController::class, 'upsert']);
         Route::get('/{id}/delete', [ProductAttributeValueController::class, 'delete']);
