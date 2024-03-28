@@ -17,6 +17,10 @@ class Product extends Model
 
     protected $table = 'products';
 
+    protected $casts = [
+        'variants' => 'array',
+    ];
+
     protected $fillable = [
         'name', 'price', 'is_visible', 'description',
         'category_id',
