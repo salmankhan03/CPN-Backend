@@ -45,7 +45,8 @@ class ProductController extends Controller
                 'is_tax_apply',
                 'sell_price',
                 'visitors_counter',
-                'variants'
+                'variants',
+                'variants_array'
             );
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
