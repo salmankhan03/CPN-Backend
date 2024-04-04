@@ -98,6 +98,8 @@ Route::get('template/{id}/data', [TempTemplateController::class, 'getById']);
 
 Route::post('shipping-calculation', [ExternalApiController::class, 'getShippingQuote']);
 
+Route::get('product-attribute/{id}/get-by-id', [ProductAttributeController::class, 'getById']);
+
 
 Route::group(['middleware' => 'auth.jwt'], function () {
 
@@ -243,7 +245,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/{id}/delete', [ProductAttributeController::class, 'delete']);
         Route::post('/list', [ProductAttributeController::class, 'list']);
         Route::get('/{id}/values', [ProductAttributeController::class, 'getValues']);
-        Route::get('/{id}/get-by-id', [ProductAttributeController::class, 'getById']);
         Route::post('/multiple-delete', [ProductAttributeController::class, 'multipleDelete']);
     });
 
