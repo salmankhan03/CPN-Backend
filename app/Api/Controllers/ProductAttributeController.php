@@ -151,7 +151,7 @@ class ProductAttributeController extends Controller{
     public function getById($id){
 
         try {
-            $attribute = ProductAttribute::find($id);
+            $attribute = ProductAttribute::with('Variants')->find($id);
 
             if ($attribute){
 

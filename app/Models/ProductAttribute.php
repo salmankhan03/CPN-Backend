@@ -21,10 +21,16 @@ class ProductAttribute extends Model
         "name",
         "title",
         "option",
-        "status"
+        "status",
+        "variants"
     ];
 
     protected $hidden = [
         'deleted_at'
     ];
+
+    public function Variants()
+    {
+        return $this->hasMany(ProductAttributeValue::class,"product_attribute_id" , "id");
+    }
 }
