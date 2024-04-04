@@ -14,6 +14,7 @@ class ProductAttributeController extends Controller{
     public function upsert(Request $request){
 
         try {
+            
             $attributeData = $request->only([
                 'name',
                 'title',
@@ -23,7 +24,7 @@ class ProductAttributeController extends Controller{
             ]);
     
             $attribute = ProductAttribute::updateOrCreate(['id' => $attributeData['id']] , $attributeData);
-
+            
             if (isset($attributeData['id'])){
                 if ($attributeData['id']){
                     ProductAttributeValue::where(['product_attribute_id' => $attributeData['id']])->delete();
@@ -35,15 +36,15 @@ class ProductAttributeController extends Controller{
             if (isset($variants['variants'])){
 
                 foreach ($variants['variants'] as $variant){
-
-                    $productAttributeValue = [];
                     
-                    $productAttributeValue['name'] = $variant;
-                    $productAttributeValue['product_attribute_id'] = $attribute->id;
-                    $productAttributeValue['type'] = $attributeData['option'];
-                    $productAttributeValue['status'] = 'show';
-                
-                    ProductAttributeValue::create($productAttributeValue);
+                    $productAttributeValueData = [];
+                    
+                    $productAttributeValueData['name'] = $variant['name'];
+                    $productAttributeValueData['product_attribute_id'] = $attribute->id;
+                    $productAttributeValueData['type'] = $attributeData['option'];
+                    $productAttributeValueData['status'] = 'show';
+
+                    ProductAttributeValue::create($productAttributeValueData);
     
                 }
             }
