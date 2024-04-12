@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\RoleMenuItemMap;
 use App\Models\User;
 use App\Notifications\ForgetPasswordNotification;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use JWTAuth;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 
 
-class UserController extends Controller
+class UserController extends Controller // for general purpose user , don't have any permissions
 {
 
     function __construct()
@@ -58,7 +59,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
 
-        //form-data and raw json body both can be parsed with same request
+        //form-data and raw json body (use content-type) both can be parsed with same request
 
         try {
             $credentials = $request->only('email', 'password');
@@ -375,6 +376,103 @@ class UserController extends Controller
                 'data'        => $user
             ]);
         } catch (JWTException $e) {
+            return response()->json(['message' => $e->getMessage()]);
+        }
+    }
+
+    public function updateUser(Request $request){
+        try {
+
+            $data             = $request->only([
+                'email',
+                'password',
+                'profile_pic',
+                'role',
+                'role_id',
+                'first_name',
+                'last_name',
+                'middle_name',
+                'date_of_birth',
+                'contact_no',
+                'secondary_contact_number',
+                'city',
+                'state',
+                'country',
+                'zipcode',
+                'street_address',
+                'landmark',
+                'street'
+            ]);
+
+            $alreadyExistUser = User::where('email', $data['email'])->get();
+
+            if ($alreadyExistUser->count()) {
+
+                if (isset($data['id'])){
+                    if ($alreadyExistUser[0]->id == $data['id']){
+
+                        return response()->json([
+                            'status_code' => 500,
+                            'message' => 'User With this Email Already Exist'
+                        ], 500);
+    
+                    }
+                }
+                else{
+                    if ($alreadyExistUser[0]->id == $data['id']){
+
+                        return response()->json([
+                            'status_code' => 500,
+                            'message' => 'User With this Email Already Exist'
+                        ], 500);
+    
+                    }
+                }
+              
+            }
+
+            if (isset($data['id'])) {
+
+                if ($data['id']) {
+                    $validation = Validator::make($request->all(), [
+                        'email' => 'required|unique:users,email,' . $data['id'] . ',id,deleted_at,NULL',
+                    ]);
+
+                    unset($data['password']);
+                }
+            } else {
+                $validation = Validator::make($request->all(), [
+                    'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL',
+                ]);
+            }
+
+
+            if ($validation->fails()) {
+
+                return response()->json([
+                    'status_code' => 500,
+                    'message'     => $validation->errors()->messages()['email'][0],
+                ], 500);
+            }
+
+            $orignal_password = $data['password'];
+            $data['password'] = Hash::make($data['password']);
+
+            $user = User::updateOrCreate(['id' => $data['id']], $data);
+
+            $user->orignal_password = $orignal_password;
+
+            if ($user) {
+
+                $user       = User::find($user->id);
+
+                // event(new user information updated successfully email);
+            }
+            return response()->json([
+                'status_code' => 200,
+                'message'        => 'User Updated Successfully'
+            ]);
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()]);
         }
     }

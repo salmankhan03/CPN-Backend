@@ -18,7 +18,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
-class AdminUserController extends Controller
+class AdminUserController extends Controller // for admin panel , will have different roles and permissions
 {
 
     function __construct()
