@@ -25,11 +25,11 @@ class ProductAttributeController extends Controller{
     
             $attribute = ProductAttribute::updateOrCreate(['id' => $attributeData['id']] , $attributeData);
             
-            if (isset($attributeData['id'])){
-                if ($attributeData['id']){
-                    ProductAttributeValue::where(['product_attribute_id' => $attributeData['id']])->delete();
-                }
-            }   
+            // if (isset($attributeData['id'])){
+            //     if ($attributeData['id']){
+            //         ProductAttributeValue::where(['product_attribute_id' => $attributeData['id']])->delete();
+            //     }
+            // }   
 
             $variants = $request->only('variants');
 
@@ -43,8 +43,9 @@ class ProductAttributeController extends Controller{
                     $productAttributeValueData['product_attribute_id'] = $attribute->id;
                     $productAttributeValueData['type'] = $attributeData['option'];
                     $productAttributeValueData['status'] = 'show';
+                    $productAttributeValueData['id'] = $attributeData['id'];
 
-                    ProductAttributeValue::create($productAttributeValueData);
+                    ProductAttributeValue::updateOrCreate(['id' => $productAttributeValueData['id']] , $productAttributeValueData);
     
                 }
             }
