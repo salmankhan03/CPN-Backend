@@ -43,9 +43,8 @@ class ProductAttributeController extends Controller{
                     $productAttributeValueData['product_attribute_id'] = $attribute->id;
                     $productAttributeValueData['type'] = $attributeData['option'];
                     $productAttributeValueData['status'] = 'show';
-                    $productAttributeValueData['id'] = $attributeData['id'];
 
-                    ProductAttributeValue::updateOrCreate(['id' => $productAttributeValueData['id']] , $productAttributeValueData);
+                    ProductAttributeValue::updateOrCreate(['id' => $variant['id']] , $productAttributeValueData);
     
                 }
             }
