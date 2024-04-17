@@ -384,6 +384,7 @@ class UserController extends Controller // for general purpose user , don't have
         try {
 
             $data             = $request->only([
+                'id',
                 'email',
                 'password',
                 'profile_pic',
@@ -403,6 +404,20 @@ class UserController extends Controller // for general purpose user , don't have
                 'landmark',
                 'street'
             ]);
+
+            if (!isset($data['id'])){
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => "please specify the Id"
+                ]);
+            }
+
+            if (!$data['id']){
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => "please specify the Id"
+                ]);
+            }
 
             $alreadyExistUser = User::where('email', $data['email'])->get();
 
