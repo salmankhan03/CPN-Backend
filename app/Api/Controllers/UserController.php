@@ -424,7 +424,7 @@ class UserController extends Controller // for general purpose user , don't have
             if ($alreadyExistUser->count()) {
 
                 if (isset($data['id'])){
-                    if ($alreadyExistUser[0]->id == $data['id']){
+                    if ($alreadyExistUser[0]->id != $data['id']){
 
                         return response()->json([
                             'status_code' => 500,
@@ -433,16 +433,16 @@ class UserController extends Controller // for general purpose user , don't have
     
                     }
                 }
-                else{
-                    if ($alreadyExistUser[0]->id == $data['id']){
+                // else{
+                //     if ($alreadyExistUser[0]->id == $data['id']){
 
-                        return response()->json([
-                            'status_code' => 500,
-                            'message' => 'User With this Email Already Exist'
-                        ], 500);
+                //         return response()->json([
+                //             'status_code' => 500,
+                //             'message' => 'User With this Email Already Exist'
+                //         ], 500);
     
-                    }
-                }
+                //     }
+                // }
               
             }
 
