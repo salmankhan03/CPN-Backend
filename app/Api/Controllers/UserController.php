@@ -386,10 +386,7 @@ class UserController extends Controller // for general purpose user , don't have
             $data             = $request->only([
                 'id',
                 'email',
-                'password',
                 'profile_pic',
-                'role',
-                'role_id',
                 'first_name',
                 'last_name',
                 'middle_name',
@@ -433,16 +430,6 @@ class UserController extends Controller // for general purpose user , don't have
     
                     }
                 }
-                // else{
-                //     if ($alreadyExistUser[0]->id == $data['id']){
-
-                //         return response()->json([
-                //             'status_code' => 500,
-                //             'message' => 'User With this Email Already Exist'
-                //         ], 500);
-    
-                //     }
-                // }
               
             }
 
@@ -452,12 +439,8 @@ class UserController extends Controller // for general purpose user , don't have
                     $validation = Validator::make($request->all(), [
                         'email' => 'required|unique:users,email,' . $data['id'] . ',id,deleted_at,NULL',
                     ]);
-
-                    if (array_key_exists('password',$data)){
-
-                        unset($data['password']);
-                    }
                 }
+
             } else {
                 $validation = Validator::make($request->all(), [
                     'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL',
@@ -473,12 +456,7 @@ class UserController extends Controller // for general purpose user , don't have
                 ], 500);
             }
 
-            // $orignal_password = $data['password'];
-            // $data['password'] = Hash::make($data['password']);
-
             $user = User::updateOrCreate(['id' => $data['id']], $data);
-
-            // $user->orignal_password = $orignal_password;
 
             if ($user) {
 
