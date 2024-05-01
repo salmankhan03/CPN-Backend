@@ -473,12 +473,12 @@ class UserController extends Controller // for general purpose user , don't have
                 ], 500);
             }
 
-            $orignal_password = $data['password'];
-            $data['password'] = Hash::make($data['password']);
+            // $orignal_password = $data['password'];
+            // $data['password'] = Hash::make($data['password']);
 
             $user = User::updateOrCreate(['id' => $data['id']], $data);
 
-            $user->orignal_password = $orignal_password;
+            // $user->orignal_password = $orignal_password;
 
             if ($user) {
 
