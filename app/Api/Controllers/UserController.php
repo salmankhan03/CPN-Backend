@@ -453,7 +453,10 @@ class UserController extends Controller // for general purpose user , don't have
                         'email' => 'required|unique:users,email,' . $data['id'] . ',id,deleted_at,NULL',
                     ]);
 
-                    unset($data['password']);
+                    if (array_key_exists('password',$data)){
+
+                        unset($data['password']);
+                    }
                 }
             } else {
                 $validation = Validator::make($request->all(), [
