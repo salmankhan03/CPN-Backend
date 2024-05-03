@@ -277,7 +277,11 @@ class UserController extends Controller // for general purpose user , don't have
     {
         try {
 
-            Auth::logout();
+            $user = \Auth::user();
+
+            if ($user) {
+                Auth::logout();
+            }
 
             return response()->json(
                 [
