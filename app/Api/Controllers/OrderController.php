@@ -32,7 +32,9 @@ class OrderController extends Controller
                 'total_amount',
                 'status',
                 'is_guest',
-                'guest_user_id'
+                'guest_user_id',
+                'discount_price',
+                'shipping_price'
 
             );
 

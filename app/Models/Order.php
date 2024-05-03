@@ -43,7 +43,9 @@ class Order extends Model
         'status',
         'promo_code',
         'is_guest',
-        'guest_user_id'
+        'guest_user_id',
+        'discount_price',
+        'shipping_price'
     ];
 
     protected $hidden = [
