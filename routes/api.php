@@ -100,6 +100,8 @@ Route::post('shipping-calculation', [ExternalApiController::class, 'getShippingQ
 
 Route::get('product-attribute/{id}/get-by-id', [ProductAttributeController::class, 'getById']);
 
+Route::get('customer/logout', [UserController::class, 'logout']);
+
 
 Route::group(['middleware' => 'auth.jwt'], function () {
 
@@ -111,7 +113,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     Route::get('/{id}/get-customer', [AdminUserController::class, 'getUserById']);
 
-    Route::get('/customer/logout', [UserController::class, 'logout']);
+    
 
     Route::post('/customer/update', [UserController::class, 'updateUser']);
 
