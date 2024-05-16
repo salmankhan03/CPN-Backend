@@ -1,6 +1,7 @@
 <?php
 
 use App\Api\Controllers\AdminUserController;
+use App\Api\Controllers\BannerController;
 use App\Api\Controllers\CouponCodeController;
 use App\Api\Controllers\DemoControllerTest;
 use App\Api\Controllers\EmailTemplateController;
@@ -23,6 +24,7 @@ use App\Api\Controllers\TempTemplateController;
 use App\Api\Controllers\ExternalApiController;
 use App\Api\Controllers\ProductAttributeController;
 use App\Api\Controllers\ProductAttributeValueController;
+use App\Api\Controllers\SliderImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,10 +115,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     Route::get('/{id}/get-customer', [AdminUserController::class, 'getUserById']);
 
-    
-
     Route::post('/customer/update', [UserController::class, 'updateUser']);
-
 
     Route::post('/role/save', [RolePermissionController::class, 'saveRole']);
     Route::post('/permission/save', [RolePermissionController::class, 'savePermission']);
@@ -262,6 +261,31 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/multiple-delete', [ProductAttributeValueController::class, 'multipleDelete']);
 
     });
+
+    //media uploades (left banner and right banner)
+
+    Route::prefix('/banner')->group(function () {
+
+        // in edit of banner case
+        // it will simply gets updated (will overrite the last one) 
+
+        Route::post('/upload', [BannerController::class, 'upload']);
+        Route::get('/{id}/delete', [BannerController::class, 'delete']);
+        Route::get('/list', [BannerController::class, 'list']);
+
+    });
+
+    //slider image uploades 
+
+    Route::prefix('/slider-image')->group(function () {
+
+        Route::post('/upload', [SliderImageController::class, 'upload']);
+        Route::get('/{id}/delete', [SliderImageController::class, 'delete']);
+        Route::get('/list', [SliderImageController::class, 'list']);
+        Route::post('/multiple-delete', [SliderImageController::class, 'multipleDelete']);
+
+    });
+
 
 });
 
