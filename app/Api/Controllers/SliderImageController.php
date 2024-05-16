@@ -39,14 +39,14 @@ class SliderImageController extends Controller
                 SliderImages::create($imageData);
             }
 
-            $this->response()->json([
+            return response()->json([
                 'status_code' => 200,
                 'message' => 'Slider Images Uploaded Successfully'
             ]);
         }
 
         catch (\Exception $e){
-            $this->response()->json([
+            return response()->json([
                 'status_code' => 500,
                 'message' => $e->getMessage()
             ]);
