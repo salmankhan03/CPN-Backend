@@ -15,13 +15,10 @@ use Illuminate\Support\Facades\Auth;
 class SliderImageController extends Controller
 {
     public function upload(Request $request){
+
         try {
-            $data = $request->only([
-                'side'
-            ]);
     
             $user = \Auth::user();
-    
     
             $files = $_FILES;
     
@@ -34,7 +31,6 @@ class SliderImageController extends Controller
                 $imageData['image'] = $image;
                 $imageData['original_name'] = $image->getClientOriginalName();
                 $imageData['created_by'] = $user->id;
-                $imageData['side'] = $data['side'];
     
                 SliderImages::create($imageData);
             }
@@ -51,8 +47,64 @@ class SliderImageController extends Controller
                 'message' => $e->getMessage()
             ]);
         }
-       
+    
+    }
 
+    public function delete($id){
+        try{
 
+            $obj = SliderImages::find($id);
+            $user = \Auth::user();
+
+            if ($obj && $user) {
+
+                $obj->deleted_by = $user->id;
+
+                $obj->save();
+
+                $obj->delete();
+
+                return response()->json([
+                    'status_code' => 200,
+                    'message' => 'Slider Image Deleted Successfully'
+                ], 200);
+            } else {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Slider Image Not Found'
+                ], 500);
+            }
+
+        }
+
+        catch (\Exception $e){
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function list(){
+
+        try{
+
+            $data = SliderImages::all();
+            
+            return response()->json([
+                'status_code' => 200,
+                'list' => $data
+            ]);
+
+        }
+
+        catch (\Exception $e){
+
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+            
+        }
     }
 }
