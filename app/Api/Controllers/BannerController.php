@@ -96,9 +96,9 @@ class BannerController extends Controller
             if ($leftBanner){
 
                 $data[] = [
-                    'id' => $leftBanner ? $leftBanner->id : NULL,
-                    'link' => $leftBanner ? $leftBanner->getImageAttribute() : NULL,
-                    'side' => $leftBanner ? $leftBanner->side : NULL
+                    'id' => $leftBanner->id,
+                    'link' => $leftBanner->getImageAttribute(),
+                    'side' => $leftBanner->side
                 ];
 
             }
@@ -106,9 +106,9 @@ class BannerController extends Controller
             if ($rightBanner){
 
                 $data[] = [
-                    'id' => $rightBanner ? $rightBanner->id : NULL,
-                    'link' =>  $rightBanner ? $rightBanner->getImageAttribute() : NULL,
-                    'side' => $leftBanner ? $leftBanner->side : NULL
+                    'id' => $rightBanner->id,
+                    'link' => $rightBanner->getImageAttribute(),
+                    'side' => $leftBanner->side
                 ];
 
             }
