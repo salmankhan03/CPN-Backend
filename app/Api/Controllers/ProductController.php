@@ -251,6 +251,7 @@ class ProductController extends Controller
                 'status_code' => 200,
                 'list' => $list
             ]);
+            
         } catch (\Exception $e) {
             return response()->json([
                 'status_code' => 500,
