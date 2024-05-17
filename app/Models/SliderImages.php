@@ -25,6 +25,11 @@ class SliderImages extends Model
     ];
 
     protected $hidden = [
+        'created_by',
+        'original_name',
+        'deleted_by',
+        'created_at',
+        'updated_at',
         'deleted_at'
     ];
 

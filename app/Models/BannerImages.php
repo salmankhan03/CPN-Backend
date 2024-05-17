@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BannerImages extends Model
 {
 
+    use SoftDeletes,FileUploadTrait;
+
     const SIDE_LEFT = "LEFT"; 
     const SIDE_RIGHT = "RIGHT"; 
-
-    use SoftDeletes,FileUploadTrait;
 
     public $timestamps = true;
 
