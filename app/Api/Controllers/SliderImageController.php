@@ -118,9 +118,12 @@ class SliderImageController extends Controller
             foreach ($ids as $id){
 
                 $obj = SliderImages::find($id);
-
-                $obj->deleted_by = $user->id;
-                $obj->save();
+                
+                if ($obj){
+                    $obj->deleted_by = $user->id;
+                    $obj->save();
+                }
+                
 
             }
 
