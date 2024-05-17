@@ -38,7 +38,8 @@ class Product extends Model
         'is_tax_apply',
         'sell_price',
         'visitors_counter',
-        'variants_array'
+        'variants_array',
+        'ratings'
     ];
 
     protected $hidden = [

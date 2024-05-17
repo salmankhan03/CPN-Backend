@@ -46,7 +46,8 @@ class ProductController extends Controller
                 'sell_price',
                 'visitors_counter',
                 'variants',
-                'variants_array'
+                'variants_array',
+                'ratings'
             );
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
