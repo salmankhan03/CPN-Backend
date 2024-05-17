@@ -104,6 +104,9 @@ Route::get('product-attribute/{id}/get-by-id', [ProductAttributeController::clas
 
 Route::get('customer/logout', [UserController::class, 'logout']);
 
+Route::get('banner/list', [BannerController::class, 'list']);
+
+Route::get('slider-image/list', [SliderImageController::class, 'list']);
 
 Route::group(['middleware' => 'auth.jwt'], function () {
 
@@ -271,7 +274,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
         Route::post('/upload', [BannerController::class, 'upload']);
         Route::get('/{id}/delete', [BannerController::class, 'delete']);
-        Route::get('/list', [BannerController::class, 'list']);
+        
 
     });
 
@@ -281,7 +284,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
         Route::post('/upload', [SliderImageController::class, 'upload']);
         Route::get('/{id}/delete', [SliderImageController::class, 'delete']);
-        Route::get('/list', [SliderImageController::class, 'list']);
         Route::post('/multiple-delete', [SliderImageController::class, 'multipleDelete']);
 
     });
