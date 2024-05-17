@@ -113,6 +113,17 @@ class SliderImageController extends Controller
         try {
             $ids = explode(",",  $request->only('ids')['ids']);
 
+            $user = \Auth::user();
+
+            foreach ($ids as $id){
+
+                $obj = SliderImages::find($id);
+
+                $obj->deleted_by = $user->id;
+                $obj->save();
+
+            }
+
             SliderImages::whereIn('id', $ids)->delete();
 
             return response()->json([
