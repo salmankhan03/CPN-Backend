@@ -107,4 +107,23 @@ class SliderImageController extends Controller
             
         }
     }
+
+    public function multipleDelete(request $request){
+
+        try {
+            $ids = explode(",",  $request->only('ids')['ids']);
+
+            SliderImages::whereIn('id', $ids)->delete();
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Multiple Slider Images Deleted Successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }

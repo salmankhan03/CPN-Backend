@@ -88,8 +88,8 @@ class BannerController extends Controller
 
         try{
 
-            $leftBanner = BannerImages::where('side' , BannerImages::SIDE_LEFT)->order_by('id', 'desc')->first();
-            $rightBanner = BannerImages::where('side' , BannerImages::SIDE_RIGHT)->order_by('id', 'desc')->first();
+            $leftBanner = BannerImages::where('side' , BannerImages::SIDE_LEFT)->orderBy('id', 'desc')->first();
+            $rightBanner = BannerImages::where('side' , BannerImages::SIDE_RIGHT)->orderBy('id', 'desc')->first();
 
             $data = [
                 'left' => $leftBanner ? $leftBanner->getImageAttribute() : NULL,

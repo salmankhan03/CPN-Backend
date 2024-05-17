@@ -286,7 +286,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     });
 
-
 });
 
 Route::post('/send-mail', [DemoControllerTest::class, 'sendMail']);
