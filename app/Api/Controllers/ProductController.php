@@ -57,20 +57,21 @@ class ProductController extends Controller
             
             if(!empty($data['id'])){
 
-                if (($data['sell_price_is_change'])){
+                print_r($data);die;
 
+                if ($data['sell_price_is_change']){
 
                     $data['sell_price_updated_at'] = Carbon::now();
                     
                 }
 
-                if (($data['ratings_is_change'])){
+                if ($data['ratings_is_change']){
 
                     $data['ratings_updated_at'] = Carbon::now();
                     
                 }
 
-                if (($data['is_featured_is_change'])){
+                if ($data['is_featured_is_change']){
 
                     $data['is_featured_updated_at'] = Carbon::now();
                     
