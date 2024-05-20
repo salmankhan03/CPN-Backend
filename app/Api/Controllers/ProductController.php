@@ -49,7 +49,10 @@ class ProductController extends Controller
                 'variants',
                 'variants_array',
                 'ratings',
-                'is_featured'
+                'is_featured',
+                'sell_price_updated_at',
+                'ratings_updated_at',
+                'is_featured_updated_at'
             );
             
             if(!empty($data['id'])){
