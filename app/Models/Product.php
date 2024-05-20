@@ -39,7 +39,11 @@ class Product extends Model
         'sell_price',
         'visitors_counter',
         'variants_array',
-        'ratings'
+        'ratings',
+        'is_featured',
+        'sell_price_updated_at',
+        'ratings_updated_at',
+        'is_featured_updated_at'
     ];
 
     protected $hidden = [

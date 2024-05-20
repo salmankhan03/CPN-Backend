@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductBrands;
 use App\Models\ProductImages;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 
 class ProductController extends Controller
@@ -47,8 +48,31 @@ class ProductController extends Controller
                 'visitors_counter',
                 'variants',
                 'variants_array',
-                'ratings'
+                'ratings',
+                'is_featured'
             );
+            
+            if(!empty($data['id'])){
+
+                if (!empty($data['sell_price_updated_at'])){
+
+                    $data['sell_price_updated_at'] = Carbon::now();
+                    
+                }
+
+                if (!empty($data['ratings_updated_at'])){
+
+                    $data['ratings_updated_at'] = Carbon::now();
+                    
+                }
+
+                if (!empty($data['is_featured_updated_at'])){
+
+                    $data['is_featured_updated_at'] = Carbon::now();
+                    
+                }
+
+            }
 
             $product = Product::updateOrCreate(['id' => $data['id']], $data);
 
