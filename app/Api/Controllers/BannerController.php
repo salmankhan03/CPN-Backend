@@ -108,7 +108,7 @@ class BannerController extends Controller
                 $data[] = [
                     'id' => $rightBanner->id,
                     'link' => $rightBanner->getImageAttribute(),
-                    'side' => $leftBanner->side
+                    'side' => $rightBanner->side
                 ];
 
             }
