@@ -57,8 +57,7 @@ class ProductController extends Controller
             
             if(!empty($data['id'])){
 
-                print_r($data);die;
-
+                
                 if ($data['sell_price_is_change']){
 
                     $data['sell_price_updated_at'] = Carbon::now();
