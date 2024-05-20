@@ -50,26 +50,26 @@ class ProductController extends Controller
                 'variants_array',
                 'ratings',
                 'is_featured',
-                'sell_price_updated_at',
-                'ratings_updated_at',
-                'is_featured_updated_at'
+                'sell_price_is_change',
+                'ratings_is_change',
+                'is_featured_is_change'
             );
             
             if(!empty($data['id'])){
 
-                if (!empty($data['sell_price_updated_at'])){
+                if (!empty($data['sell_price_is_change'])){
 
                     $data['sell_price_updated_at'] = Carbon::now();
                     
                 }
 
-                if (!empty($data['ratings_updated_at'])){
+                if (!empty($data['ratings_is_change'])){
 
                     $data['ratings_updated_at'] = Carbon::now();
                     
                 }
 
-                if (!empty($data['is_featured_updated_at'])){
+                if (!empty($data['is_featured_is_change'])){
 
                     $data['is_featured_updated_at'] = Carbon::now();
                     
