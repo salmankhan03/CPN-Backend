@@ -11,6 +11,9 @@ class Product extends Model
 
     use HasFactory, SoftDeletes;
 
+    const IS_FEATURED_YES = 1;
+    const IS_FEATURED_NO = 0;
+
     public $timestamps = true;
 
     protected $guarded = ['id'];

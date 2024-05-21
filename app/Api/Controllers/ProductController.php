@@ -246,6 +246,12 @@ class ProductController extends Controller
 
             //mixed filters will be handled manuallly and discussed the sorting order
 
+            // is_featured_updated_at ,, DESC >> to get the featured products
+            // created_at ,, DESC >> to get the newest product
+            // sell_price_updated_at ,, DESC >> to get the product on sale first
+            // most viewed ,, visitors_counter >> DESC
+
+
             $list = [];
 
             $queryBuilder = $list = Product::with('images');
@@ -270,6 +276,19 @@ class ProductController extends Controller
             }
 
             if ($request->get('sort')) {
+
+                if ($request->get('sort') == 'is_featured_updated_at'){
+
+                    $queryBuilder->where('is_featured', 1);
+
+                }
+
+                if ($request->get('sort') == 'ratings_updated_at'){
+                    $queryBuilder->orderBy('ratings' , 'DESC');
+                }
+
+
+
                 $queryBuilder->orderBy(array_key_first($request->get('sort')), array_values($request->get('sort'))[0]);
             }
 
