@@ -277,13 +277,13 @@ class ProductController extends Controller
 
             if ($request->get('sort')) {
 
-                if ($request->get('sort') == 'is_featured_updated_at'){
+                if (array_key_first($request->get('sort')) == 'is_featured_updated_at'){
 
                     $queryBuilder->where('is_featured', 1);
 
                 }
 
-                if ($request->get('sort') == 'ratings_updated_at'){
+                if (array_key_first($request->get('sort')) == 'ratings_updated_at'){
                     $queryBuilder->orderBy('ratings' , 'DESC');
                 }
 
