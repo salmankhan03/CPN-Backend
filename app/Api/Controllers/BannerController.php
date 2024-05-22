@@ -13,7 +13,13 @@ class BannerController extends Controller
         try {
             
             $data = $request->only([
-                'side'
+                'side',
+                'heading',
+                'content',
+                'buttonLabel',
+                'buttonUrl',
+                'contentPosition',
+                'id'
             ]);
     
             $user = \Auth::user();
@@ -30,8 +36,14 @@ class BannerController extends Controller
                 $imageData['original_name'] = $image->getClientOriginalName();
                 $imageData['created_by'] = $user->id;
                 $imageData['side'] = $data['side'];
+
+                $imageData['heading'] = $data['heading'];
+                $imageData['content'] = $data['content'];
+                $imageData['button_label'] = $data['buttonLabel'];
+                $imageData['button_url'] = $data['buttonUrl'];
+                $imageData['content_position'] = $data['contentPosition'];
     
-                BannerImages::create($imageData);
+                BannerImages::updateOrCreate(['id' => $data['id']], $imageData);
             }
 
             return response()->json([

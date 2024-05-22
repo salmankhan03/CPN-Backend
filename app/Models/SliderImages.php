@@ -21,7 +21,12 @@ class SliderImages extends Model
         'image',
         'created_by',
         'deleted_by',
-        'original_name'
+        'original_name',
+        'heading',
+        'content',
+        'button_label',
+        'button_url',
+        'content_position'
     ];
 
     protected $hidden = [
@@ -35,7 +40,9 @@ class SliderImages extends Model
 
     public function setImageAttribute($value)
     {
-        $this->saveFile($value, 'image', "slider_images/" . date('Y/m'));
+        if (!$this->attributes['id']){
+            $this->saveFile($value, 'image', "slider_images/" . date('Y/m'));
+        }
     }
 
     public function getImageAttribute()

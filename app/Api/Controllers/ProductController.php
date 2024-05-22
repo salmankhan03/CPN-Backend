@@ -280,14 +280,12 @@ class ProductController extends Controller
                 if (array_key_first($request->get('sort')) == 'is_featured_updated_at'){
 
                     $queryBuilder->where('is_featured', 1);
-
+                    
                 }
 
                 if (array_key_first($request->get('sort')) == 'ratings_updated_at'){
                     $queryBuilder->orderBy('ratings' , 'DESC');
                 }
-
-
 
                 $queryBuilder->orderBy(array_key_first($request->get('sort')), array_values($request->get('sort'))[0]);
             }

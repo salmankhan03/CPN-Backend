@@ -14,9 +14,6 @@ use Ramsey\Uuid\Uuid;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
 
-
-
-
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, FileUploadTrait, HasRoles;

@@ -17,6 +17,15 @@ class SliderImageController extends Controller
     public function upload(Request $request){
 
         try {
+
+            $requestData = $request->only(
+                'heading',
+                'content',
+                'buttonLabel',
+                'buttonUrl',
+                'contentPosition',
+                'id'
+            );
     
             $user = \Auth::user();
     
@@ -31,8 +40,14 @@ class SliderImageController extends Controller
                 $imageData['image'] = $image;
                 $imageData['original_name'] = $image->getClientOriginalName();
                 $imageData['created_by'] = $user->id;
+
+                $imageData['heading'] = $requestData['heading'];
+                $imageData['content'] = $requestData['content'];
+                $imageData['button_label'] = $requestData['buttonLabel'];
+                $imageData['button_url'] = $requestData['buttonUrl'];
+                $imageData['content_position'] = $requestData['contentPosition'];
     
-                SliderImages::create($imageData);
+                SliderImages::updateOrCreate(['id' => $requestData['id']], $imageData);
             }
 
             return response()->json([
