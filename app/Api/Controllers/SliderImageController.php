@@ -158,7 +158,7 @@ class SliderImageController extends Controller
     }
 
     public function getById($id){
-        
+
         try {
             $imageData = SliderImages::find($id);
 
@@ -166,7 +166,7 @@ class SliderImageController extends Controller
 
                 return response()->json([
                     'status_code' => 200,
-                    'attributeValue' => $imageData
+                    'data' => $imageData
                 ]);
 
             }

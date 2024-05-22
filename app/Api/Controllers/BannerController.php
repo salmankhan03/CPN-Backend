@@ -152,7 +152,7 @@ class BannerController extends Controller
 
                 return response()->json([
                     'status_code' => 200,
-                    'attributeValue' => $imageData
+                    'data' => $imageData
                 ]);
 
             }
