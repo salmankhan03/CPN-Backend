@@ -26,6 +26,9 @@ class SliderImageController extends Controller
                 'contentPosition',
                 'id'
             );
+
+            print_r($requestData);
+            die;
     
             $user = \Auth::user();
     
@@ -40,7 +43,7 @@ class SliderImageController extends Controller
                 $imageData['image'] = $image;
                 $imageData['original_name'] = $image->getClientOriginalName();
                 $imageData['created_by'] = $user->id;
-                echo "here";die;
+        
                 $imageData['heading'] = $requestData['heading'];
                 $imageData['content'] = $requestData['content'];
                 $imageData['button_label'] = $requestData['buttonLabel'];
