@@ -156,4 +156,36 @@ class SliderImageController extends Controller
             ]);
         }
     }
+
+    public function getById($id){
+        
+        try {
+            $imageData = SliderImages::find($id);
+
+            if ($imageData){
+
+                return response()->json([
+                    'status_code' => 200,
+                    'attributeValue' => $imageData
+                ]);
+
+            }
+
+            else{
+                return response()->json([
+                    'status_code' => 200,
+                    'message' => 'Slider Image Not Found'
+                ]);
+            }
+
+            
+        }
+
+        catch (\Exception $e){
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }

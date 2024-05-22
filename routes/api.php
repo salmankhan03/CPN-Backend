@@ -274,6 +274,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
         Route::post('/upload', [BannerController::class, 'upload']);
         Route::get('/{id}/delete', [BannerController::class, 'delete']);
+        Route::get('/{id}/get-by-id', [BannerController::class, 'getById']);
         
 
     });
@@ -285,6 +286,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/upload', [SliderImageController::class, 'upload']);
         Route::get('/{id}/delete', [SliderImageController::class, 'delete']);
         Route::post('/multiple-delete', [SliderImageController::class, 'multipleDelete']);
+        Route::get('/{id}/get-by-id', [SliderImageController::class, 'getById']);
 
     });
 

@@ -142,4 +142,36 @@ class BannerController extends Controller
             
         }
     }
+
+    public function getById($id){
+        
+        try {
+            $imageData = BannerImages::find($id);
+
+            if ($imageData){
+
+                return response()->json([
+                    'status_code' => 200,
+                    'attributeValue' => $imageData
+                ]);
+
+            }
+
+            else{
+                return response()->json([
+                    'status_code' => 200,
+                    'message' => 'Banner Image Not Found'
+                ]);
+            }
+
+            
+        }
+
+        catch (\Exception $e){
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
