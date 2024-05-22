@@ -26,8 +26,6 @@ class SliderImageController extends Controller
                 'contentPosition',
                 'id'
             );
-
-           
     
             $user = \Auth::user();
     
@@ -49,7 +47,7 @@ class SliderImageController extends Controller
                 $imageData['button_url'] = $requestData['buttonUrl'];
                 $imageData['content_position'] = $requestData['contentPosition'];
     
-                SliderImages::updateOrCreate(['id' => $requestData['id']], $imageData);
+                SliderImages::updateOrCreate(['id' => !empty($requestData['id']) ? $requestData['id'] : null], $imageData);
             }
 
             return response()->json([

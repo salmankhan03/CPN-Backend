@@ -43,7 +43,7 @@ class BannerController extends Controller
                 $imageData['button_url'] = $data['buttonUrl'];
                 $imageData['content_position'] = $data['contentPosition'];
     
-                BannerImages::updateOrCreate(['id' => $data['id']], $imageData);
+                BannerImages::updateOrCreate(['id' => !empty($data['id']) ? $data['id'] : null], $imageData);
             }
 
             return response()->json([
