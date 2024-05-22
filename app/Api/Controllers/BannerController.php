@@ -37,6 +37,7 @@ class BannerController extends Controller
                 $imageData['created_by'] = $user->id;
                 $imageData['side'] = $data['side'];
 
+                $imageData['id'] = $data['id'];
                 $imageData['heading'] = $data['heading'];
                 $imageData['content'] = $data['content'];
                 $imageData['button_label'] = $data['buttonLabel'];

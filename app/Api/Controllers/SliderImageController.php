@@ -40,14 +40,15 @@ class SliderImageController extends Controller
                 $imageData['image'] = $image;
                 $imageData['original_name'] = $image->getClientOriginalName();
                 $imageData['created_by'] = $user->id;
-        
+                
+                $imageData['id'] = $requestData['id'];
                 $imageData['heading'] = $requestData['heading'];
                 $imageData['content'] = $requestData['content'];
                 $imageData['button_label'] = $requestData['buttonLabel'];
                 $imageData['button_url'] = $requestData['buttonUrl'];
                 $imageData['content_position'] = $requestData['contentPosition'];
     
-                SliderImages::updateOrCreate(['id' => !empty($requestData['id']) ? $requestData['id'] : null], $imageData);
+                SliderImages::updateOrCreate(['id' => $requestData['id']], $imageData);
             }
 
             return response()->json([

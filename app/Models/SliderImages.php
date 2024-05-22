@@ -40,7 +40,7 @@ class SliderImages extends Model
 
     public function setImageAttribute($value)
     {
-        if (!$this->attributes['id']){
+        if (!empty($this->attributes['id'])) {
             $this->saveFile($value, 'image', "slider_images/" . date('Y/m'));
         }
     }
