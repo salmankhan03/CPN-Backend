@@ -111,7 +111,12 @@ class BannerController extends Controller
                 $data[] = [
                     'id' => $leftBanner->id,
                     'link' => $leftBanner->getImageAttribute(),
-                    'side' => $leftBanner->side
+                    'side' => $leftBanner->side,
+                    'heading' => $leftBanner->heading,
+                    'content' => $leftBanner->content,
+                    'button_label' => $leftBanner->button_label,
+                    'button_url'=> $leftBanner->button_url,
+                    'content_position' => $leftBanner->content_position
                 ];
 
             }
@@ -121,7 +126,12 @@ class BannerController extends Controller
                 $data[] = [
                     'id' => $rightBanner->id,
                     'link' => $rightBanner->getImageAttribute(),
-                    'side' => $rightBanner->side
+                    'side' => $rightBanner->side,
+                    'heading' => $rightBanner->heading,
+                    'content' => $rightBanner->content,
+                    'button_label' => $rightBanner->button_label,
+                    'button_url'=> $rightBanner->button_url,
+                    'content_position' => $rightBanner->content_position
                 ];
 
             }
