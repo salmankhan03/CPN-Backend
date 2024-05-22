@@ -27,8 +27,7 @@ class SliderImageController extends Controller
                 'id'
             );
 
-            print_r($requestData);
-            die;
+           
     
             $user = \Auth::user();
     
