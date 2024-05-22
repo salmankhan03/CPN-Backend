@@ -37,10 +37,10 @@ class BannerImages extends Model
 
     public function setImageAttribute($value)
     {   
-        if (empty($this->attributes['id'])){
+        // if (empty($this->attributes['id'])){
 
             $this->saveFile($value, 'image', "banner_images/" . date('Y/m'));
-        }
+        // }
     }
 
     public function getImageAttribute()
