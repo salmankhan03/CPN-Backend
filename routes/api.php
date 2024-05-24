@@ -1,5 +1,11 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
+
 use App\Api\Controllers\AdminUserController;
 use App\Api\Controllers\BannerController;
 use App\Api\Controllers\CouponCodeController;
@@ -12,12 +18,6 @@ use App\Api\Controllers\ProductBrandController;
 use App\Api\Controllers\ProductController;
 use App\Api\Controllers\RolePermissionController;
 use App\Api\Controllers\UserController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Auth;
 use App\Api\Controllers\ProductCategoryController;
 use App\Api\Controllers\ProductSubCategoryController;
 use App\Api\Controllers\TempTemplateController;
