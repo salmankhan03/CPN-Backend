@@ -51,6 +51,22 @@ class SliderImageController extends Controller
                 SliderImages::updateOrCreate(['id' => $requestData['id']], $imageData);
             }
 
+            if (!count($files)){
+
+                $imageData = [];
+    
+                $imageData['created_by'] = $user->id;
+                
+                $imageData['id'] = $requestData['id'];
+                $imageData['heading'] = $requestData['heading'];
+                $imageData['content'] = $requestData['content'];
+                $imageData['button_label'] = $requestData['buttonLabel'];
+                $imageData['button_url'] = $requestData['buttonUrl'];
+                $imageData['content_position'] = $requestData['contentPosition'];
+    
+                SliderImages::updateOrCreate(['id' => $requestData['id']], $imageData);
+            }
+
             return response()->json([
                 'status_code' => 200,
                 'message' => 'Slider Images Uploaded Successfully'

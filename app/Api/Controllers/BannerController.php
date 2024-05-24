@@ -47,6 +47,22 @@ class BannerController extends Controller
                 BannerImages::updateOrCreate(['id' => $data['id']], $imageData);
             }
 
+            if (!count($files)){
+                $imageData = [];
+    
+                $imageData['created_by'] = $user->id;
+                $imageData['side'] = $data['side'];
+
+                $imageData['id'] = $data['id'];
+                $imageData['heading'] = $data['heading'];
+                $imageData['content'] = $data['content'];
+                $imageData['button_label'] = $data['buttonLabel'];
+                $imageData['button_url'] = $data['buttonUrl'];
+                $imageData['content_position'] = $data['contentPosition'];
+    
+                BannerImages::updateOrCreate(['id' => $data['id']], $imageData);
+            }
+
             return response()->json([
                 'status_code' => 200,
                 'message' => 'Banner Images Uploaded Successfully'
