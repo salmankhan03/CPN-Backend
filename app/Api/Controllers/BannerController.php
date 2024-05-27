@@ -26,42 +26,27 @@ class BannerController extends Controller
     
             $files = $_FILES;
     
+            $imageData = [];
+
             foreach ($files as  $fileName => $file) {
-    
-                $imageData = [];
     
                 $image = $request->file($fileName);
     
                 $imageData['image'] = $image;
                 $imageData['original_name'] = $image->getClientOriginalName();
-                $imageData['created_by'] = $user->id;
-                $imageData['side'] = $data['side'];
-
-                $imageData['id'] = $data['id'];
-                $imageData['heading'] = $data['heading'];
-                $imageData['content'] = $data['content'];
-                $imageData['button_label'] = $data['buttonLabel'];
-                $imageData['button_url'] = $data['buttonUrl'];
-                $imageData['content_position'] = $data['contentPosition'];
-    
-                BannerImages::updateOrCreate(['id' => $data['id']], $imageData);
             }
 
-            if (!count($files)){
-                $imageData = [];
-    
-                $imageData['created_by'] = $user->id;
-                $imageData['side'] = $data['side'];
+            $imageData['created_by'] = $user->id;
+            $imageData['side'] = $data['side'];
 
-                $imageData['id'] = $data['id'];
-                $imageData['heading'] = $data['heading'];
-                $imageData['content'] = $data['content'];
-                $imageData['button_label'] = $data['buttonLabel'];
-                $imageData['button_url'] = $data['buttonUrl'];
-                $imageData['content_position'] = $data['contentPosition'];
-    
-                BannerImages::updateOrCreate(['id' => $data['id']], $imageData);
-            }
+            $imageData['id'] = $data['id'];
+            $imageData['heading'] = $data['heading'];
+            $imageData['content'] = $data['content'];
+            $imageData['button_label'] = $data['buttonLabel'];
+            $imageData['button_url'] = $data['buttonUrl'];
+            $imageData['content_position'] = $data['contentPosition'];
+
+            BannerImages::updateOrCreate(['id' => $data['id']], $imageData);
 
             return response()->json([
                 'status_code' => 200,

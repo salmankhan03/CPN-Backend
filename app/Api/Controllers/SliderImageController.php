@@ -29,43 +29,29 @@ class SliderImageController extends Controller
     
             $user = \Auth::user();
     
+            $imageData = [];
+
             $files = $_FILES;
     
             foreach ($files as  $fileName => $file) {
-    
-                $imageData = [];
     
                 $image = $request->file($fileName);
     
                 $imageData['image'] = $image;
                 $imageData['original_name'] = $image->getClientOriginalName();
-                $imageData['created_by'] = $user->id;
                 
-                $imageData['id'] = $requestData['id'];
-                $imageData['heading'] = $requestData['heading'];
-                $imageData['content'] = $requestData['content'];
-                $imageData['button_label'] = $requestData['buttonLabel'];
-                $imageData['button_url'] = $requestData['buttonUrl'];
-                $imageData['content_position'] = $requestData['contentPosition'];
-    
-                SliderImages::updateOrCreate(['id' => $requestData['id']], $imageData);
             }
 
-            if (!count($files)){
-
-                $imageData = [];
-    
-                $imageData['created_by'] = $user->id;
+            $imageData['created_by'] = $user->id;
                 
-                $imageData['id'] = $requestData['id'];
-                $imageData['heading'] = $requestData['heading'];
-                $imageData['content'] = $requestData['content'];
-                $imageData['button_label'] = $requestData['buttonLabel'];
-                $imageData['button_url'] = $requestData['buttonUrl'];
-                $imageData['content_position'] = $requestData['contentPosition'];
-    
-                SliderImages::updateOrCreate(['id' => $requestData['id']], $imageData);
-            }
+            $imageData['id'] = $requestData['id'];
+            $imageData['heading'] = $requestData['heading'];
+            $imageData['content'] = $requestData['content'];
+            $imageData['button_label'] = $requestData['buttonLabel'];
+            $imageData['button_url'] = $requestData['buttonUrl'];
+            $imageData['content_position'] = $requestData['contentPosition'];
+
+            SliderImages::updateOrCreate(['id' => $requestData['id']], $imageData);
 
             return response()->json([
                 'status_code' => 200,
