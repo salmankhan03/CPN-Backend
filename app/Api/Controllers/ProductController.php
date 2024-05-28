@@ -196,13 +196,20 @@ class ProductController extends Controller
         }
     }
 
-    public function getProductById($id)
+    public function getProductById(Request $request , $id)
     {
 
         try {
+
+            $relatedProducts = $request->get('reltedProducts');
+
             $product = Product::with('images', 'category')->find($id);
 
             Product::where('id', $id)->increment('visitors_counter'); // update the counter with 1
+
+            $relatedProducts = Product::with('images', 'category')->where('id' , '!=' , $id)->where('category_id' , $product->category_id)->orderBy('id' , 'DESC')->take($relatedProducts)->get();
+
+            $product->relatedProducts = $relatedProducts;
 
             return response()->json([
                 'status_code' => 200,
