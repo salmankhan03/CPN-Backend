@@ -201,15 +201,43 @@ class ProductController extends Controller
 
         try {
 
-            $relatedProducts = $request->get('reltedProducts');
+            $noOfRelatedProducts = $request->get('reltedProducts');
 
             $product = Product::with('images', 'category')->find($id);
 
             Product::where('id', $id)->increment('visitors_counter'); // update the counter with 1
 
-            $relatedProducts = Product::with('images', 'category')->where('id' , '!=' , $id)->where('category_id' , $product->category_id)->orderBy('id' , 'DESC')->take($relatedProducts)->get();
+            $finalResult = null;
 
-            $product->relatedProducts = $relatedProducts;
+            $relatedProducts = Product::with('images', 'category')->where('id' , '!=' , $id)->where('category_id' , $product->category_id)->orderBy('id' , 'DESC')->take($noOfRelatedProducts)->get();
+
+            $relatedProductIds = [];
+
+            foreach ($relatedProducts as $relatedProduct){
+
+                $relatedProductIds[] = $relatedProduct->id;
+
+            }
+
+            $noOfRelatedProductsGot = count($relatedProducts);
+
+            if ($noOfRelatedProductsGot < $noOfRelatedProducts){
+
+                $noOfFeaturedProducts = $noOfRelatedProducts - $noOfRelatedProductsGot;
+              
+
+                if ($noOfFeaturedProducts){
+
+                    $featuredProducts  = Product::with('images', 'category')->whereNotIn('id' , $relatedProductIds)->where('is_featured' , 1)->orderBy('is_featured_updated_at' , 'DESC')->take($noOfFeaturedProducts)->get();
+                    
+                    $finalResult = array_merge($relatedProducts->toArray() , $featuredProducts->toArray());
+                }
+
+            }else{
+                $finalResult = $relatedProducts;
+            }
+
+            $product->relatedProducts = $finalResult;
 
             return response()->json([
                 'status_code' => 200,
