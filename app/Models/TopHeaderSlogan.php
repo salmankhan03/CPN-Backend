@@ -15,6 +15,8 @@ class TopHeaderSlogan extends Model
 
     protected $guarded = ['id'];
 
+    protected $table = "top_header_slogan";
+
     protected $fillable = [
         'text', 'url'
     ];
