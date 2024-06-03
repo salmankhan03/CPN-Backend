@@ -297,7 +297,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     Route::prefix('/top-header-slogan')->group(function () {
 
-        Route::post('/upsert', [TopHeaderSloganController::class, 'upload']);
+        Route::post('/upsert', [TopHeaderSloganController::class, 'upsert']);
         Route::get('/{id}/delete', [TopHeaderSloganController::class, 'delete']);
         Route::post('/multiple-delete', [TopHeaderSloganController::class, 'multipleDelete']);
         Route::get('/{id}/get-by-id', [TopHeaderSloganController::class, 'getById']);
