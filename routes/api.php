@@ -25,6 +25,7 @@ use App\Api\Controllers\ExternalApiController;
 use App\Api\Controllers\ProductAttributeController;
 use App\Api\Controllers\ProductAttributeValueController;
 use App\Api\Controllers\SliderImageController;
+use App\Api\Controllers\TopHeaderSloganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,6 +108,8 @@ Route::get('customer/logout', [UserController::class, 'logout']);
 Route::get('banner/list', [BannerController::class, 'list']);
 
 Route::get('slider-image/list', [SliderImageController::class, 'list']);
+
+Route::get('top-header-slogan/list', [TopHeaderSloganController::class, 'list']);
 
 Route::group(['middleware' => 'auth.jwt'], function () {
 
@@ -287,6 +290,17 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/{id}/delete', [SliderImageController::class, 'delete']);
         Route::post('/multiple-delete', [SliderImageController::class, 'multipleDelete']);
         Route::get('/{id}/get-by-id', [SliderImageController::class, 'getById']);
+
+    });
+
+    //top header slogan
+
+    Route::prefix('/top-header-slogan')->group(function () {
+
+        Route::post('/upsert', [TopHeaderSloganController::class, 'upload']);
+        Route::get('/{id}/delete', [TopHeaderSloganController::class, 'delete']);
+        Route::post('/multiple-delete', [TopHeaderSloganController::class, 'multipleDelete']);
+        Route::get('/{id}/get-by-id', [TopHeaderSloganController::class, 'getById']);
 
     });
 
