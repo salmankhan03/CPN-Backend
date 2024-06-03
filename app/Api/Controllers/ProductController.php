@@ -370,6 +370,8 @@ class ProductController extends Controller
                 $qb->where('category_id', $categoryId);
             }
 
+            $qb->where('is_featured' , 1);
+
             $featuredProducts = $qb->orderBy('updated_at', 'DESC')->get();
 
             return response()->json([
