@@ -495,19 +495,23 @@ class ProductController extends Controller
 
                 if ($result->tags){
 
-                    foreach (json_decode($result->tags) as $tag){
+                    if (json_decode($result->tags)){
+                        foreach (json_decode($result->tags) as $tag){
 
-                        if (!empty($tag)){
-                            if (str_contains($tag, $keywordInLowerCase)){
-                                $uniqueSearchKeywords[] = $tag;
+                            if (!empty($tag)){
+                                if (str_contains($tag, $keywordInLowerCase)){
+                                    $uniqueSearchKeywords[] = $tag;
+                                }
+                
+                                if (str_contains($tag, $keywordInUpperCase)){
+                                    $uniqueSearchKeywords[] = $tag;
+                                }
                             }
-            
-                            if (str_contains($tag, $keywordInUpperCase)){
-                                $uniqueSearchKeywords[] = $tag;
-                            }
+    
                         }
-
                     }
+
+                  
                 }
                 
             }
