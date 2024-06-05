@@ -434,12 +434,12 @@ class ProductController extends Controller
                 strtoupper($request->get('searchParam'))
             ];
 
-            $results = Product::select('name' , 'brand' , 'tags')
+            $results = Product::select('slug' , 'brand' , 'tags')
                         ->with(['category' => function ($query) {
                             $query->select('name');
                         }])
-                        ->where('name', 'like', '%' . $keywordInLowerCase . '%')
-                        ->orWhere('name', 'like', '%' . $keywordInUpperCase . '%')
+                        ->where('slug', 'like', '%' . $keywordInLowerCase . '%')
+                        ->orWhere('slug', 'like', '%' . $keywordInUpperCase . '%')
                         ->whereHas('category' , function($q) use ($keywordInLowerCase , $keywordInUpperCase) {
                             
                             $q->orWhere('name', 'like', '%' . $keywordInLowerCase . '%');
