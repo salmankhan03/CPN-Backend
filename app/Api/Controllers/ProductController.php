@@ -434,7 +434,7 @@ class ProductController extends Controller
                 strtoupper($request->get('searchParam'))
             ];
 
-            $results = Product::select('slug' , 'brand' , 'tags')
+            $results = Product::select('slug' , 'brand' , 'tags','name')
                         ->with(['category' => function ($query) {
                             $query->select('name');
                         }])
@@ -453,13 +453,13 @@ class ProductController extends Controller
             foreach ($results as $result){
 
                 //product Name
-                if (!empty($result->name)){
+                if (!empty($result->slug)){
 
-                    if (str_contains($result->name, $keywordInLowerCase)){
+                    if (str_contains($result->slug, $keywordInLowerCase)){
                         $uniqueSearchKeywords[] = $result->name;
                     }
     
-                    if (str_contains($result->name, $keywordInUpperCase)){
+                    if (str_contains($result->slug, $keywordInUpperCase)){
                         $uniqueSearchKeywords[] = $result->name;
                     }
                 }
