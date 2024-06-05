@@ -426,6 +426,9 @@ class ProductController extends Controller
 
             $uniqueSearchKeywords = [];
 
+            $keywordInLowerCase = strtolower($request->get('searchParam'));
+            $keywordInUpperCase = strtoupper($request->get('searchParam'));
+
             $searchCriteria = [
                 strtolower($request->get('searchParam')),
                 strtoupper($request->get('searchParam'))
@@ -435,27 +438,78 @@ class ProductController extends Controller
                         ->with(['category' => function ($query) {
                             $query->select('name');
                         }])
-                        ->whereIn('name' , $searchCriteria)
-                        ->whereHas('category' , function($q) use ($searchCriteria) {
-                            $q->whereIn('name', $searchCriteria,'or');
+                        ->where('name', 'like', '%' . $keywordInLowerCase . '%')
+                        ->orWhere('name', 'like', '%' . $keywordInUpperCase . '%')
+                        ->whereHas('category' , function($q) use ($keywordInLowerCase , $keywordInUpperCase) {
+                            
+                            $q->orWhere('name', 'like', '%' . $keywordInLowerCase . '%');
+                            $q->orWhere('name', 'like', '%' . $keywordInUpperCase . '%');
                          })
-                        ->whereIn('name' , $searchCriteria , 'or')
+                        ->orWhere('brand', 'like', '%' . $keywordInUpperCase . '%')
+                        ->orWhere('brand', 'like', '%' . $keywordInUpperCase . '%')
                         ->whereJsonContains("tags" , $searchCriteria)
                         ->get();
 
             foreach ($results as $result){
 
-                $uniqueSearchKeywords[] = $result->name;
-                $uniqueSearchKeywords[] = $result->brand;
-                
-                $uniqueSearchKeywords[] = $result->category;
+                //product Name
+                if (!empty($result->name)){
 
-                foreach (json_decode($result->tags) as $tag){
+                    if (str_contains($result->name, $keywordInLowerCase)){
+                        $uniqueSearchKeywords[] = $result->name;
+                    }
+    
+                    if (str_contains($result->name, $keywordInUpperCase)){
+                        $uniqueSearchKeywords[] = $result->name;
+                    }
+                }
+             
 
-                    $uniqueSearchKeywords[] = $tag;
+                //product brand
+
+                if (!empty($result->brand)){
+
+                    if (str_contains($result->brand, $keywordInLowerCase)){
+                        $uniqueSearchKeywords[] = $result->brand;
+                    }
+
+                    if (str_contains($result->brand, $keywordInUpperCase)){
+                        $uniqueSearchKeywords[] = $result->brand;
+                    }
 
                 }
 
+                //product Category
+
+                if (!empty($result->category)){
+
+                    if (str_contains($result->category, $keywordInLowerCase)){
+                        $uniqueSearchKeywords[] = $result->category;
+                    }
+
+                    if (str_contains($result->category, $keywordInUpperCase)){
+                        $uniqueSearchKeywords[] = $result->category;
+                    }
+
+                }
+
+                if ($result->tags){
+
+                    foreach (json_decode($result->tags) as $tag){
+
+                        if (!empty($tag)){
+                            if (str_contains($tag, $keywordInLowerCase)){
+                                $uniqueSearchKeywords[] = $tag;
+                            }
+            
+                            if (str_contains($tag, $keywordInUpperCase)){
+                                $uniqueSearchKeywords[] = $tag;
+                            }
+                        }
+
+                    }
+                }
+                
             }
 
             return response()->json([
