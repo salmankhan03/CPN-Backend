@@ -111,6 +111,8 @@ Route::get('slider-image/list', [SliderImageController::class, 'list']);
 
 Route::get('top-header-slogan/list', [TopHeaderSloganController::class, 'list']);
 
+Route::post('product/generic-search',[ProductController::class , 'getProductForGenericSearch']);
+
 Route::group(['middleware' => 'auth.jwt'], function () {
 
     Route::get('/get-admin-user', [AdminUserController::class, 'getUser']);

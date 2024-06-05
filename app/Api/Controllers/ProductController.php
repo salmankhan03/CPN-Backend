@@ -414,4 +414,61 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
+    public function getProductForGenericSearch(Request $request){
+
+        //searchParams = product name , category Name , brand name , tags
+        // this api will return the list of product names, category names , brand names, or tags
+
+        try{
+
+            // we will search for upper and lower case for search keyword
+
+            $uniqueSearchKeywords = [];
+
+            $searchCriteria = [
+                strtolower($request->get('searchParam')),
+                strtoupper($request->get('searchParam'))
+            ];
+
+            $results = Product::select('name' , 'brand' , 'tags')
+                        ->with(['category' => function ($query) {
+                            $query->select('name');
+                        }])
+                        ->whereIn('name' , $searchCriteria)
+                        ->whereHas('category' , function($q) use ($searchCriteria) {
+                            $q->whereIn('name', $searchCriteria,'or');
+                         })
+                        ->whereIn('name' , $searchCriteria , 'or')
+                        ->whereJsonContains("tags" , $searchCriteria)
+                        ->get();
+
+            foreach ($results as $result){
+
+                $uniqueSearchKeywords[] = $result->name;
+                $uniqueSearchKeywords[] = $result->brand;
+                
+                $uniqueSearchKeywords[] = $result->category;
+
+                foreach (json_decode($result->tags) as $tag){
+
+                    $uniqueSearchKeywords[] = $tag;
+
+                }
+
+            }
+
+            return response()->json([
+                'list' => array_unique($uniqueSearchKeywords),
+                'status_code' => 200
+            ]);
+
+        }catch (\Exception $e){
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+
+    }
 }
