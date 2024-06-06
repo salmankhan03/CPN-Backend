@@ -431,67 +431,69 @@ class ProductController extends Controller
 
             $searchCriteria = [
                 strtolower($request->get('searchParam')),
-                strtoupper($request->get('searchParam'))
+                strtoupper($request->get('searchParam')),
+                ucfirst($request->get('searchParam')),
+
             ];
 
             $results = Product::select('slug' , 'brand' , 'tags','name')
                         ->with(['category' => function ($query) {
                             $query->select('name');
                         }])
-                        ->where('slug', 'like', '%' . $keywordInLowerCase . '%')
-                        ->orWhere('slug', 'like', '%' . $keywordInUpperCase . '%')
-                        ->whereHas('category' , function($q) use ($keywordInLowerCase , $keywordInUpperCase) {
+                        // ->where('slug', 'like', '%' . $keywordInLowerCase . '%')
+                        // ->orWhere('slug', 'like', '%' . $keywordInUpperCase . '%')
+                        // ->whereHas('category' , function($q) use ($keywordInLowerCase , $keywordInUpperCase) {
                             
-                            $q->orWhere('name', 'like', '%' . $keywordInLowerCase . '%');
-                            $q->orWhere('name', 'like', '%' . $keywordInUpperCase . '%');
-                         })
-                        ->orWhere('brand', 'like', '%' . $keywordInUpperCase . '%')
-                        ->orWhere('brand', 'like', '%' . $keywordInUpperCase . '%')
+                        //     $q->orWhere('name', 'like', '%' . $keywordInLowerCase . '%');
+                        //     $q->orWhere('name', 'like', '%' . $keywordInUpperCase . '%');
+                        //  })
+                        // ->orWhere('brand', 'like', '%' . $keywordInUpperCase . '%')
+                        // ->orWhere('brand', 'like', '%' . $keywordInUpperCase . '%')
                         ->whereJsonContains("tags" , $searchCriteria)
                         ->get();
 
             foreach ($results as $result){
 
                 //product Name
-                if (!empty($result->slug)){
+                // if (!empty($result->slug)){
 
-                    if (str_contains($result->slug, $keywordInLowerCase)){
-                        $uniqueSearchKeywords[] = $result->name;
-                    }
+                //     if (str_contains($result->slug, $keywordInLowerCase)){
+                //         $uniqueSearchKeywords[] = $result->name;
+                //     }
     
-                    if (str_contains($result->slug, $keywordInUpperCase)){
-                        $uniqueSearchKeywords[] = $result->name;
-                    }
-                }
+                //     if (str_contains($result->slug, $keywordInUpperCase)){
+                //         $uniqueSearchKeywords[] = $result->name;
+                //     }
+                // }
              
 
                 //product brand
 
-                if (!empty($result->brand)){
+                // if (!empty($result->brand)){
 
-                    if (str_contains($result->brand, $keywordInLowerCase)){
-                        $uniqueSearchKeywords[] = $result->brand;
-                    }
+                //     if (str_contains($result->brand, $keywordInLowerCase)){
+                //         $uniqueSearchKeywords[] = $result->brand;
+                //     }
 
-                    if (str_contains($result->brand, $keywordInUpperCase)){
-                        $uniqueSearchKeywords[] = $result->brand;
-                    }
+                //     if (str_contains($result->brand, $keywordInUpperCase)){
+                //         $uniqueSearchKeywords[] = $result->brand;
+                //     }
 
-                }
+                // }
 
                 //product Category
 
-                if (!empty($result->category)){
+                // if (!empty($result->category)){
 
-                    if (str_contains($result->category, $keywordInLowerCase)){
-                        $uniqueSearchKeywords[] = $result->category;
-                    }
+                //     if (str_contains($result->category, $keywordInLowerCase)){
+                //         $uniqueSearchKeywords[] = $result->category;
+                //     }
 
-                    if (str_contains($result->category, $keywordInUpperCase)){
-                        $uniqueSearchKeywords[] = $result->category;
-                    }
+                //     if (str_contains($result->category, $keywordInUpperCase)){
+                //         $uniqueSearchKeywords[] = $result->category;
+                //     }
 
-                }
+                // }
 
                 if ($result->tags){
 
