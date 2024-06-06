@@ -426,20 +426,16 @@ class ProductController extends Controller
 
             $uniqueSearchKeywords = [];
 
-            $keywordInLowerCase = strtolower($request->get('searchParam'));
-            $keywordInUpperCase = strtoupper($request->get('searchParam'));
+            // $keywordInLowerCase = strtolower($request->get('searchParam'));
+            // $keywordInUpperCase = strtoupper($request->get('searchParam'));
 
-            $searchCriteria = [
-                strtolower($request->get('searchParam')),
-                strtoupper($request->get('searchParam')),
-                ucfirst($request->get('searchParam')),
+            $keyWords = explode(" " , strtolower(trim($request->get('searchParam'))));
+            $keyWords[] = strtolower(trim($request->get('searchParam')));
 
-            ];
-
-            $results = Product::select('slug' , 'brand' , 'tags','name')
-                        ->with(['category' => function ($query) {
-                            $query->select('name');
-                        }])
+            $results = Product::select( 'tags')
+                        // ->with(['category' => function ($query) {
+                        //     $query->select('name');
+                        // }])
                         // ->where('slug', 'like', '%' . $keywordInLowerCase . '%')
                         // ->orWhere('slug', 'like', '%' . $keywordInUpperCase . '%')
                         // ->whereHas('category' , function($q) use ($keywordInLowerCase , $keywordInUpperCase) {
@@ -449,7 +445,7 @@ class ProductController extends Controller
                         //  })
                         // ->orWhere('brand', 'like', '%' . $keywordInUpperCase . '%')
                         // ->orWhere('brand', 'like', '%' . $keywordInUpperCase . '%')
-                        ->whereJsonContains("tags" , $searchCriteria)
+                        ->whereJsonContains("tags" , $keyWords)
                         ->get();
 
             foreach ($results as $result){
@@ -501,11 +497,7 @@ class ProductController extends Controller
                         foreach (json_decode($result->tags) as $tag){
 
                             if (!empty($tag)){
-                                if (str_contains($tag, $keywordInLowerCase)){
-                                    $uniqueSearchKeywords[] = $tag;
-                                }
-                
-                                if (str_contains($tag, $keywordInUpperCase)){
+                                if (in_array(strtolower($tag), $keyWords)){
                                     $uniqueSearchKeywords[] = $tag;
                                 }
                             }
@@ -519,7 +511,7 @@ class ProductController extends Controller
             }
 
             return response()->json([
-                'list' => array_unique($uniqueSearchKeywords),
+                'list' => array_count_values(array_unique($uniqueSearchKeywords)),
                 'status_code' => 200
             ]);
 
