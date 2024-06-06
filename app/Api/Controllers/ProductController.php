@@ -429,8 +429,8 @@ class ProductController extends Controller
             // $keywordInLowerCase = strtolower($request->get('searchParam'));
             // $keywordInUpperCase = strtoupper($request->get('searchParam'));
 
-            $keyWords = explode(" " , strtolower(trim($request->get('searchParam'))));
-            $keyWords[] = strtolower(trim($request->get('searchParam')));
+            $keyWords = explode(" " , (trim($request->get('searchParam'))));
+            $keyWords[] = trim($request->get('searchParam'));
 
             $results = Product::select( 'tags')
                         // ->with(['category' => function ($query) {
