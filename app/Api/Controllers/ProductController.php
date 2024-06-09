@@ -431,7 +431,7 @@ class ProductController extends Controller
             $keyWords = explode(" " , trim($request->get('searchParam')));
             $keyWords[] = trim($request->get('searchParam'));
 
-            $query = Product::select('tags')->where("1 = 1");
+            $query = Product::select('tags');
                     
                         foreach($keyWords as $keyWord) {
                             $query->orWhereJsonContains('positions', [$keyWord]);
