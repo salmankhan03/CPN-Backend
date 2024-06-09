@@ -33,7 +33,6 @@ class Product extends Model
         'is_combination',
         'bar_code',
         'quantity',
-        'slug',
         'tags',
         'variants',
         'status',

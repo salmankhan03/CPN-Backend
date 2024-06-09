@@ -417,8 +417,10 @@ class ProductController extends Controller
 
     public function getProductForGenericSearch(Request $request){
 
-        //searchParams = product name , category Name , brand name , tags
-        // this api will return the list of product names, category names , brand names, or tags
+        //searchParams = tags
+        // this api will return the list of tags that mathces with the search keyword
+
+        //whereJsonContains will return the row even only the one keyword is matched
 
         try{
 
@@ -426,70 +428,18 @@ class ProductController extends Controller
 
             $uniqueSearchKeywords = [];
 
-            // $keywordInLowerCase = strtolower($request->get('searchParam'));
-            // $keywordInUpperCase = strtoupper($request->get('searchParam'));
-
-            $keyWords = explode(" " , (trim($request->get('searchParam'))));
+            $keyWords = explode(" " , trim($request->get('searchParam')));
             $keyWords[] = trim($request->get('searchParam'));
 
-            $results = Product::select( 'tags')
-                        // ->with(['category' => function ($query) {
-                        //     $query->select('name');
-                        // }])
-                        // ->where('slug', 'like', '%' . $keywordInLowerCase . '%')
-                        // ->orWhere('slug', 'like', '%' . $keywordInUpperCase . '%')
-                        // ->whereHas('category' , function($q) use ($keywordInLowerCase , $keywordInUpperCase) {
-                            
-                        //     $q->orWhere('name', 'like', '%' . $keywordInLowerCase . '%');
-                        //     $q->orWhere('name', 'like', '%' . $keywordInUpperCase . '%');
-                        //  })
-                        // ->orWhere('brand', 'like', '%' . $keywordInUpperCase . '%')
-                        // ->orWhere('brand', 'like', '%' . $keywordInUpperCase . '%')
-                        ->whereJsonContains("tags" , $keyWords)
-                        ->get();
+            $query = Product::select('tags')->where("1 = 1");
+                    
+                        foreach($keyWords as $keyWord) {
+                            $query->orWhereJsonContains('positions', [$keyWord]);
+                        }
+                        
+            $results = $query->get();
 
             foreach ($results as $result){
-
-                //product Name
-                // if (!empty($result->slug)){
-
-                //     if (str_contains($result->slug, $keywordInLowerCase)){
-                //         $uniqueSearchKeywords[] = $result->name;
-                //     }
-    
-                //     if (str_contains($result->slug, $keywordInUpperCase)){
-                //         $uniqueSearchKeywords[] = $result->name;
-                //     }
-                // }
-             
-
-                //product brand
-
-                // if (!empty($result->brand)){
-
-                //     if (str_contains($result->brand, $keywordInLowerCase)){
-                //         $uniqueSearchKeywords[] = $result->brand;
-                //     }
-
-                //     if (str_contains($result->brand, $keywordInUpperCase)){
-                //         $uniqueSearchKeywords[] = $result->brand;
-                //     }
-
-                // }
-
-                //product Category
-
-                // if (!empty($result->category)){
-
-                //     if (str_contains($result->category, $keywordInLowerCase)){
-                //         $uniqueSearchKeywords[] = $result->category;
-                //     }
-
-                //     if (str_contains($result->category, $keywordInUpperCase)){
-                //         $uniqueSearchKeywords[] = $result->category;
-                //     }
-
-                // }
 
                 if ($result->tags){
 
@@ -497,7 +447,7 @@ class ProductController extends Controller
                         foreach (json_decode($result->tags) as $tag){
 
                             if (!empty($tag)){
-                                if (in_array(strtolower($tag), $keyWords)){
+                                if (in_array(($tag), $keyWords)){
                                     $uniqueSearchKeywords[] = $tag;
                                 }
                             }
