@@ -434,7 +434,7 @@ class ProductController extends Controller
             $query = Product::select('tags');
                     
                         foreach($keyWords as $keyWord) {
-                            $query->orWhereJsonContains('positions', [$keyWord]);
+                            $query->orWhereJsonContains('tags', [$keyWord]);
                         }
                         
             $results = $query->get();
