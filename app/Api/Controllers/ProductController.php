@@ -461,7 +461,7 @@ class ProductController extends Controller
             }
 
             return response()->json([
-                'list' => array_count_values(array_unique($uniqueSearchKeywords)),
+                'list' => array_count_values($uniqueSearchKeywords),
                 'status_code' => 200
             ]);
 
