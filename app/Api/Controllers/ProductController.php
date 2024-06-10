@@ -420,7 +420,7 @@ class ProductController extends Controller
         //searchParams = tags
         // this api will return the list of tags that mathces with the search keyword
 
-        //whereJsonContains will return the row even only the one keyword is matched
+        //whereJsonContains will return the row , only if the whole array is found in the given field (in this case it is `tags` column)
 
         try{
 
@@ -473,4 +473,56 @@ class ProductController extends Controller
         }
 
     }
+
+    public function getProductListForGenericSearch(Request $request){
+        try{
+
+
+            $list = [];
+
+            $keyWords = explode(" " , trim($request->get('searchParam')));
+            $keyWords[] = trim($request->get('searchParam'));
+
+            $query = Product::with('images', 'category');
+                    
+                        foreach($keyWords as $keyWord) {
+                            $query->orWhereJsonContains('tags', [$keyWord]);
+                        }
+                        
+            $results = $query->get();
+
+            foreach ($results as $result){
+
+                if ($result->tags){
+
+                    if (json_decode($result->tags)){
+                        foreach (json_decode($result->tags) as $tag){
+
+                            if (!empty($tag)){
+                                if (in_array($tag, $keyWords)){
+                                    $list[] = $result;
+                                }
+                            }
+    
+                        }
+                    }
+
+                  
+                }
+                
+            }
+
+            return response()->json([
+                'list' => $list,
+                'status_code' => 200
+            ]);
+
+        }catch (\Exception $e){
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
 }

@@ -112,6 +112,7 @@ Route::get('slider-image/list', [SliderImageController::class, 'list']);
 Route::get('top-header-slogan/list', [TopHeaderSloganController::class, 'list']);
 
 Route::post('product/generic-search',[ProductController::class , 'getProductForGenericSearch']);
+Route::post('product/generic-search/list',[ProductController::class , 'getProductListForGenericSearch']);
 
 Route::group(['middleware' => 'auth.jwt'], function () {
 
