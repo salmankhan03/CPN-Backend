@@ -118,8 +118,9 @@ class ProductController extends Controller
 
                 foreach(json_decode($tags['tags']) as $tag){
                     if (!empty($tag)){
+
                         ProductTag::create([
-                            'name' => $tag,
+                            'name' => trim($tag),
                             'product_id' => $product->id
                         ]);
                     }
@@ -452,13 +453,13 @@ class ProductController extends Controller
             $uniqueSearchKeywords = [];
 
             $keyWords = explode(" " , trim($request->get('searchParam')));
-            $keyWords[] = trim($request->get('searchParam'));
+            $keyWord = trim($request->get('searchParam'));
 
             $query = ProductTag::select('name');
                     
-                    foreach($keyWords as $keyWord) {
-                        $query->orWhere('name', 'like', '%' . $keyWord . '%');
-                    }
+                    // foreach($keyWords as $keyWord) {
+                        $query->where('name', 'like', '%' . $keyWord . '%');
+                    // }
                         
             $results = $query->get();
 
