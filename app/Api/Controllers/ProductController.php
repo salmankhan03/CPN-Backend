@@ -54,6 +54,8 @@ class ProductController extends Controller
                 'ratings_is_change',
                 'is_featured_is_change'
             );
+
+            $tags = $request->only('tags');
             
             if(!empty($data['id'])){
 
@@ -112,9 +114,9 @@ class ProductController extends Controller
 
             ProductTag::where(['product_id' => $product->id])->delete();
 
-            if (isset($data['tags'])){
+            if (isset($tags)){
 
-                foreach($data['tags'] as $tag){
+                foreach($tags as $tag){
                     if (!empty($tag)){
                         ProductTag::create([
                             'name' => $tag,
