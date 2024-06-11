@@ -452,16 +452,9 @@ class ProductController extends Controller
 
             $uniqueSearchKeywords = [];
 
-            $keyWords = explode(" " , trim($request->get('searchParam')));
             $keyWord = trim($request->get('searchParam'));
 
-            $query = ProductTag::select('name');
-                    
-                    // foreach($keyWords as $keyWord) {
-                        $query->where('name', 'like', '%' . $keyWord . '%');
-                    // }
-                        
-            $results = $query->get();
+            $results = ProductTag::select('name')->where('name', 'like', '%' . $keyWord . '%')->get();
 
             foreach ($results as $result){
 
@@ -492,17 +485,11 @@ class ProductController extends Controller
     public function getProductListForGenericSearch(Request $request){
         try{
 
+            $keyWord = trim($request->get('searchParam'));
 
-            $keyWords = explode(" " , trim($request->get('searchParam')));
-            $keyWords[] = trim($request->get('searchParam'));
-
-            $query = ProductTag::select('product_id');
+            $productIds = ProductTag::select('product_id')->where('name', 'like', '%' . $keyWord . '%')
+                                ->groupBy('product_id')->pluck('product_id');
                     
-                    foreach($keyWords as $keyWord) {
-                        $query->orWhere('name', 'like', '%' . $keyWord . '%');
-                    }
-                        
-            $productIds = $query->groupBy('product_id')->pluck('product_id');
 
             $products = Product::with('images', 'category','tags')->whereIn('id' , $productIds)->get();
 
