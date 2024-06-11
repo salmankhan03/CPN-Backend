@@ -114,9 +114,9 @@ class ProductController extends Controller
 
             ProductTag::where(['product_id' => $product->id])->delete();
 
-            if (isset($tags)){
+            if (isset($tags['tags'])){
 
-                foreach($tags as $tag){
+                foreach(json_decode($tags['tags']) as $tag){
                     if (!empty($tag)){
                         ProductTag::create([
                             'name' => $tag,
