@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductBrands;
 use App\Models\ProductImages;
+use App\Models\ProductTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -39,7 +40,6 @@ class ProductController extends Controller
                 'bar_code',
                 'quantity',
                 'slug',
-                'tags',
                 'status',
                 'brand_id',
                 'brand',
@@ -108,6 +108,23 @@ class ProductController extends Controller
                 ProductImages::create($productImage);
             }
 
+            //remove old tags
+
+            ProductTag::where(['product_id' => $product->id])->delete();
+
+            if (isset($data['tags'])){
+
+                foreach($data['tags'] as $tag){
+                    if (!empty($tag)){
+                        ProductTag::create([
+                            'name' => $tag,
+                            'product_id' => $product->id
+                        ]);
+                    }
+                }
+
+            }
+
             return response()->json([
                 'status_code' => 200,
                 'message'     => 'Product Saved Successfully',
@@ -128,6 +145,8 @@ class ProductController extends Controller
             $obj = Product::find($id);
 
             if ($obj) {
+
+                ProductTag::where(['product_id' => $id])->delete();
                 $obj->delete();
 
                 return response()->json([
@@ -152,7 +171,7 @@ class ProductController extends Controller
     {
         try {
 
-            $qb = Product::with('images');
+            $qb = Product::with('images', 'category','tags');
 
             $criteria = [];
 
@@ -203,13 +222,13 @@ class ProductController extends Controller
 
             $noOfRelatedProducts = $request->get('reltedProducts');
 
-            $product = Product::with('images', 'category')->find($id);
+            $product = Product::with('images', 'category','tags')->find($id);
 
             Product::where('id', $id)->increment('visitors_counter'); // update the counter with 1
 
             $finalResult = null;
 
-            $relatedProducts = Product::with('images', 'category')->where('id' , '!=' , $id)->where('category_id' , $product->category_id)->orderBy('id' , 'DESC')->take($noOfRelatedProducts)->get();
+            $relatedProducts = Product::with('images', 'category','tags')->where('id' , '!=' , $id)->where('category_id' , $product->category_id)->orderBy('id' , 'DESC')->take($noOfRelatedProducts)->get();
 
             $relatedProductIds = [];
 
@@ -228,7 +247,7 @@ class ProductController extends Controller
 
                 if ($noOfFeaturedProducts){
 
-                    $featuredProducts  = Product::with('images', 'category')->whereNotIn('id' , $relatedProductIds)->where('is_featured' , 1)->orderBy('is_featured_updated_at' , 'DESC')->take($noOfFeaturedProducts)->get();
+                    $featuredProducts  = Product::with('images', 'category','tags')->whereNotIn('id' , $relatedProductIds)->where('is_featured' , 1)->orderBy('is_featured_updated_at' , 'DESC')->take($noOfFeaturedProducts)->get();
                     
                     $finalResult = array_merge($relatedProducts->toArray() , $featuredProducts->toArray());
                 }
@@ -257,6 +276,8 @@ class ProductController extends Controller
             $ids = explode(",",  $request->only('ids')['ids']);
 
             Product::whereIn('id', $ids)->delete();
+
+            ProductTag::whereIn('product_id' , $ids)->delete();
 
             return response()->json([
                 'status_code' => 200,
@@ -289,7 +310,7 @@ class ProductController extends Controller
 
             $list = [];
 
-            $queryBuilder = $list = Product::with('images');
+            $queryBuilder = $list = Product::with('images', 'category','tags');
 
             if (is_array($categories)) {
                 if (count($categories)) {
@@ -364,7 +385,7 @@ class ProductController extends Controller
 
             $categoryId = $request->get('category_id');
 
-            $qb = Product::with('images', 'category');
+            $qb = Product::with('images', 'category','tags');
 
             if ($categoryId) {
                 $qb->where('category_id', $categoryId);
@@ -394,9 +415,9 @@ class ProductController extends Controller
 
         try {
 
-            $newProducts = Product::orderBy('created_at', 'DESC')->with('images', 'category')->get();
-            $productsOnSale = Product::where('sell_price', '>', '0')->orderBy('updated_at', 'DESC')->with('images', 'category')->get();
-            $topViewedProducts = Product::orderBy('visitors_counter', 'DESC')->with('images', 'category')->get();
+            $newProducts = Product::orderBy('created_at', 'DESC')->with('images', 'category','tags')->get();
+            $productsOnSale = Product::where('sell_price', '>', '0')->orderBy('updated_at', 'DESC')->with('images', 'category','tags')->get();
+            $topViewedProducts = Product::orderBy('visitors_counter', 'DESC')->with('images', 'category','tags')->get();
 
             return response()->json([
                 'status_code' => 200,
@@ -431,31 +452,22 @@ class ProductController extends Controller
             $keyWords = explode(" " , trim($request->get('searchParam')));
             $keyWords[] = trim($request->get('searchParam'));
 
-            $query = Product::select('tags');
+            $query = ProductTag::select('name');
                     
-                        foreach($keyWords as $keyWord) {
-                            $query->orWhereJsonContains('tags', [$keyWord]);
-                        }
+                    foreach($keyWords as $keyWord) {
+                        $query->orWhere('name', 'like', '%' . $keyWord . '%');
+                    }
                         
             $results = $query->get();
 
             foreach ($results as $result){
 
-                if ($result->tags){
-
-                    if (json_decode($result->tags)){
-                        foreach (json_decode($result->tags) as $tag){
-
-                            if (!empty($tag)){
-                                if (in_array(($tag), $keyWords)){
-                                    $uniqueSearchKeywords[] = $tag;
-                                }
-                            }
-    
-                        }
-                    }
-
-                  
+                $name = $result->name;
+            
+                if (!empty($name)){
+                    
+                    $uniqueSearchKeywords[] = $name;
+                    
                 }
                 
             }
@@ -478,42 +490,21 @@ class ProductController extends Controller
         try{
 
 
-            $list = [];
-
             $keyWords = explode(" " , trim($request->get('searchParam')));
             $keyWords[] = trim($request->get('searchParam'));
 
-            $query = Product::with('images', 'category');
+            $query = ProductTag::select('product_id');
                     
-                        foreach($keyWords as $keyWord) {
-                            $query->orWhereJsonContains('tags', [$keyWord]);
-                        }
-                        
-            $results = $query->get();
-
-            foreach ($results as $result){
-
-                if ($result->tags){
-
-                    if (json_decode($result->tags)){
-                        foreach (json_decode($result->tags) as $tag){
-
-                            if (!empty($tag)){
-                                if (in_array($tag, $keyWords)){
-                                    $list[] = $result;
-                                }
-                            }
-    
-                        }
+                    foreach($keyWords as $keyWord) {
+                        $query->orWhere('name', 'like', '%' . $keyWord . '%');
                     }
+                        
+            $productIds = $query->groupBy('product_id')->pluck('product_id');
 
-                  
-                }
-                
-            }
+            $products = Product::with('images', 'category','tags')->whereIn('id' , $productIds)->get();
 
             return response()->json([
-                'list' => $list,
+                'list' => $products,
                 'status_code' => 200
             ]);
 
