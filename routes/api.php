@@ -245,7 +245,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
         Route::get('/{id}/delete', [AdminUserController::class, 'delete']);
         Route::get('/list', [AdminUserController::class, 'list']);
-        Route::get('/{id}/orders', [AdminUserController::class, 'getOrders']);
+        Route::get('/{id}/orders', [AdminUserController::class, 'getOrders']); // admin login required
+        Route::get('/{id}/orders-list', [UserController::class, 'getOrders']); // user login required
     });
 
     //product attribute Routes 

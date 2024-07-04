@@ -322,7 +322,8 @@ class UserController extends Controller // for general purpose user , don't have
                 'state',
                 'country',
                 'zipcode',
-                'street_address'
+                'street_address',
+                'password'
             ]);
 
             $alreadyExistUser = User::where('email', $data['email'])->where('id', '!=', $data['id'])->get();
@@ -372,6 +373,7 @@ class UserController extends Controller // for general purpose user , don't have
                 $data['role_id'] = User::CUSOTMER_ROLE_ID;
             }
 
+            $data['password'] = Hash::make($data['password']);
 
 
             $user = User::updateOrCreate(['id' => $request['id']], $data);
@@ -474,6 +476,24 @@ class UserController extends Controller // for general purpose user , don't have
             ]);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()]);
+        }
+    }
+    
+    public function getOrders($id)
+    {
+
+        try {
+            $orders = Order::with('shippingAddress', 'billingAddress', 'payment', 'Items.product.images')->where(['user_id' => $id])->get();
+
+            return response()->json([
+                'status_code' => 200,
+                'list' => $orders
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 }
