@@ -143,4 +143,22 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return $this->hasManyThrough(SentOrderStatusUpdateEmailLog::class, Order::class, 'user_id', 'order_id', 'id', 'id');
     }
+
+    public function shippingAddressAddedyByUser(){
+        return $this->shippingAddress()->where('is_added_by_user','=', 1);
+    }
+
+    public function billingAddressAddedyByUser(){
+        return $this->hasMany(UserBillingAddress::class, 'user_id')->where('is_added_by_user','=', 1);
+    }
+
+    public function defaultShippingAddress()
+    {
+        return $this->shippingAddress()->where('is_added_by_user','=', 1)->where('is_default' , "=" , 1)->latest();
+    }
+
+    public function defaultBillingAddress()
+    {
+        return $this->hasMany(UserBillingAddress::class, 'user_id')->where('is_added_by_user','=', 1)->where('is_default' , "=" , 1)->latest();
+    }
 }

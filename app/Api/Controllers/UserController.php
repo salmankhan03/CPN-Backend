@@ -8,6 +8,8 @@ use App\Models\PasswordResetTokens;
 use App\Models\Role;
 use App\Models\RoleMenuItemMap;
 use App\Models\User;
+use App\Models\UserBillingAddress;
+use App\Models\UserShippingAddress;
 use App\Notifications\ForgetPasswordNotification;
 use Exception;
 use Illuminate\Http\Request;
@@ -64,10 +66,6 @@ class UserController extends Controller // for general purpose user , don't have
         try {
             $credentials = $request->only('email', 'password');
 
-            $user = User::where('email', $credentials['email'])->first();
-
-
-
             $token = JWTAuth::attempt($credentials);
             if ($token) {
 
@@ -78,7 +76,9 @@ class UserController extends Controller // for general purpose user , don't have
                 //     ], 400);
                 // }
 
-                $user = \Auth::user();
+                // $user = \Auth::user();
+
+                $user = User::with('shippingAddressAddedyByUser' , 'billingAddressAddedyByUser','defaultShippingAddress','defaultBillingAddress')->where('email', $credentials['email'])->first();
 
                 return response()->json([
                     'status_code' => 200,
@@ -381,6 +381,22 @@ class UserController extends Controller // for general purpose user , don't have
 
 
             $user = User::updateOrCreate(['id' => $request['id']], $data);
+
+            $shippingAddress = $request->get('shipping_address');
+
+            $shippingAddress['user_id'] = $user->id;
+            $shippingAddress['is_added_by_user'] = 1;
+
+            UserShippingAddress::updateOrCreate(['id' => $shippingAddress['id']], $shippingAddress);
+
+            $billingAddress = $request->get('billing_address');
+
+            $billingAddress['user_id'] = $user->id;
+            $billingAddress['is_added_by_user'] = 1;
+
+            UserBillingAddress::updateOrCreate(['id' => $billingAddress['id']], $billingAddress);
+
+
             return response()->json([
                 'status_code' => 200,
                 'data'        => $user,

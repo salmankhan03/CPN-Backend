@@ -30,7 +30,9 @@ class UserBillingAddress extends Model
         "state",
         "zipcode",
         "contact_no",
-        "email"
+        "email",
+        "is_default",
+        "is_added_by_user"
     ];
 
     protected $hidden = [
