@@ -373,7 +373,11 @@ class UserController extends Controller // for general purpose user , don't have
                 $data['role_id'] = User::CUSOTMER_ROLE_ID;
             }
 
-            $data['password'] = Hash::make($data['password']);
+            
+            if (isset($data['password'])){
+
+                $data['password'] = Hash::make($data['password']);
+            }
 
 
             $user = User::updateOrCreate(['id' => $request['id']], $data);
