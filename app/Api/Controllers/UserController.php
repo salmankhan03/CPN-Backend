@@ -379,7 +379,8 @@ class UserController extends Controller // for general purpose user , don't have
             $user = User::updateOrCreate(['id' => $request['id']], $data);
             return response()->json([
                 'status_code' => 200,
-                'data'        => $user
+                'data'        => $user,
+                'message'     => 'User Updated Successfully'
             ]);
         } catch (JWTException $e) {
             return response()->json(['message' => $e->getMessage()]);
