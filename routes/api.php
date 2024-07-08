@@ -141,6 +141,9 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     Route::get('/{userId}/order-status-update', [AdminUserController::class, 'getSentEmails']);
 
+    Route::post('/admin/update-password', [AdminUserController::class, 'updatePassword']);
+
+
     //product routes
     Route::prefix('/product')->group(function () {
 
@@ -247,6 +250,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('/list', [AdminUserController::class, 'list']);
         Route::get('/{id}/orders', [AdminUserController::class, 'getOrders']); // admin login required
         Route::get('/{id}/orders-list', [UserController::class, 'getOrders']); // user login required
+        Route::post('/update-password', [UserController::class, 'updatePassword']);
     });
 
     //product attribute Routes 
@@ -259,6 +263,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/list', [ProductAttributeController::class, 'list']);
         Route::get('/{id}/values', [ProductAttributeController::class, 'getValues']);
         Route::post('/multiple-delete', [ProductAttributeController::class, 'multipleDelete']);
+        
     });
 
     //product attribute Value Routes 

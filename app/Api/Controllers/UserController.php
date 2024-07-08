@@ -517,4 +517,87 @@ class UserController extends Controller // for general purpose user , don't have
             ], 500);
         }
     }
+
+    public function updatePassword(Request $request){
+        try{
+
+            $user = Auth::user();
+
+            $oldPassword = $request->get('oldPasswrd');
+            $newPassword = $request->get('newPassword');
+            $confirmPassword = $request->get('confirmPassword');
+
+            if (!empty($newPassword) && !empty($confirmPassword)){
+
+                if ($newPassword === $confirmPassword){
+
+                    if ($user){
+
+                        $isMatched = Hash::check($oldPassword, $user->password);
+        
+                        if ($isMatched){
+
+                            $userFromDb = User::find($user->id);
+
+                            $userFromDb->password =  Hash::make($newPassword);
+
+                            $userFromDb->save();
+
+                            return response()->json([
+                                'status_code' => 500,
+                                'message' => 'Password Upaders Successfully !'
+                            ]);
+                        }
+
+                        else{
+        
+                            return response()->json([
+                                'status_code' => 500,
+                                'message' => 'Old Password does not match'
+                            ], 500);
+                        }
+                        
+                        
+                    }
+        
+                    else{
+        
+                        return response()->json([
+                            'status_code' => 500,
+                            'message' => 'Login Needed !'
+                        ], 500);
+                    }
+
+                }
+
+                else{
+
+                    return response()->json([
+                        'status_code' => 500,
+                        'message' => 'newPassword and confirm password does not Match'
+                    ], 500);
+                    
+                }
+
+            }
+
+            else{
+
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'newPassword and confirm password should not be empty'
+                ], 500);
+                
+            }
+        }
+
+        catch (\Exception $e){
+
+            return response()->json([
+                'status_code' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+            
+        }
+    }
 }
