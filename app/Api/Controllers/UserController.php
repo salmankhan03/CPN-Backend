@@ -309,7 +309,7 @@ class UserController extends Controller // for general purpose user , don't have
 
             $data             = $request->only([
                 'email',
-                'profile_pic',
+                // 'profile_pic',  // is profile pic editable ? need to discuss
                 'id',
                 // 'role',
                 'first_name',
