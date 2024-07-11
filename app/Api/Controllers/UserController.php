@@ -266,7 +266,7 @@ class UserController extends Controller // for general purpose user , don't have
                     'user'        => 'User Not Found'
                 ], 400);
             }
-        } catch (JWTException $e) {
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()]);
         }
     }
@@ -380,7 +380,7 @@ class UserController extends Controller // for general purpose user , don't have
             }
 
 
-            $user = User::updateOrCreate(['id' => $request['id']], $data);
+            $user = User::updateOrCreate(['id' => $data['id']], $data);
 
             $shippingAddress = $request->get('shipping_address');
 
@@ -402,7 +402,7 @@ class UserController extends Controller // for general purpose user , don't have
                 'data'        => $user,
                 'message'     => 'User Updated Successfully'
             ]);
-        } catch (JWTException $e) {
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()]);
         }
     }
