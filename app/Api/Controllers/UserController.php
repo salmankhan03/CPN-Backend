@@ -396,6 +396,7 @@ class UserController extends Controller // for general purpose user , don't have
 
             UserBillingAddress::updateOrCreate(['id' => $billingAddress['id']], $billingAddress);
 
+            $user = User::with('shippingAddressAddedyByUser' , 'billingAddressAddedyByUser','defaultShippingAddress','defaultBillingAddress')->where('email', $data['email'])->first();
 
             return response()->json([
                 'status_code' => 200,
