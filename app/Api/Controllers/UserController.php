@@ -323,7 +323,7 @@ class UserController extends Controller // for general purpose user , don't have
                 'country',
                 'zipcode',
                 'street_address',
-                'password'
+                // 'password'
             ]);
 
             $alreadyExistUser = User::where('email', $data['email'])->where('id', '!=', $data['id'])->get();
