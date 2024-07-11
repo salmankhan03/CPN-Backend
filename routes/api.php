@@ -118,7 +118,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     Route::get('/get-admin-user', [AdminUserController::class, 'getUser']);
 
-    Route::get('/get-customer', [UserController::class, 'getUser']);
+    Route::get('/{id}/get-customer-by-id', [UserController::class, 'getUser']);
 
     Route::get('/{id}/get-admin-user', [AdminUserController::class, 'getAdminById']);
 
