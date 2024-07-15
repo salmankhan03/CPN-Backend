@@ -37,21 +37,20 @@ class ExternalApiController extends Controller
                 $destinationPostalCode = $shippingFormData['destinationPostalCode'];
                 // Example weight, adjust according to your requirements
 
-                $xmlRequest = <<<XML
-                                    <?xml version="1.0" encoding="UTF-8"?>
-                                    <mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">
-                                    <customer-number>1234567890</customer-number>
+                $xmlRequest = '<?xml version="1.0" encoding="UTF-8"?>
+                                <mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">
                                     <parcel-characteristics>
-                                        <weight>{$weight}</weight>
+                                        <weight>' . $weight . '</weight>
                                     </parcel-characteristics>
-                                    <origin-postal-code>{$originPostalCode}</origin-postal-code>
+                                    <origin-postal-code>' . $originPostalCode . '</origin-postal-code>
                                     <destination>
                                         <domestic>
-                                        <postal-code>{$destinationPostalCode}</postal-code>
+                                            <postal-code>' . $destinationPostalCode . '</postal-code>
                                         </domestic>
                                     </destination>
-                                    </mailing-scenario>
-                                XML;
+                                    <quote-type>counter</quote-type>
+                                </mailing-scenario>';
+                                
 
                 $response = Http::withHeaders([
                     'Content-Type' => 'application/vnd.cpc.ship.rate-v4+xml',
