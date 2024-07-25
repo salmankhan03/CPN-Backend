@@ -40,81 +40,81 @@ use App\Api\Controllers\TopHeaderSloganController;
 
 
 
-    Route::get('/', [UserController::class, 'index']);
-    Route::get('/index2', [UserController::class, 'index2']);
-    Route::get('/unauthorized', [UserController::class, 'unauthorized'])->name('unauthorized');
+Route::get('/', [UserController::class, 'index']);
+Route::get('/index2', [UserController::class, 'index2']);
+Route::get('/unauthorized', [UserController::class, 'unauthorized'])->name('unauthorized');
 
-    //customers without role id , auth old flow
-    Route::post('/customer/login', [UserController::class, 'login'])->name('login');
-    Route::post('/customer/signup', [UserController::class, 'signUp']);
-    Route::post('/customer/forget-password', [UserController::class, 'forgetPassword']);
+//customers without role id , auth old flow
+Route::post('/customer/login', [UserController::class, 'login'])->name('login');
+Route::post('/customer/signup', [UserController::class, 'signUp']);
+Route::post('/customer/forget-password', [UserController::class, 'forgetPassword']);
 
-    //admin panel users with role id
-    Route::post('/admin/login', [AdminUserController::class, 'login'])->name('adminLogin');
-    Route::post('/admin/signup', [AdminUserController::class, 'signUp']);
-    Route::post('/admin/forget-password', [AdminUserController::class, 'forgetPassword']);
+//admin panel users with role id
+Route::post('/admin/login', [AdminUserController::class, 'login'])->name('adminLogin');
+Route::post('/admin/signup', [AdminUserController::class, 'signUp']);
+Route::post('/admin/forget-password', [AdminUserController::class, 'forgetPassword']);
 
-    Route::post('product/list', [ProductController::class, 'list']);
-    Route::get('product/{id}/data', [ProductController::class, 'getProductById']);
-    Route::post('product/demo-form-upload', [ProductController::class, 'demoFormUpload']);
-
-
-    Route::post('category/tree', [ProductCategoryController::class, 'getCategoryTree']);
-
-    Route::get('/email/verify', function () {
-        return view('auth.verify-email');
-    })->middleware('auth')->name('verification.notice');
+Route::post('product/list', [ProductController::class, 'list']);
+Route::get('product/{id}/data', [ProductController::class, 'getProductById']);
+Route::post('product/demo-form-upload', [ProductController::class, 'demoFormUpload']);
 
 
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
+Route::post('category/tree', [ProductCategoryController::class, 'getCategoryTree']);
 
-        return 'Verification Successful';
-    })->middleware(['signed'])->name('verification.verify');
-
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-
-        return back()->with('message', 'Verification link sent!');
-    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-    Route::prefix('/cart')->group(function () {
-
-        Route::post('/place-order', [OrderController::class, 'placeOrder']);
-    });
-
-    Route::get('product/get-max-price', [ProductController::class, 'getMaxPrice']);
-
-    Route::post('product/filter', [ProductController::class, 'getProducts']);
-
-    Route::post('product-brand/list', [ProductBrandController::class, 'list']);
-
-    Route::get('product/dashboard-list', [ProductController::class, 'dashboardProductList']);
-    Route::get('product/featured-list', [ProductController::class, 'getFeaturedProductsList']);
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
 
 
-    Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
 
-    Route::post('stripe-charge', [PaymentController::class, 'processStripePayment']);
+    return 'Verification Successful';
+})->middleware(['signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::prefix('/cart')->group(function () {
+
+    Route::post('/place-order', [OrderController::class, 'placeOrder']);
+});
+
+Route::get('product/get-max-price', [ProductController::class, 'getMaxPrice']);
+
+Route::post('product/filter', [ProductController::class, 'getProducts']);
+
+Route::post('product-brand/list', [ProductBrandController::class, 'list']);
+
+Route::get('product/dashboard-list', [ProductController::class, 'dashboardProductList']);
+Route::get('product/featured-list', [ProductController::class, 'getFeaturedProductsList']);
 
 
-    Route::get('template/list', [TempTemplateController::class, 'list']);
-    Route::get('template/{id}/data', [TempTemplateController::class, 'getById']);
+Route::post('coupon-code/validate', [CouponCodeController::class, 'validateCouponCode']);
 
-    Route::post('shipping-calculation', [ExternalApiController::class, 'getShippingQuote']);
+Route::post('stripe-charge', [PaymentController::class, 'processStripePayment']);
 
-    Route::get('product-attribute/{id}/get-by-id', [ProductAttributeController::class, 'getById']);
 
-    Route::get('customer/logout', [UserController::class, 'logout']);
+Route::get('template/list', [TempTemplateController::class, 'list']);
+Route::get('template/{id}/data', [TempTemplateController::class, 'getById']);
 
-    Route::get('banner/list', [BannerController::class, 'list']);
+Route::post('shipping-calculation', [ExternalApiController::class, 'getShippingQuote']);
 
-    Route::get('slider-image/list', [SliderImageController::class, 'list']);
+Route::get('product-attribute/{id}/get-by-id', [ProductAttributeController::class, 'getById']);
 
-    Route::get('top-header-slogan/list', [TopHeaderSloganController::class, 'list']);
+Route::get('customer/logout', [UserController::class, 'logout']);
 
-    Route::post('product/generic-search',[ProductController::class , 'getProductForGenericSearch']);
-    Route::post('product/generic-search/list',[ProductController::class , 'getProductListForGenericSearch']);
+Route::get('banner/list', [BannerController::class, 'list']);
+
+Route::get('slider-image/list', [SliderImageController::class, 'list']);
+
+Route::get('top-header-slogan/list', [TopHeaderSloganController::class, 'list']);
+
+Route::post('product/generic-search',[ProductController::class , 'getProductForGenericSearch']);
+Route::post('product/generic-search/list',[ProductController::class , 'getProductListForGenericSearch']);
 
 
 
