@@ -37,7 +37,7 @@ use App\Api\Controllers\TopHeaderSloganController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::group(['middleware' => 'cors'], function () {
+
 
 
     Route::get('/', [UserController::class, 'index']);
@@ -116,9 +116,9 @@ Route::group(['middleware' => 'cors'], function () {
     Route::post('product/generic-search',[ProductController::class , 'getProductForGenericSearch']);
     Route::post('product/generic-search/list',[ProductController::class , 'getProductListForGenericSearch']);
 
-});
 
-Route::group(['middleware' => ['auth.jwt','cors']], function () {
+
+Route::group(['middleware' => 'auth.jwt'], function () {
 
     Route::get('/get-admin-user', [AdminUserController::class, 'getUser']);
 
