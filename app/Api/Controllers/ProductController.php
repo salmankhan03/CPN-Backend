@@ -178,12 +178,12 @@ class ProductController extends Controller
 
             $criteria = [];
 
-            if (empty($request->get('forAdminPanel'))){
+            // if (empty($request->get('forAdminPanel'))){
 
-                // forAdminPanel
+            //     // forAdminPanel
 
-                $criteria[] = ['status' , "!=" , Product::STAUTS_HIDE];
-            }
+            //     $criteria[] = ['status' , "!=" , Product::STAUTS_HIDE];
+            // }
 
             if ($request->get('category')) {
                 $criteria['category_id'] = $request->get('category');
