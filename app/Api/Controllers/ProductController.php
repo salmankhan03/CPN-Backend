@@ -178,6 +178,8 @@ class ProductController extends Controller
 
             $criteria = [];
 
+            $criteria[] = ['status' , "!=" , Product::STAUTS_HIDE];
+
             if ($request->get('category')) {
                 $criteria['category_id'] = $request->get('category');
             }
@@ -313,7 +315,7 @@ class ProductController extends Controller
 
             $list = [];
 
-            $queryBuilder = $list = Product::with('images', 'category','tags');
+            $queryBuilder = Product::with('images', 'category','tags')->where('status', "!="  , Product::STAUTS_HIDE);
 
             if (is_array($categories)) {
                 if (count($categories)) {

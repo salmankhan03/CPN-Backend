@@ -15,6 +15,9 @@ class Product extends Model
     const IS_FEATURED_YES = 1;
     const IS_FEATURED_NO = 0;
 
+    const STAUTS_HIDE = "hide";
+    const STATUS_SHOW = "show";
+
     public $timestamps = true;
 
     protected $guarded = ['id'];
