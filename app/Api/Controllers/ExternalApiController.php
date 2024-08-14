@@ -13,19 +13,19 @@ class ExternalApiController extends Controller
     {
         try {
 
-            $username = env('CANADAPOST_USERNAME');
-            $password = env('CANADAPOST_PASSWORD');
+            // $username = env('CANADAPOST_USERNAME');
+            // $password = env('CANADAPOST_PASSWORD');
 
-            if (!$username || !$password){
-                return response()->json([
-                    'message' => 'CANADA POST credentials are not set',
-                    'status_code' => 500
-                ],500);
-            }
+            // if (!$username || !$password){
+            //     return response()->json([
+            //         'message' => 'CANADA POST credentials are not set',
+            //         'status_code' => 500
+            //     ],500);
+            // }
 
             ini_set('max_execution_time', 3600);
             // Define parameters for the request
-            $shippingFormData = $request->all();
+            // $shippingFormData = $request->all();
 
             // $originPostalCode = isset($shippingFormData['originPostalCode']) ? $shippingFormData['originPostalCode'] : ''; // You can adjust this according to your needs
 
@@ -37,36 +37,51 @@ class ExternalApiController extends Controller
                 // $destinationPostalCode = $shippingFormData['destinationPostalCode'];
                 // Example weight, adjust according to your requirements
 
-                $xmlRequest = '<mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">
-                                <customer-number>1234567</customer-number>
-                                <parcel-characteristics>
-                                <weight>1</weight>
-                                </parcel-characteristics>
-                                <origin-postal-code>K2B8J6</origin-postal-code>
-                                <destination>
-                                <domestic>
-                                <postal-code>J0E1X0</postal-code>
-                                </domestic>
-                                </destination>
-                                </mailing-scenario>';
-                                
-                // echo $xmlRequest;die;
-                $response = Http::withHeaders([
-                    'Content-Type' => 'application/vnd.cpc.ship.rate-v4+xml',
-                    'Accept' => 'application/vnd.cpc.ship.rate-v4+xml',
-                    'Authorization' => 'Basic ' . base64_encode($username . ':' . $password),
-                    'Accept-language' => 'en-CA'
-                ])->post('https://soa-gw.canadapost.ca/rs/ship/price', $xmlRequest);
+                $curl = curl_init();
 
+                curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://soa-gw.canadapost.ca/rs/ship/price',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS =>'<?xml version="1.0" encoding="UTF-8"?>
+                        <mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">
+                            <parcel-characteristics>
+                            <weight>1</weight>
+                            </parcel-characteristics>
+                            <origin-postal-code>V6X2T4</origin-postal-code>
+                            <destination>
+                            <domestic>
+                                <postal-code>M5A1A1</postal-code>
+                            </domestic>
+                            </destination>
+                            <quote-type>counter</quote-type>
+                        </mailing-scenario>',
+                CURLOPT_HTTPHEADER => array(
+                    'Accept: application/vnd.cpc.ship.rate-v4+xml',
+                    'Content-Type: application/vnd.cpc.ship.rate-v4+xml',
+                    'Authorization: Basic YjIyZjQ4NWJlMmNjYzQ5MjphMDNlYWY4NjY4NDdjODM3YjMxZTA2',
+                    'Accept-Language: en-CA',
+                    'Cookie: OWSPRD001SHIP=ship_01278_s001ptom001'
+                ),
+                ));
+
+                $response = curl_exec($curl);
+
+                curl_close($curl);
 
                 return response()->json([
-                    'response' => $response->body(),
+                    'response' => $response,
                     'status_code' => 200
                 ]);
             // }
             //  else {
 
-            //     return response()->json(['error' => 'Invalid zipcode'], 500);
+                // return response()->json(['error' => 'Invalid zipcode'], 500);
             // }
         } catch (\Exception $e) {
             return response()->json([
