@@ -13,15 +13,15 @@ class ExternalApiController extends Controller
     {
         try {
 
-            $username = env('CANADAPOST_USERNAME');
-            $password = env('CANADAPOST_PASSWORD');
+            // $username = env('CANADAPOST_USERNAME');
+            // $password = env('CANADAPOST_PASSWORD');
 
-            if (!$username || !$password){
-                return response()->json([
-                    'message' => 'CANADA POST credentials are not set',
-                    'status_code' => 500
-                ],500);
-            }
+            // if (!$username || !$password){
+            //     return response()->json([
+            //         'message' => 'CANADA POST credentials are not set',
+            //         'status_code' => 500
+            //     ],500);
+            // }
 
             ini_set('max_execution_time', 3600);
             // Define parameters for the request
@@ -64,7 +64,7 @@ class ExternalApiController extends Controller
                 CURLOPT_HTTPHEADER => array(
                     'Accept: application/vnd.cpc.ship.rate-v4+xml',
                     'Content-Type: application/vnd.cpc.ship.rate-v4+xml',
-                    'Authorization: Basic ' . base64_encode($username.":".$password),
+                    'Authorization: Basic YjIyZjQ4NWJlMmNjYzQ5MjphMDNlYWY4NjY4NDdjODM3YjMxZTA2',
                     'Accept-Language: en-CA'
                 ),
                 ));
