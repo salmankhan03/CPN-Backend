@@ -21,7 +21,22 @@ class DemoControllerTest extends Controller
 
     public function sendMail()
     {
-        $data = [];
-        Mail::to('smitd@intellidt.com')->send(new OrderStatusUpdate($data));
+        try {
+
+            Mail::html('test email from server', function ($message) {
+                $message->to('dudhatrasmit007@gmail.com')
+                    ->subject('text subject');
+            });
+
+            return response()->json([
+                'status_code' => 200,
+                'message'     => 'Mail sent successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message'     => $e->getMessage()
+            ]);
+        }
     }
 }

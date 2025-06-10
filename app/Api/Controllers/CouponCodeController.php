@@ -139,9 +139,6 @@ class CouponCodeController extends Controller
         try {
 
 
-
-
-
             $currentTimestmap = Carbon::now();
 
             $couponCode = $request->get('coupon_code');

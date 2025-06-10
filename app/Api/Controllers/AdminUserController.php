@@ -130,7 +130,7 @@ class AdminUserController extends Controller // for admin panel , will have diff
                     'email' => 'required|unique:admin_panel_users,email,NULL,id,deleted_at,NULL',
                 ]);
             }
-
+            
 
             if ($validation->fails()) {
 
