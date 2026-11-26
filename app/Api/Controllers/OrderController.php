@@ -117,7 +117,7 @@ class OrderController extends Controller
             }
 
             if ($ordersFromLastNDays) {
-                $lastNDayDate = \Carbon\Carbon::today()->subDays($ordersFromLastNDays);
+                $lastNDayDate = \Carbon\Carbon::today()->subDays((int) $ordersFromLastNDays);
                 $queryBuilder->where('created_at', '>=', $lastNDayDate);
             }
 
